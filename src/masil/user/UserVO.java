@@ -7,7 +7,8 @@ public class UserVO {
 	private String name;
 	private String pname;
 	private String pnum;
-	private String jumin;
+	private String jumin1;
+	private String jumin2;
 	private String gender;
 	
 	public UserVO() {}
@@ -17,7 +18,7 @@ public class UserVO {
 	public String toString() {
 		return "UserVO class [id: "+id+", padssword: "+pwd
 				+", name: "+name+", pname: "+pname+", pnum: "+pnum
-				+", jumin: "+jumin+", gender: "+gender+"]";
+				+", jumin1: "+jumin1+", jumin2: "+jumin2+", gender: "+gender+"]";
 	}//toString() Override
 	
 	/* getter & setter */
@@ -51,12 +52,21 @@ public class UserVO {
 	public void setPnum(String pnum) {
 		this.pnum = pnum;
 	}
-	public String getJumin() {
-		return jumin;
+	public String getJumin1() {
+		return jumin1;
 	}
-	public void setJumin(String jumin) {
-		this.jumin = jumin;
+	public void setJumin1(String jumin) {
+		this.jumin1 = jumin;
 	}
+	
+	public String getJumin2() {
+		return jumin2;
+	}
+
+	public void setJumin2(String jumin2) {
+		this.jumin2 = jumin2;
+	}
+
 	public String getGender() {
 		return gender;
 	}

@@ -33,6 +33,8 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript">
     function idcheck() {
 		var id = $("#id").val();
@@ -74,7 +76,6 @@
     
     
     function notNull(){
-    	alert("클릭");
  		if(document.fr.id.value == ""){
  			alert("아이디를 입력하세요.");
  			document.fr.id.focus();
@@ -99,7 +100,7 @@
  			alert("여권번호를 입력하세요.");
  			document.fr.pnum.focus();
  			return;
- 		}else if(document.fr.jumin.value == ""){
+ 		}else if(document.fr.jumin1.value == ""){
  			alert("주민등록번호를 입력하세요.");
  			document.fr.jumin.focus();
  			return;
@@ -107,8 +108,48 @@
  			alert("주민등록번호를 입력하세요.");
  			document.fr.jumin2.focus();
  			return;
- 		}else{ fr.submit(); }
- 	}
+ 		}else{ 
+ 			fr.submit(); }
+ 	}//notNull()
+ 	
+ 	
+ 	$(function(){
+		  $('#pwd').keyup(function(){
+		   $('font[name=checkPwd]').text('');
+		  }); 
+		
+		  $('#pwd2').keyup(function(){
+		   if($('#pwd').val()!=$('#pwd2').val()){
+		    $('font[name=checkPwd]').text('');
+		    $('font[name=checkPwd]').html("비밀번호가 일치하지 않습니다");
+		   }else{
+		    $('font[name=checkPwd]').text('');
+		    $('font[name=checkPwd]').html("비밀번호가 일치합니다");
+		    document.getElementById('checkPwd').style.color='blue';
+		   }
+		  }); //#chpass.keyup
+		 });
+ 	
+ 	$(function(){
+ 		
+ 		$('#jumin2').keyup(function(){
+ 			
+ 	 		if($('#jumin2').val().charAt(0) == "1"){
+ 	 			$('#gender').val('남자');
+ 	 		}else if($('#jumin2').val().charAt(0) == "3"){
+ 	 			$('#gender').val('남자');
+ 	 		}else if($('#jumin2').val().charAt(0) == "2"){
+ 	 			$('#gender').val('여자');
+ 	 		}else if($('#jumin2').val().charAt(0) == "4"){
+ 	 			$('#gender').val('여자');
+ 	 		}else{
+ 	 			$('#gender').val('주민등록 번호를 제대로 입력해 주세요.');
+ 	 		}
+ 		});
+ 		
+ 	});
+ 	
+ 	
     
     
     </script>
@@ -137,11 +178,14 @@
 			
 			<div class="form-group">
 				<label>비밀번호</label>
-				<input type="password" name="pwd" class="form-control">
+				<input type="password" id="pwd" name="pwd" class="form-control">
 			</div>
 			<div class="form-group">
 				<label>비밀번호 확인</label>
-				<input type="password" name="pwd2" class="form-control">
+				<input type="password" id="pwd2" name="pwd2" class="form-control">
+			</div>
+			<div>
+				<font name="checkPwd" id="checkPwd" color="red"></font>
 			</div>
 			<div class="form-group">
 				<label>이름</label>
@@ -159,24 +203,19 @@
 				<label>주민번호</label>
 				<table>
 					<td width="46%">
-						<input type="text" name="jumin" class="form-control" maxlength="6">
+						<input type="text" name="jumin1" class="form-control" maxlength="6">
 					</td>
 					<td width="8%">
 						<input type="text" class="form-control" value="-" readonly="readonly">
 					</td>
 					<td width="46%">
-						<input type="text" name="jumin2" class="form-control" maxlength="7">
+						<input type="text" id="jumin2" name="jumin2" class="form-control" maxlength="7">
 					</td>
 				</table>
 			</div>
 			<div class="form-group">
 				<label>성별</label>
-				<br>
-				<select name="gender" class="form-control">
-                    <option name="남성" selected>남성</option>
-                    <option name="여성">여성</option>
-                </select>
-                <br>
+				<input type="text" id="gender" name="gender" class="form-control" readonly="readonly">
 			</div>
 			<br>
 			<button type="button" class="btn btn-primary"  onclick="notNull()">회원가입</button>

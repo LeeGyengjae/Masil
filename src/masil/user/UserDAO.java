@@ -43,15 +43,16 @@ public class UserDAO {
 		try {
 			getConnection();
 			sql = "insert into "
-					+ "masil.user(id,pwd,name,pname,pnum,jumin,gender) values(?,?,?,?,?,?,?)";
+					+ "masil.user(id,pwd,name,pname,pnum,jumin1,jumin2,gender) values(?,?,?,?,?,?,?,?)";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, userVO.getId());
 			pstmt.setString(2, userVO.getpwd());
 			pstmt.setString(3, userVO.getName());
 			pstmt.setString(4, userVO.getPname());
 			pstmt.setString(5, userVO.getPnum());
-			pstmt.setString(6, userVO.getJumin());
-			pstmt.setString(7, userVO.getGender());
+			pstmt.setString(6, userVO.getJumin1());
+			pstmt.setString(7, userVO.getJumin2());
+			pstmt.setString(8, userVO.getGender());
 			result = pstmt.executeUpdate();	
 			if (result != 0) {
 				return true;

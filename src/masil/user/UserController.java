@@ -59,7 +59,6 @@ public class UserController extends HttpServlet {
 			
 			
 		}else if(command.equals("/addUser.do")){
-			
 			action = new UserJoinAction();
 			try {
 				forward=action.execute(request, response);

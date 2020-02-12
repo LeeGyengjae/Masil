@@ -1,5 +1,7 @@
 package masil.user;
 
+import java.io.PrintWriter;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,14 +17,14 @@ public class UserJoinAction implements Action{
 		request.setCharacterEncoding("utf-8");
 		UserVO userVO = new UserVO();
 		
-		String jumin = request.getParameter("jumin")+"-"+request.getParameter("jumin2");
 		
 		userVO.setId(request.getParameter("id"));
 		userVO.setpwd(request.getParameter("pwd"));
 		userVO.setName(request.getParameter("name"));
 		userVO.setPname(request.getParameter("pname"));
 		userVO.setPnum(request.getParameter("pnum"));
-		userVO.setJumin(jumin);
+		userVO.setJumin1(request.getParameter("jumin1"));
+		userVO.setJumin2(request.getParameter("jumin2"));
 		userVO.setGender(request.getParameter("gender"));
 		
 		boolean result = false;
@@ -30,8 +32,14 @@ public class UserJoinAction implements Action{
 		UserDAO userDAO = new UserDAO();
 		 
 		result = userDAO.insertUser(userVO);
-		 
 		if(result=false){
+			response.setContentType("text/html; charset=UTF-8");
+			PrintWriter out=response.getWriter();
+			out.println("<script>");
+			out.println("alert('회원가입에 실패 하셨습니다');");
+			out.println("location.href='./Main.do';");
+			out.println("</script>");
+			out.close();
 			return null;
 		}
 		
