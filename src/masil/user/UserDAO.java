@@ -116,6 +116,8 @@ public class UserDAO {
 				userVO.setName(rs.getString("name"));
 				userVO.setPname(rs.getString("pname"));
 				userVO.setPnum(rs.getString("pnum"));
+				userVO.setJumin1(rs.getString("jumin1"));
+				userVO.setJumin2(rs.getString("jumin2"));
 				userVO.setGender(rs.getString("gender"));
 				
 			}
