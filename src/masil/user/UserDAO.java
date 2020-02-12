@@ -157,6 +157,32 @@ public class UserDAO {
 		
 	}//searchingID() 끝
 	
-	
+	public boolean updateUser(UserVO userVO) {
+		String sql = "";
+		int result = 0;
+		try {
+			getConnection();
+			sql = "update masil.user set pwd=?,name=?,pname=?,pnum=?,jumin1=?,jumin2=?,gender=? where id=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, userVO.getpwd());
+			pstmt.setString(2, userVO.getName());
+			pstmt.setString(3, userVO.getPname());
+			pstmt.setString(4, userVO.getPnum());
+			pstmt.setString(5, userVO.getJumin1());
+			pstmt.setString(6, userVO.getJumin2());
+			pstmt.setString(7, userVO.getGender());
+			pstmt.setString(8, userVO.getId());
+			result = pstmt.executeUpdate();	
+			if (result != 0) {
+				return true;
+			}
+			
+		} catch (Exception e) {
+			System.out.println("updateUser() 오류 : "+e);
+		} finally {
+			allClose();
+		}
+		return false;
+	}//updateUser() 끝
 	
 }//UserDAO() 끝
