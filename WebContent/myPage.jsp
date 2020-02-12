@@ -42,7 +42,7 @@
 
     <!-- myPage start  -->
     <section class="container mt-3" style="max-width: 560px;">
-		<form method="post" action="${contextPath}/user/addUser.do">
+		<form method="post" action="${contextPath}/masil/user/updateUser.do">
 			<div class="form-group">
 				<label>아이디</label>
 				<input type="text" name="id" class="form-control" value="${userVO.id }" readonly="readonly">
@@ -67,20 +67,20 @@
 				<label>주민번호</label>
 				<table>
 					<td width="46%">
-						<input type="text" name="jumin" class="form-control" maxlength="6">
+						<input type="text" name="jumin1" class="form-control" maxlength="6" value=${userVO.jumin1 }>
 					</td>
 					<td width="8%">
 						<input type="text" class="form-control" value="-" readonly="readonly">
 					</td>
 					<td width="46%">
-						<input type="password" name="jumin2" class="form-control" maxlength="7">
+						<input type="password" name="jumin2" class="form-control" maxlength="7" value=${userVO.jumin2 }>
 					</td>
 				</table>
 			</div>
 			<div class="form-group">
 				<label>성별</label>
 				<br>
-				<select name="userGender" class="form-control">
+				<select name="gender" class="form-control">
                     <option name="남성" selected>남성</option>
                     <option name="여성">여성</option>
                 </select>
