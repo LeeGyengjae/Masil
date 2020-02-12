@@ -55,8 +55,8 @@ public class UserVO {
 	public String getJumin1() {
 		return jumin1;
 	}
-	public void setJumin1(String jumin) {
-		this.jumin1 = jumin;
+	public void setJumin1(String jumin1) {
+		this.jumin1 = jumin1;
 	}
 	
 	public String getJumin2() {
