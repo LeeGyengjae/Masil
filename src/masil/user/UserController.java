@@ -98,6 +98,17 @@ public class UserController extends HttpServlet {
 			
 			
 			
+		}else if(command.equals("/updateUser.do")){
+			action = new UpdateUserAction();
+			try {
+				forward=action.execute(request, response);
+			} catch (Exception e) {
+				System.out.println("/updateUser.do 에러 : "+e);
+			}
+			
+			
+			
+			
 		}else{
 			
 			forward=new ActionForward();
