@@ -38,6 +38,7 @@
 	$(function() {
 		
 		idck=false;
+		juminck=false;
 		
 		$("#id").on("click",function(){
 			idck=false;
@@ -78,7 +79,7 @@
 		}
 	}//idcheck() 끝
     
-	    function juminchkeck(){
+	function juminchkeck(){
 		var num = 0;
 		num += $('#jumin1').val().charAt(0) * 2;
 		num += $('#jumin1').val().charAt(1) * 3;
@@ -94,16 +95,18 @@
 		num += $('#jumin2').val().charAt(5) * 5;
 		
 		if(11-(num%11) == $('#jumin2').val().charAt(6) ){
-			alert("인증 성공하셨습니다.");
+			$("#checklabel2").html("<b class='text-success'>√ 인증되셨습니다.");
+			juminck=true;
 		}else{
 			alert("주민등록번호를 확인해주세요.");
 			$('#jumin1').val("");
 			$('#jumin2').val("");
 			$('#jumin1').focus();
+			juminck=false;
 		}
 	} //jumincheck() 끝
 	
-    
+	
     function notNull(){
  		if(document.fr.id.value == ""){
  			alert("아이디를 입력하세요.");
@@ -141,6 +144,10 @@
  			alert("id중복체크를 실시해주세요.");
  			document.fr.id.focus();
  			return;
+ 		}else if(juminck==false){
+ 			alert("실명인증을 실시해주세요.");
+ 			document.fr.jumin1.focus();
+ 			return;
  		}else{ 
  			fr.submit(); }
  	}//notNull()
@@ -158,8 +165,7 @@
   		}); 	
 	 });
  	
- 	$(function(){
- 		
+ 	$(document).ready(function(){
  		$('#jumin2').focusout(function(){
  			
  	 		if($('#jumin2').val().charAt(0) == "1"){
@@ -173,6 +179,22 @@
  	 		}else{
  	 			$('#gender').val('주민등록 번호를 제대로 입력해 주세요.');
  	 		}
+ 		});
+ 		
+ 		$('#pwd1chk').mousedown(function(){
+ 			$('#pwd').attr("type","text");
+ 		});
+ 		
+ 		$('#pwd1chk').mouseup(function(){
+ 			$('#pwd').attr("type","password");
+ 		});
+ 		
+ 		$('#pwd2chk').mousedown(function(){
+ 			$('#pwd2').attr("type","text");
+ 		});
+ 		
+ 		$('#pwd2chk').mouseup(function(){
+ 			$('#pwd2').attr("type","password");
  		});
  		
  	});
@@ -191,23 +213,40 @@
 		<form method="post" action="${contextPath}/user/addUser.do" name="fr">
 			<div class="form-group">
 				<label>아이디</label>
-				<input type="text" name="id" id="id" class="form-control">
-					<div>
-					<p class=" d-inline-block col-6 ml-4 pt-2 small text-muted"
-					id="checklabel">* 6~15자의 영문 소문자 ,숫자만 사용가능</p>
-						<button type="button"
-							class="btn"
-							onclick="idcheck()">중복확인</button>
-					</div>
+				<table>
+					<td width="88%">
+						<input type="text" name="id" id="id" class="form-control">
+					</td>
+					<td>
+						<button type="button" class="btn" onclick="idcheck()">중복확인</button>
+					</td>
+				</table>
+				<div>
+						<p class=" d-inline-block col-6 ml-4 pt-2 small text-muted" id="checklabel">* 6~15자의 영문 소문자 ,숫자만 사용가능</p>
+				</div>
 			</div>
 			
 			<div class="form-group">
 				<label>비밀번호</label>
-				<input type="password" name="pwd" id="pwd" class="form-control">
+				<table>
+					<td width="95%">
+						<input type="password" name="pwd" id="pwd" class="form-control">
+					</td>
+					<td>
+						<button type="button" class="btn btn-small" name="pwd1chk" id="pwd1chk">√</button>
+					</td>
+				</table>
 			</div>
 			<div class="form-group">
 				<label>비밀번호 확인</label>
-				<input type="password" name="pwd2" id="pwd2" class="form-control">
+				<table>
+					<td width="95%">
+						<input type="password" name="pwd2" id="pwd2" class="form-control">
+					</td>
+					<td>
+						<button type="button" class="btn btn-small" name="pwd2chk" id="pwd2chk">√</button>
+					</td>
+				</table>
 				<p class=" d-inline-block col-6 ml-4 pt-2 small text-muted"
 					id="checklabel1"></p>
 			</div>
@@ -239,6 +278,8 @@
 						<input type="button" class="btn" onclick="juminchkeck()" value="실명인증">
 					</td>
 				</table>
+				<p class=" d-inline-block col-6 ml-4 pt-2 small text-muted"
+					id="checklabel2"></p>
 			</div>
 			<div class="form-group">
 				<label>성별</label>
