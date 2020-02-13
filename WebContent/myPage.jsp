@@ -89,6 +89,12 @@
 			<br>
 			<button type="submit" class="btn btn-primary">정보수정</button>
 		</form>
+	   	<form method="post" action="${pageContext.request.contextPath}/user/deleteUser.do">
+			<div class="form-group">
+				<input type="hidden" name="id" class="form-control" value="${userVO.id }" readonly="readonly">
+			</div>
+			<button type="submit" class="btn btn-danger" >회원탈퇴</button>
+		</form>
 	</section>
     <!--/myPage end  -->
 
