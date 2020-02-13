@@ -1,23 +1,21 @@
 package masil.product;
 
-import java.sql.Date;
-
 public class ProductVO {
 	
 	/*
 	 * code : 여행 상품(패키지) 코드
-	 * region : 여행 지역 
-	 * start_date : 패키지 시작 날짜
-	 * end_date : 패키지 종료 날짜
-	 * max_num : 패키지 참여 총 인원수
-	 * curr_num : 패키지 현재 참여 인원수
+	 * continent : 여행 대륙 
+	 * area : 여행 지역
+	 * period : 여행 기간
+	 * course : 여행 코스 ex) 서울-오사카-도쿄-홍콩-인천-...
+	 * comment : 상품개괄설명(고객노출, 관리용)
 	 */
 	private String code;
-	private String region;
-	private Date start_date;
-	private Date end_date;
-	private int max_num;
-	private int curr_num;
+	private String continent;
+	private String area;
+	private String period;
+	private String course;
+	private String comment;
 	
 	//기본 생성자
 	public ProductVO() {}
@@ -25,11 +23,11 @@ public class ProductVO {
 	//toString() Override
 	@Override
 	public String toString() {
-		return "ProductVO class [code: "+code+", region: "+region
-				+", start_date: "+start_date+", end_date: "+end_date
-				+", max_num: "+max_num+", curr_num: "+curr_num+"]";
+		return "ProductVO class [code: "+code+", continent: "+continent
+				+", area: "+area+", period: "+period
+				+", course: "+course+", comment: "+comment+"]";
 	}//toString() Override
-	
+
 	/* getter & setter */
 	public String getCode() {
 		return code;
@@ -39,44 +37,44 @@ public class ProductVO {
 		this.code = code;
 	}
 
-	public String getRegion() {
-		return region;
+	public String getContinent() {
+		return continent;
 	}
 
-	public void setRegion(String region) {
-		this.region = region;
+	public void setContinent(String continent) {
+		this.continent = continent;
 	}
 
-	public Date getStart_date() {
-		return start_date;
+	public String getArea() {
+		return area;
 	}
 
-	public void setStart_date(Date start_date) {
-		this.start_date = start_date;
+	public void setArea(String area) {
+		this.area = area;
 	}
 
-	public Date getEnd_date() {
-		return end_date;
+	public String getPeriod() {
+		return period;
 	}
 
-	public void setEnd_date(Date end_date) {
-		this.end_date = end_date;
+	public void setPeriod(String period) {
+		this.period = period;
 	}
 
-	public int getMax_num() {
-		return max_num;
+	public String getCourse() {
+		return course;
 	}
 
-	public void setMax_num(int max_num) {
-		this.max_num = max_num;
+	public void setCourse(String course) {
+		this.course = course;
 	}
 
-	public int getCurr_num() {
-		return curr_num;
+	public String getComment() {
+		return comment;
 	}
 
-	public void setCurr_num(int curr_num) {
-		this.curr_num = curr_num;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 	
 	
