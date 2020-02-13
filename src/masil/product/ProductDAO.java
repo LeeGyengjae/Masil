@@ -123,7 +123,7 @@ public class ProductDAO {
 				sub_product.put("image", rs.getString("image"));
 				sub_product.put("img_content", rs.getString("img_content"));
 				sub_product.put("title", rs.getString("title"));
-				sub_product.put("day_area", rs.getString("day_area"));
+				sub_product.put("day_area", rs.getString("day_area")); 
 				productDetail.add(sub_product);
 			}
 			System.out.println("selectProduct()¼º°ø!!");

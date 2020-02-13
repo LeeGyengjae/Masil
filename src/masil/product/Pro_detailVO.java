@@ -2,7 +2,7 @@ package masil.product;
 
 public class Pro_detailVO {
 	
-	/*
+	/* 
 	 * pro_code : 여행 상품(패키지) 코드
 	 * day : n일차
 	 * day_content : n일차 일정 설명

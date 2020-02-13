@@ -149,7 +149,7 @@
 							</c:forEach>
 							<%--상품소개--%>
 							
-							<%--n일차--%>
+							<%--n일차--%> 
 							<c:forEach var="product" items="${productDetail}" varStatus="productNum">
 							<article class="blog_item">
 								<div class="blog_item_img">

@@ -194,7 +194,7 @@
 									</div>
 								</div>
 							</c:when>
-							
+							 
 							<%-- 상품 있을 때 : ↓상품 1개씩↓ --%>
 							<c:when test="${requestScope.productList != null }">
 								<c:forEach var="product" items="${productList}" varStatus="productNum">

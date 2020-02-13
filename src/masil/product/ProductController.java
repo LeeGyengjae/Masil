@@ -59,7 +59,7 @@ public class ProductController extends HttpServlet {
 				request.setAttribute("productList", productList);
 				nextPage = "/product/product.jsp";
 				
-			}
+			} 
 			else if(action.equals("/blog.do")){
 				String sub_code = request.getParameter("sub_code");
 				productDetail = productService.viewProduct(sub_code);

@@ -4,7 +4,7 @@ public class ProductVO {
 	
 	/*
 	 * code : 여행 상품(패키지) 코드
-	 * continent : 여행 대륙 
+	 * continent : 여행 대륙  
 	 * area : 여행 지역
 	 * period : 여행 기간
 	 * course : 여행 코스 ex) 서울-오사카-도쿄-홍콩-인천-...

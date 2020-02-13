@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Pro_writeVO {
 	
-	/*
+	/* 
 	 * pro_code : 여행 상품(패키지) 코드
 	 * sub_code : 여행 상품(패키지) 세부코드
 	 * title : 상품 제목
