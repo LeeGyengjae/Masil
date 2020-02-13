@@ -78,6 +78,31 @@
 		}
 	}//idcheck() 끝
     
+	    function juminchkeck(){
+		var num = 0;
+		num += $('#jumin1').val().charAt(0) * 2;
+		num += $('#jumin1').val().charAt(1) * 3;
+		num += $('#jumin1').val().charAt(2) * 4;
+		num += $('#jumin1').val().charAt(3) * 5;
+		num += $('#jumin1').val().charAt(4) * 6;
+		num += $('#jumin1').val().charAt(5) * 7;
+		num += $('#jumin2').val().charAt(0) * 8;
+		num += $('#jumin2').val().charAt(1) * 9;
+		num += $('#jumin2').val().charAt(2) * 2;
+		num += $('#jumin2').val().charAt(3) * 3;
+		num += $('#jumin2').val().charAt(4) * 4;
+		num += $('#jumin2').val().charAt(5) * 5;
+		
+		if(11-(num%11) == $('#jumin2').val().charAt(6) ){
+			alert("인증 성공하셨습니다.");
+		}else{
+			alert("주민등록번호를 확인해주세요.");
+			$('#jumin1').val("");
+			$('#jumin2').val("");
+			$('#jumin1').focus();
+		}
+	} //jumincheck() 끝
+	
     
     function notNull(){
  		if(document.fr.id.value == ""){
