@@ -78,7 +78,7 @@
 		}
 	}//idcheck() 끝
     
-	    function juminchkeck(){
+	function juminchkeck(){
 		var num = 0;
 		num += $('#jumin1').val().charAt(0) * 2;
 		num += $('#jumin1').val().charAt(1) * 3;
@@ -103,7 +103,6 @@
 		}
 	} //jumincheck() 끝
 	
-    
     function notNull(){
  		if(document.fr.id.value == ""){
  			alert("아이디를 입력하세요.");
@@ -158,8 +157,7 @@
   		}); 	
 	 });
  	
- 	$(function(){
- 		
+ 	$(document).ready(function(){
  		$('#jumin2').focusout(function(){
  			
  	 		if($('#jumin2').val().charAt(0) == "1"){
@@ -191,14 +189,17 @@
 		<form method="post" action="${contextPath}/user/addUser.do" name="fr">
 			<div class="form-group">
 				<label>아이디</label>
-				<input type="text" name="id" id="id" class="form-control">
-					<div>
-					<p class=" d-inline-block col-6 ml-4 pt-2 small text-muted"
-					id="checklabel">* 6~15자의 영문 소문자 ,숫자만 사용가능</p>
-						<button type="button"
-							class="btn"
-							onclick="idcheck()">중복확인</button>
-					</div>
+				<table>
+					<td width="88%">
+						<input type="text" name="id" id="id" class="form-control">
+					</td>
+					<td>
+						<button type="button" class="btn" onclick="idcheck()">중복확인</button>
+					</td>
+				</table>
+				<div>
+						<p class=" d-inline-block col-6 ml-4 pt-2 small text-muted" id="checklabel">* 6~15자의 영문 소문자 ,숫자만 사용가능</p>
+				</div>
 			</div>
 			
 			<div class="form-group">
@@ -239,6 +240,7 @@
 						<input type="button" class="btn" onclick="juminchkeck()" value="실명인증">
 					</td>
 				</table>
+				
 			</div>
 			<div class="form-group">
 				<label>성별</label>
