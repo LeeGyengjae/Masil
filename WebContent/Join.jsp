@@ -226,14 +226,17 @@
 			<div class="form-group">
 				<label>주민번호</label>
 				<table>
-					<td width="46%">
+					<td width="40%">
 						<input type="text" name="jumin1" id="jumin1" class="form-control" maxlength="6">
 					</td>
 					<td width="8%">
 						<input type="text" class="form-control" value="-" readonly="readonly">
 					</td>
-					<td width="46%">
+					<td width="40%">
 						<input type="password" name="jumin2" id="jumin2" class="form-control" maxlength="7">
+					</td>
+					<td>
+						<input type="button" class="btn" onclick="juminchkeck()" value="실명인증">
 					</td>
 				</table>
 			</div>
