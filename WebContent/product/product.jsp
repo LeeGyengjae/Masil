@@ -202,7 +202,7 @@
 										<div class="single_place">
 											<div class="thumb">
 												<img src="../img/place/1.png" alt="${product.image}"> 
-												<a href="blog.do?sub_code=${product.sub_code}"	class="prise">
+												<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}"	class="prise">
 													${product.price}
 												</a>
 											</div>
@@ -210,7 +210,7 @@
 
 												<%--여행지역,상품명 --%>
 												<%-- <a href="productDetail.do?code=${product.code}"> --%>
-												<a href="blog.do?sub_code=${product.sub_code}">
+												<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}">
 													<h3>${product.title}</h3>
 												</a>
 												<p>${product.code} ${product.sub_code} <br>
@@ -226,7 +226,7 @@
 														<i class="fa fa-star"></i> 
 														<i class="fa fa-star"></i> 
 														<%-- 후기 개수 --%>
-														<a href="blog.do?sub_code=${product.sub_code}">
+														<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}">
 															(${product.recnt} Review)
 														</a>
 													</span>

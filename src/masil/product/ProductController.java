@@ -49,6 +49,7 @@ public class ProductController extends HttpServlet {
 		try {
 			List<Map<String,String>> productList;
 			List<Map<String,String>> productDetail;
+			
 			if(action==null){
 				productList = productService.listProducts();
 				request.setAttribute("productList", productList);
@@ -61,12 +62,26 @@ public class ProductController extends HttpServlet {
 				
 			} 
 			else if(action.equals("/blog.do")){
+				String code = request.getParameter("code");
 				String sub_code = request.getParameter("sub_code");
-				productDetail = productService.viewProduct(sub_code);
+				productDetail = productService.viewProduct(code, sub_code);
 				request.setAttribute("productDetail", productDetail);
 				nextPage = "/product/blog.jsp";
 				
 				System.out.println("controller : "+productDetail);
+			}
+			else if(action.equals("/pre_write.do")){
+				productList = productService.listProducts();
+				request.setAttribute("productList", productList);
+				nextPage = "/product/pre_write.jsp";
+			}
+			else if(action.equals("/callwrite.do")){
+				String code = request.getParameter("code");
+				String sub_code = request.getParameter("sub_code");
+				productDetail = productService.viewProduct(code, sub_code);
+				request.setAttribute("productDetail", productDetail);
+
+				nextPage = "/product/callwrite.jsp";
 			}
 			
 			RequestDispatcher dispatche = request.getRequestDispatcher(nextPage);

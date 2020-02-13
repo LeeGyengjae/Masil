@@ -5,7 +5,7 @@ import java.sql.Date;
 public class Pro_writeVO {
 	
 	/* 
-	 * pro_code : 여행 상품(패키지) 코드
+	 * code : 여행 상품(패키지) 코드
 	 * sub_code : 여행 상품(패키지) 세부코드
 	 * title : 상품 제목
 	 * start_date : 출발일자
@@ -13,8 +13,9 @@ public class Pro_writeVO {
 	 * max_num : 최대 참여 인원
 	 * curr_num : 현재 참여 인원
 	 * price : 가격
+	 * visible : 상품 삭제시 삭제 x -> 보이지 않게 처리 (관리목적), default 'N'
 	*/
-	private String pro_code;
+	private String code;
 	private String sub_code;
 	private String title;
 	private Date start_date;
@@ -22,26 +23,41 @@ public class Pro_writeVO {
 	private int max_num;
 	private int curr_num;
 	private int price;
+	private String visible;
 	
 	//기본 생성자
 	public Pro_writeVO() {}
 	
+	//생성자 오버로딩
+	public Pro_writeVO(String sub_code, String title, Date start_date, Date end_date, 
+			int max_num, int curr_num, int price, String visible) {
+		super();
+		this.sub_code = sub_code;
+		this.title = title;
+		this.start_date = start_date;
+		this.end_date = end_date;
+		this.max_num = max_num;
+		this.curr_num = curr_num;
+		this.price = price;
+		this.visible = visible;
+	}
+
 	//toString() Override
 	@Override
 	public String toString() {
-		return "Pro_detailVO class [pro_code: "+pro_code+", sub_code: "+sub_code
+		return "Pro_detailVO class [code: "+code+", sub_code: "+sub_code
 				+", title: "+title+", start_date: "+start_date
 				+", end_date: "+end_date+", max_num: "+max_num
-				+", curr_num: "+curr_num+", price: "+price+"]";
+				+", curr_num: "+curr_num+", price: "+price+", visible : "+visible+"]";
 	}//toString() Override
 
 	/* getter & setter */
-	public String getPro_code() {
-		return pro_code;
+	public String getCode() {
+		return code;
 	}
 
-	public void setPro_code(String pro_code) {
-		this.pro_code = pro_code;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public String getSub_code() {
@@ -99,5 +115,14 @@ public class Pro_writeVO {
 	public void setPrice(int price) {
 		this.price = price;
 	}
+
+	public String getVisible() {
+		return visible;
+	}
+
+	public void setVisible(String visible) {
+		this.visible = visible;
+	}
+	
 	
 }

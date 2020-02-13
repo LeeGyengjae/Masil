@@ -16,10 +16,21 @@ public class ProductVO {
 	private String period;
 	private String course;
 	private String comment;
-	
+
 	//기본 생성자
 	public ProductVO() {}
 	
+	//생성자 오버로딩
+	public ProductVO(String code, String continent, String area, String period, String course, String comment) {
+		super();
+		this.code = code;
+		this.continent = continent;
+		this.area = area;
+		this.period = period;
+		this.course = course;
+		this.comment = comment;
+	}
+
 	//toString() Override
 	@Override
 	public String toString() {

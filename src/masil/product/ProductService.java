@@ -17,9 +17,10 @@ public class ProductService {
 		return productList;
 	}
  
-	public List<Map<String,String>> viewProduct(String sub_code) {
-		List<Map<String,String>> productDetail = productDAO.selectProduct(sub_code);
+	public List<Map<String,String>> viewProduct(String code, String sub_code) {
+		List<Map<String,String>> productDetail = productDAO.selectProduct(code, sub_code);
 		System.out.println("Service : "+productDetail);
 		return productDetail;
 	}
+	
 }

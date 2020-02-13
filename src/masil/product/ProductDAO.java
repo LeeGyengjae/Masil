@@ -52,12 +52,13 @@ public class ProductDAO {
 		List<Map<String,String>> productList = new ArrayList<Map<String,String>>();
 		try {
 			conn=getConnection();
-			sql= "select c.price, b.image, c.title, a.comment, a.period, d.recnt, c.start_date, a.code, c.sub_code"
+			sql= "select a.code, c.sub_code, a.continent, a.period, a.course, a.comment,"
+					+" b.image, c.title, c.start_date, c.end_date, c.price, d.recnt, d.rating"
 					+" from product a join (select image, code from pro_detail where img_boss='Y') b"
 					+" on a.code=b.code"
 					+" join pro_write c"
 					+" on b.code=c.code"
-					+" join (select count(*) recnt, code from review group by code) d"
+					+" join (select code, count(*) recnt, round(avg(rating),1) rating from review group by code) d"
 					+" on c.code = d.code"
 					+" order by c.start_date";
 			pstmt=conn.prepareStatement(sql);
@@ -71,18 +72,21 @@ public class ProductDAO {
 				productjoinVO.setComment(rs.getString("comment"));
 				productjoinVO.setPeriod(rs.getString("period"));
 				*/
-				
 				//Map에 담기
 				Map<String, String> proJoinRe = new HashMap<String,String>();
-				proJoinRe.put("price", rs.getString("price"));			
-				proJoinRe.put("image", rs.getString("image"));			
-				proJoinRe.put("title", rs.getString("title"));			
-				proJoinRe.put("comment", rs.getString("comment"));			
-				proJoinRe.put("period", rs.getString("period"));			
-				proJoinRe.put("recnt", rs.getString("recnt"));			
-				proJoinRe.put("start_date", rs.getString("start_date"));			
 				proJoinRe.put("code", rs.getString("code"));			
-				proJoinRe.put("sub_code", rs.getString("sub_code"));			
+				proJoinRe.put("sub_code", rs.getString("sub_code"));
+				proJoinRe.put("continent", rs.getString("continent"));
+				proJoinRe.put("period", rs.getString("period"));
+				proJoinRe.put("course", rs.getString("course"));
+				proJoinRe.put("comment", rs.getString("comment"));
+				proJoinRe.put("image", rs.getString("image"));
+				proJoinRe.put("title", rs.getString("title"));			
+				proJoinRe.put("start_date", rs.getDate("start_date").toString());			
+				proJoinRe.put("end_date", rs.getDate("end_date").toString());			
+				proJoinRe.put("price", rs.getString("price"));			
+				proJoinRe.put("recnt", rs.getString("recnt"));
+				proJoinRe.put("rating", rs.getString("rating"));
 				
 				productList.add(proJoinRe);
 			}
@@ -94,19 +98,21 @@ public class ProductDAO {
 	}//selectAllProducts()
 
 	//상품 상세페이지로 출력 - 상품 한개씩 가져오기
-	public List<Map<String,String>> selectProduct(String sub_code) {
+	public List<Map<String,String>> selectProduct(String code, String sub_code) {
 		List<Map<String,String>> productDetail = new ArrayList<Map<String,String>>();
 		try {
 			conn = getConnection();
-			sql = "select b.code, b.sub_code, a.continent, a.course, a.period, b.start_date, b.end_date,"
-					+" c.day, c.day_content, c.image, c.img_content, b.title, c.day_area"
-					+" from product a join pro_write b"
+			sql = "select a.code, c.sub_code, a.continent, a.course, a.period, a.comment, "
+					+" b.day, b.day_title, b.area, b.day_content, b.stay, b.meal, b.image, b.img_content,"
+					+" c.title, c.start_date, c.end_date, c.max_num, c.curr_num, c.price, c.visible"
+					+" from product a join pro_detail b"
 					+" on a.code=b.code"
-					+" join pro_detail c"
+					+" join pro_write c"
 					+" on b.code=c.code"
-					+" where b.sub_code=?";
+					+" where a.code=? and c.sub_code=?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, sub_code);
+			pstmt.setString(1, code);
+			pstmt.setString(2, sub_code);
 			rs=pstmt.executeQuery();
 			while(rs.next()){
 				//결과 Map에 담아서 Service로 보내기
@@ -116,14 +122,22 @@ public class ProductDAO {
 				sub_product.put("continent", rs.getString("continent"));
 				sub_product.put("course", rs.getString("course"));
 				sub_product.put("period", rs.getString("period"));
-				sub_product.put("start_date", rs.getDate("start_date").toString());
-				sub_product.put("end_date", rs.getDate("end_date").toString());
+				sub_product.put("comment", rs.getString("comment"));
 				sub_product.put("day", rs.getString("day"));
+				sub_product.put("day_title", rs.getString("day_title"));
+				sub_product.put("area", rs.getString("area"));
 				sub_product.put("day_content", rs.getString("day_content"));
+				sub_product.put("stay", rs.getString("stay"));
+				sub_product.put("meal", rs.getString("meal"));
 				sub_product.put("image", rs.getString("image"));
 				sub_product.put("img_content", rs.getString("img_content"));
 				sub_product.put("title", rs.getString("title"));
-				sub_product.put("day_area", rs.getString("day_area")); 
+				sub_product.put("start_date", rs.getDate("start_date").toString());
+				sub_product.put("end_date", rs.getDate("end_date").toString());
+				sub_product.put("max_num", rs.getString("max_num")); 
+				sub_product.put("curr_num", rs.getString("curr_num")); 
+				sub_product.put("price", rs.getString("price")); 
+				sub_product.put("visible", rs.getString("visible")); 
 				productDetail.add(sub_product);
 			}
 			System.out.println("selectProduct()성공!!");
@@ -131,8 +145,10 @@ public class ProductDAO {
 			System.out.println("selectProduct() 오류 "+e);
 		} finally { closeDB(); }
 		return productDetail;
-	}
+	}//selectProduct()
+	
 
+	
 	
 	
 }

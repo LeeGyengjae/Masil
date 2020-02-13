@@ -80,9 +80,7 @@
 							<h1>상품선택 필요</h1>
 						</c:when>
 						<c:when test="${requestScope.productDetail != null }">
-							<c:forEach var="product" items="${productDetail}" varStatus="productNum"
-								begin="0" end="0" step="1"
-							>
+							<c:forEach var="product" items="${productDetail}" begin="0" end="0" step="1">
 							<%--상품소개--%>
 							<article class="blog_item">
 								<div class="blog_item_img">
@@ -151,33 +149,34 @@
 							
 							<%--n일차--%> 
 							<c:forEach var="product" items="${productDetail}" varStatus="productNum">
-							<article class="blog_item">
-								<div class="blog_item_img">
-									<img class="card-img rounded-0" src="../product/img/osaka/uu.jpg"
-										height="350px" width="50px" alt=""> 
-									<a href="#" class="blog_item_date">
-										<h3>${product.day} 일차</h3>
-										<p>${product.day_area}</p>
-									</a>
-								</div>
-	
-								<div class="blog_details">
-									<a class="d-inline-block" href="#">
-										<h2>최고의 전망을 자랑하는 휴식공간</h2>
-									</a>
-									<p>${product.day_content}</p>
-									<p>이미지 : ${product.image}</p>
-									<p>이미지 설명 : ${product.img_content}</p>
-									<ul class="blog-info-link">
-										<li>
-											<a href="#"><i class="fa fa-user"></i>Travel, Lifestyle</a>
-										</li>
-										<li>
-											<a href="#"><i class="fa fa-comments"></i> 03 Comments</a>
-										</li>
-									</ul>
-								</div>
-							</article>
+								<article class="blog_item">
+									<div class="blog_item_img">
+										<img class="card-img rounded-0" src="../product/img/osaka/uu.jpg"
+											height="350px" width="50px" alt=""> 
+										<a href="#" class="blog_item_date">
+											<h3>${product.day} 일차</h3>
+											<p>${product.day_area}</p>
+										</a>
+									</div>
+		
+									<div class="blog_details">
+										<a class="d-inline-block" href="#">
+											<h2>${product.day_title}</h2>
+										</a>
+										<p>${product.day_content}</p>
+										<p>이미지 : ${product.image}</p>
+										<p>이미지 설명 : ${product.img_content}</p>
+										<ul class="blog-info-link">
+											<li>
+												<a href="#"><i class="fa fa-user"></i>${product.stay}</a>
+											</li>
+											
+											<li>
+												<a href="#"><i class="fa fa-comments"></i>${product.meal}</a>
+											</li>
+										</ul>
+									</div>
+								</article>
 							</c:forEach>
 							<%--n일차--%>
 						</c:when>
