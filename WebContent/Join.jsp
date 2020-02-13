@@ -14,6 +14,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+	 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <!-- <link rel="manifest" href="site.webmanifest"> -->
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
     <!-- Place favicon.ico in the root directory -->
@@ -33,11 +34,8 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
-    
-    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript">
-    
-$(function() {
+	$(function() {
 		
 		idck=false;
 		
@@ -65,8 +63,8 @@ $(function() {
 				} else {//결과가 1이 아니라면 사용할수 없는 아이디
 					$("#checklabel").addClass("text-danger");
 					$("#checklabel").html("<b>! </b>  사용중인 아이디입니다.");
-					$("#user_id").val("");
-					$("#user_id").focus();
+					$("#id").val("");
+					$("#id").focus();
 					idck=false;
 				}
 			}
@@ -74,8 +72,8 @@ $(function() {
 		
 		}else{
 			$("#checklabel").html("<b>!</b> 6~15자의 영문 소문자 ,숫자만 사용가능");
-			$("#user_id").val("");
-			$("#user_id").focus();
+			$("#id").val("");
+			$("#id").focus();
 			idck=false;
 		}
 	}//idcheck() 끝
@@ -123,26 +121,21 @@ $(function() {
  	}//notNull()
  	
  	
- 	$(function(){
-		  $('#pwd').keyup(function(){
-		   $('font[name=checkPwd]').text('');
-		  }); 
-		
-		  $('#pwd2').keyup(function(){
+ 	$(document).ready(function(){
+	  	$('#pwd2').focusout(function(){
 		   if($('#pwd').val()!=$('#pwd2').val()){
-		    $('font[name=checkPwd]').text('');
-		    $('font[name=checkPwd]').html("비밀번호가 일치하지 않습니다");
-		   }else{
-		    $('font[name=checkPwd]').text('');
-		    $('font[name=checkPwd]').html("비밀번호가 일치합니다");
-		    document.getElementById('checkPwd').style.color='blue';
+		    $('#checklabel1').html("<b>! </b>  비밀번호가 일치하지 않습니다");
+		    $("#pwd2").val("");
+			$("#pwd2").focus();
+   		}else{
+		    $('#checklabel1').html("<b class='text-success'>√ 비밀번호가 일치합니다");
 		   }
-		  }); 
-		 });
+  		}); 	
+	 });
  	
  	$(function(){
  		
- 		$('#jumin2').keyup(function(){
+ 		$('#jumin2').focusout(function(){
  			
  	 		if($('#jumin2').val().charAt(0) == "1"){
  	 			$('#gender').val('남자');
@@ -159,9 +152,6 @@ $(function() {
  		
  	});
  	
- 	
-    
-    
     </script>
 </head>
 
@@ -178,7 +168,8 @@ $(function() {
 				<label>아이디</label>
 				<input type="text" name="id" id="id" class="form-control">
 					<div>
-					<p id="checklabel">* 6~15자의 영문 소문자 ,숫자만 사용가능</p>
+					<p class=" d-inline-block col-6 ml-4 pt-2 small text-muted"
+					id="checklabel">* 6~15자의 영문 소문자 ,숫자만 사용가능</p>
 						<button type="button"
 							class="btn"
 							onclick="idcheck()">중복확인</button>
@@ -187,14 +178,13 @@ $(function() {
 			
 			<div class="form-group">
 				<label>비밀번호</label>
-				<input type="password" id="pwd" name="pwd" class="form-control">
+				<input type="password" name="pwd" id="pwd" class="form-control">
 			</div>
 			<div class="form-group">
 				<label>비밀번호 확인</label>
-				<input type="password" id="pwd2" name="pwd2" class="form-control">
-			</div>
-			<div>
-				<font name="checkPwd" id="checkPwd" color="red"></font>
+				<input type="password" name="pwd2" id="pwd2" class="form-control">
+				<p class=" d-inline-block col-6 ml-4 pt-2 small text-muted"
+					id="checklabel1"></p>
 			</div>
 			<div class="form-group">
 				<label>이름</label>
@@ -212,13 +202,13 @@ $(function() {
 				<label>주민번호</label>
 				<table>
 					<td width="46%">
-						<input type="text" name="jumin1" class="form-control" maxlength="6">
+						<input type="text" name="jumin1" id="jumin1" class="form-control" maxlength="6">
 					</td>
 					<td width="8%">
 						<input type="text" class="form-control" value="-" readonly="readonly">
 					</td>
 					<td width="46%">
-						<input type="text" id="jumin2" name="jumin2" class="form-control" maxlength="7">
+						<input type="password" name="jumin2" id="jumin2" class="form-control" maxlength="7">
 					</td>
 				</table>
 			</div>
