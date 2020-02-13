@@ -219,7 +219,7 @@
 												<div class="rating_days d-flex justify-content-between">
 													<span
 														class="d-flex justify-content-center align-items-center">
-														<%-- 별점 --%> 
+														<%-- 별점 --%>
 														<i class="fa fa-star"></i>
 														<i class="fa fa-star"></i>
 														<i class="fa fa-star"></i> 

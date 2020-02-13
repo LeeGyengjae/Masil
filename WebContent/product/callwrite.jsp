@@ -140,11 +140,13 @@
                                         placeholder="최대참여인원">
                                     </div>
                                 </div>
+                                <fmt:parseNumber value="${product.period}" type="number" var="period" />
                                 </c:forEach>
                                 <h3>일정</h3>
-                                <c:forEach var="product" items="${productDetail}" varStatus="productNum">
+                                <%-- <c:forEach var="product" items="${productDetail}" varStatus="productNum"> --%>
+                                <c:forEach var="i" begin="0" end="${period-1}" step="1">
                                		<div class="col-12">
-                               		<h4>${productNum.count}일자 </h4>
+                               		<h4>${i+1}일자 </h4>
 	                                    <div class="form-group">
 	                                    	<span>소제목</span>
 	                                    	<input class="form-control" name="day_title" id="day_title" type="text" 
