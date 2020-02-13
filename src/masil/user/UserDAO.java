@@ -187,4 +187,26 @@ public class UserDAO {
 		return false;
 	}//updateUser() 끝
 	
+	public boolean deleteUser(UserVO userVO) {
+		String sql = "";
+		int result = 0;
+		try {
+			getConnection();
+			sql = "delete from masil.user where id=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, userVO.getId());
+			result = pstmt.executeUpdate();	
+			if (result != 0) {
+				return true;
+			}
+			
+		} catch (Exception e) {
+			System.out.println("deleteUser() 오류 : "+e);
+		} finally {
+			allClose();
+		}
+		return false;
+	}//deleteUser() 끝
+	
+	
 }//UserDAO() 끝

@@ -109,6 +109,17 @@ public class UserController extends HttpServlet {
 			
 			
 			
+		}else if(command.equals("/deleteUser.do")){
+			action = new DeleteUserAction();
+			try {
+				forward=action.execute(request, response);
+			} catch (Exception e) {
+				System.out.println("/deleteUser.do 에러 : "+e);
+			}
+			
+			
+			
+			
 		}else{
 			
 			forward=new ActionForward();

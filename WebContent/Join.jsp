@@ -14,6 +14,7 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+	 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <!-- <link rel="manifest" href="site.webmanifest"> -->
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
     <!-- Place favicon.ico in the root directory -->
@@ -33,9 +34,18 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
 
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
-    
-    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript">
+	$(function() {
+		
+		idck=false;
+		
+		$("#id").on("click",function(){
+			idck=false;
+			$("#checklabel").html("<b>!</b> 6~15자의 영문 소문자 ,숫자만 사용가능");
+		});
+	});//idck
+	
+    
     function idcheck() {
 		var id = $("#id").val();
 		var getId = RegExp(/^[a-z0-9]{6,15}$/);
@@ -48,32 +58,51 @@
 			data : {id : id},
 			success : function(result) {
 				if (result == 1) { //결과가 1이면 사용할수 있는 아이디
-					$("#checklabel").removeClass("text-danger");
-					$("#checklabel").addClass("text-info");
 					$("#checklabel").html("<b class='text-success'>√ 사용할 수 있는 아이디입니다. </b>");
-// 					idck=true;
+					idck=true;
 				} else {//결과가 1이 아니라면 사용할수 없는 아이디
-					$("#checklabel").removeClass("text-success");
-					$("#checklabel").removeClass("text-muted");
 					$("#checklabel").addClass("text-danger");
 					$("#checklabel").html("<b>! </b>  사용중인 아이디입니다.");
-					$("#user_id").val("");
-					$("#user_id").focus();
-// 					idck=false;
+					$("#id").val("");
+					$("#id").focus();
+					idck=false;
 				}
 			}
 		});
 		
 		}else{
-			$("#checklabel").removeClass("text-muted");
-			$("#checklabel").addClass("text-danger");
 			$("#checklabel").html("<b>!</b> 6~15자의 영문 소문자 ,숫자만 사용가능");
-			$("#user_id").val("");
-			$("#user_id").focus();
-// 			idck=false;
+			$("#id").val("");
+			$("#id").focus();
+			idck=false;
 		}
-	}
+	}//idcheck() 끝
     
+	    function juminchkeck(){
+		var num = 0;
+		num += $('#jumin1').val().charAt(0) * 2;
+		num += $('#jumin1').val().charAt(1) * 3;
+		num += $('#jumin1').val().charAt(2) * 4;
+		num += $('#jumin1').val().charAt(3) * 5;
+		num += $('#jumin1').val().charAt(4) * 6;
+		num += $('#jumin1').val().charAt(5) * 7;
+		num += $('#jumin2').val().charAt(0) * 8;
+		num += $('#jumin2').val().charAt(1) * 9;
+		num += $('#jumin2').val().charAt(2) * 2;
+		num += $('#jumin2').val().charAt(3) * 3;
+		num += $('#jumin2').val().charAt(4) * 4;
+		num += $('#jumin2').val().charAt(5) * 5;
+		
+		if(11-(num%11) == $('#jumin2').val().charAt(6) ){
+			alert("인증 성공하셨습니다.");
+		}else{
+			alert("주민등록번호를 확인해주세요.");
+			$('#jumin1').val("");
+			$('#jumin2').val("");
+			$('#jumin1').focus();
+		}
+	} //jumincheck() 끝
+	
     
     function notNull(){
  		if(document.fr.id.value == ""){
@@ -108,31 +137,30 @@
  			alert("주민등록번호를 입력하세요.");
  			document.fr.jumin2.focus();
  			return;
+ 		}else if(idck==false){
+ 			alert("id중복체크를 실시해주세요.");
+ 			document.fr.id.focus();
+ 			return;
  		}else{ 
  			fr.submit(); }
  	}//notNull()
  	
  	
- 	$(function(){
-		  $('#pwd').keyup(function(){
-		   $('font[name=checkPwd]').text('');
-		  }); 
-		
-		  $('#pwd2').keyup(function(){
+ 	$(document).ready(function(){
+	  	$('#pwd2').focusout(function(){
 		   if($('#pwd').val()!=$('#pwd2').val()){
-		    $('font[name=checkPwd]').text('');
-		    $('font[name=checkPwd]').html("비밀번호가 일치하지 않습니다");
-		   }else{
-		    $('font[name=checkPwd]').text('');
-		    $('font[name=checkPwd]').html("비밀번호가 일치합니다");
-		    document.getElementById('checkPwd').style.color='blue';
+		    $('#checklabel1').html("<b>! </b>  비밀번호가 일치하지 않습니다");
+		    $("#pwd2").val("");
+			$("#pwd2").focus();
+   		}else{
+		    $('#checklabel1').html("<b class='text-success'>√ 비밀번호가 일치합니다");
 		   }
-		  }); //#chpass.keyup
-		 });
+  		}); 	
+	 });
  	
  	$(function(){
  		
- 		$('#jumin2').keyup(function(){
+ 		$('#jumin2').focusout(function(){
  			
  	 		if($('#jumin2').val().charAt(0) == "1"){
  	 			$('#gender').val('남자');
@@ -149,9 +177,6 @@
  		
  	});
  	
- 	
-    
-    
     </script>
 </head>
 
@@ -178,14 +203,13 @@
 			
 			<div class="form-group">
 				<label>비밀번호</label>
-				<input type="password" id="pwd" name="pwd" class="form-control">
+				<input type="password" name="pwd" id="pwd" class="form-control">
 			</div>
 			<div class="form-group">
 				<label>비밀번호 확인</label>
-				<input type="password" id="pwd2" name="pwd2" class="form-control">
-			</div>
-			<div>
-				<font name="checkPwd" id="checkPwd" color="red"></font>
+				<input type="password" name="pwd2" id="pwd2" class="form-control">
+				<p class=" d-inline-block col-6 ml-4 pt-2 small text-muted"
+					id="checklabel1"></p>
 			</div>
 			<div class="form-group">
 				<label>이름</label>
@@ -202,14 +226,17 @@
 			<div class="form-group">
 				<label>주민번호</label>
 				<table>
-					<td width="46%">
-						<input type="text" name="jumin1" class="form-control" maxlength="6">
+					<td width="40%">
+						<input type="text" name="jumin1" id="jumin1" class="form-control" maxlength="6">
 					</td>
 					<td width="8%">
 						<input type="text" class="form-control" value="-" readonly="readonly">
 					</td>
-					<td width="46%">
-						<input type="text" id="jumin2" name="jumin2" class="form-control" maxlength="7">
+					<td width="40%">
+						<input type="password" name="jumin2" id="jumin2" class="form-control" maxlength="7">
+					</td>
+					<td>
+						<input type="button" class="btn" onclick="juminchkeck()" value="실명인증">
 					</td>
 				</table>
 			</div>
