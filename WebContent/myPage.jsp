@@ -31,6 +31,13 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
 
     <link rel="stylesheet" href="../css/style.css">
+	
+    <script type="text/javascript">
+    function deleteuser(){
+    	fr.submit();
+    }
+    
+    </script>
    </head>
 
 <body>
@@ -88,12 +95,12 @@
 			</div>
 			<br>
 			<button type="submit" class="btn btn-primary">정보수정</button>
+			<input type="button" class="btn btn-danger" onclick="deleteuser()" value="회원탈퇴">
 		</form>
-	   	<form method="post" action="${pageContext.request.contextPath}/user/deleteUser.do">
-			<div class="form-group">
+	    	<form method="post" action="${pageContext.request.contextPath}/user/deleteUser.do" name="fr">
+			<p class="form-group">
 				<input type="hidden" name="id" class="form-control" value="${userVO.id }" readonly="readonly">
-			</div>
-			<button type="submit" class="btn btn-danger" >회원탈퇴</button>
+			</p>
 		</form>
 	</section>
     <!--/myPage end  -->
