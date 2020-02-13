@@ -121,7 +121,7 @@
                                     	<span>출발일자</span>
                                         <input class="form-control" name="start_date" id="start_date" type="text" 
                                         onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" 
-                                        placeholder="출발일자">
+                                        placeholder="출발일자"> 
                                     </div>
                                 </div>
                             	<div class="col-sm-6">
