@@ -36,6 +36,18 @@
     
     <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
     <script type="text/javascript">
+    
+$(function() {
+		
+		idck=false;
+		
+		$("#id").on("click",function(){
+			idck=false;
+			$("#checklabel").html("<b>!</b> 6~15자의 영문 소문자 ,숫자만 사용가능");
+		});
+	});//idck
+	
+    
     function idcheck() {
 		var id = $("#id").val();
 		var getId = RegExp(/^[a-z0-9]{6,15}$/);
@@ -48,31 +60,25 @@
 			data : {id : id},
 			success : function(result) {
 				if (result == 1) { //결과가 1이면 사용할수 있는 아이디
-					$("#checklabel").removeClass("text-danger");
-					$("#checklabel").addClass("text-info");
 					$("#checklabel").html("<b class='text-success'>√ 사용할 수 있는 아이디입니다. </b>");
-// 					idck=true;
+					idck=true;
 				} else {//결과가 1이 아니라면 사용할수 없는 아이디
-					$("#checklabel").removeClass("text-success");
-					$("#checklabel").removeClass("text-muted");
 					$("#checklabel").addClass("text-danger");
 					$("#checklabel").html("<b>! </b>  사용중인 아이디입니다.");
 					$("#user_id").val("");
 					$("#user_id").focus();
-// 					idck=false;
+					idck=false;
 				}
 			}
 		});
 		
 		}else{
-			$("#checklabel").removeClass("text-muted");
-			$("#checklabel").addClass("text-danger");
 			$("#checklabel").html("<b>!</b> 6~15자의 영문 소문자 ,숫자만 사용가능");
 			$("#user_id").val("");
 			$("#user_id").focus();
-// 			idck=false;
+			idck=false;
 		}
-	}
+	}//idcheck() 끝
     
     
     function notNull(){
@@ -108,6 +114,10 @@
  			alert("주민등록번호를 입력하세요.");
  			document.fr.jumin2.focus();
  			return;
+ 		}else if(idck==false){
+ 			alert("id중복체크를 실시해주세요.");
+ 			document.fr.id.focus();
+ 			return;
  		}else{ 
  			fr.submit(); }
  	}//notNull()
@@ -127,7 +137,7 @@
 		    $('font[name=checkPwd]').html("비밀번호가 일치합니다");
 		    document.getElementById('checkPwd').style.color='blue';
 		   }
-		  }); //#chpass.keyup
+		  }); 
 		 });
  	
  	$(function(){
@@ -168,8 +178,7 @@
 				<label>아이디</label>
 				<input type="text" name="id" id="id" class="form-control">
 					<div>
-					<p class=" d-inline-block col-6 ml-4 pt-2 small text-muted"
-					id="checklabel">* 6~15자의 영문 소문자 ,숫자만 사용가능</p>
+					<p id="checklabel">* 6~15자의 영문 소문자 ,숫자만 사용가능</p>
 						<button type="button"
 							class="btn"
 							onclick="idcheck()">중복확인</button>
