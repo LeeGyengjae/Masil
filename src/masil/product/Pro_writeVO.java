@@ -13,7 +13,7 @@ public class Pro_writeVO {
 	 * max_num : 최대 참여 인원
 	 * curr_num : 현재 참여 인원
 	 * price : 가격
-	 * visible : 상품 삭제시 삭제 x -> 보이지 않게 처리 (관리목적), default 'N'
+	 * visible : 상품 삭제시 삭제 x -> 보이지 않게 처리 (관리목적), default 'Y' / N->목록에서 숨김
 	*/
 	private String code;
 	private String sub_code;

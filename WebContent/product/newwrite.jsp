@@ -36,6 +36,33 @@
 
 <link rel="stylesheet" href="../css/style.css">
 <!-- <link rel="stylesheet" href="../css/responsive.css"> -->
+
+<script type="text/javascript">
+
+	//기간 입력시 일정을 입력하는 태그들을 기간수만큼 동적으로 생성하기
+	function periodSet(){
+		
+	}
+	
+	var cnt=0;
+	//이미지 추가 버튼 클릭시 동적으로 이미지 태그 추가(최대 10장)
+	function imgAdd() {
+	  	cnt++;
+		var pimg = document.getElementById("pimg");
+		pimg.innerHTML += "<input type=file name='image' class='form-control valid'>";
+		
+		var addbtn = document.getElementById("addbtn");
+	  	if(cnt>=10){
+	  		alert("최대 10장까지만 추가할 수 있습니다.");
+	  		addbtn.disabled=true;
+	  		addbtn.hidden=true;
+	  	}
+	}
+
+
+</script>
+
+
 </head>
 
 <body>
@@ -70,18 +97,17 @@
 			<div class="section-top-border">
 				<div class="row">
 					<div class="col-12">
-                        <h2 class="contact-title">상품 업로드</h2>
+                        <h2 class="contact-title">새상품 업로드</h2>
                     </div>
                     <div class="col-lg-8">
                         <form class="form-contact contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
                             <div class="row">
-                            <c:forEach var="product" items="${productDetail}" begin="0" end="0" step="1">
                             	<div class="col-sm-6">
                                     <div class="form-group">
                                     	<span>메인코드</span>
                                         <input class="form-control" name="code" id="code" type="text" 
                                         onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" 
-                                        placeholder="${product.code}" disabled="disabled">
+                                        placeholder="메인코드">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -97,23 +123,27 @@
                                    	 	<span>대륙</span>
                                         <input class="form-control" name="continent" id="continent" type="text" 
                                         onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" 
-                                        placeholder="${product.continent}" disabled="disabled">
+                                        placeholder="대륙">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                  	  <span>코스</span>
+                                    <%--전체 코스 : 아래쪽에서 일자별 코스 입력시 자동 입력되도록 function 만들어야됨 --%>
+                                  	  <span>전체 코스</span>
                                         <input class="form-control" name="course" id="course" type="text" 
                                         onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" 
-                                        placeholder="${product.course}" disabled="disabled">
+                                        placeholder="코스" disabled="disabled">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
+                                    <%--기간 입력 후 기간 <= 도착 일자 제한하도록 function설정 해야됨
+                                    	기간 입력시 아래쪽에 일정 입력 칸 동적으로 기간 만큼 생성되도록 설정해야됨
+                                     --%>
                                     	<span>기간</span>
                                         <input class="form-control" name="period" id="period" type="text" 
-                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" 
-                                        placeholder="${product.period}" disabled="disabled">
+                                        onfocus="this.placeholder = ''" onblur="periodSet(this)"
+                                        placeholder="기간" >
                                     </div>
                                 </div>
                             	<div class="col-sm-6">
@@ -140,11 +170,9 @@
                                         placeholder="최대참여인원">
                                     </div>
                                 </div>
-                                <fmt:parseNumber value="${product.period}" type="number" var="period" />
-                                </c:forEach>
                                 <h3>일정</h3>
                                 <%-- <c:forEach var="product" items="${productDetail}" varStatus="productNum"> --%>
-                                <c:forEach var="i" begin="0" end="${period-1}" step="1">
+                                <%-- <c:forEach var="i" begin="0" end="${period-1}" step="1"> --%>
                                		<div class="col-12">
                                		<h4>${i+1}일자 </h4>
 	                                    <div class="form-group">
@@ -157,48 +185,54 @@
 	                                <div class="col-sm-6">
 	                                    <div class="form-group">
 	                                    	<span>숙박</span>
-	                                        <input class="form-control valid" name="stay" id="stay" type="email" 
+	                                        <input class="form-control valid" name="stay" id="stay" type="text" 
 	                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'"
-	                                        placeholder="Email">
+	                                        placeholder="숙박">
 	                                    </div>
 	                                </div>
                                     <div class="col-sm-6">
 	                                    <div class="form-group">
 	                                    	<span>식사</span>
-	                                        <input class="form-control valid" name="meal" id="meal" type="email" 
+	                                        <input class="form-control valid" name="meal" id="meal" type="text" 
 	                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'"
-	                                        placeholder="Email">
+	                                        placeholder="식사">
 	                                    </div>
 	                                 </div>
 	                                <div class="col-12">
 	                                    <div class="form-group">
 	                                    	<span>일정내용</span>
-	                                        <textarea class="form-control w-100" name="day_content" id="day_content" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" placeholder=" Enter Message"></textarea>
+	                                        <textarea class="form-control w-100" name="day_content" id="day_content" cols="30" rows="9" 
+	                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" 
+	                                        placeholder="일정내용"></textarea>
+	                                    </div>
+	                                </div>
+	                                <div class="col-12">
+	                                    <div class="form-group">
+	                                    	<span>이미지 설명</span>
+	                                        <textarea class="form-control w-100" name="img_content" id="img_content" cols="30" rows="9" 
+	                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" 
+	                                        placeholder="이미지 설명"></textarea>
 	                                    </div>
 	                                </div>
 	                                <div class="col-12">
 	                                    <div class="form-group">
 	                                    	<span>대표이미지</span>
-	                                        <input class="form-control valid" name="image" id="image" type="file" 
+	                                        <input class="form-control valid" name="image" id="img_boss" type="file" 
 	                                        onfocus="this.placeholder = ''" 
 	                                        onblur="this.placeholder = 'Enter email address'" >
 	                                    </div>
 	                                 </div>
 	                                 <div class="col-12">
-	                                    <div class="form-group">
+	                                    <div class="form-group" id="pimg">
 	                                    	<span>이미지</span>
+	                                        <input type="button" id="addbtn" onclick="imgAdd()" class="genric-btn primary-border small" value="추가">
 	                                        <input class="form-control valid" name="image" id="image" type="file" 
-	                                        onfocus="this.placeholder = ''" 
 	                                        onblur="this.placeholder = 'Enter email address'" >
 	                                    </div>
 	                                 </div>
-	                                  <div class="col-12">
-	                                    <div class="form-group">
-	                                    	<span>이미지 설명</span>
-	                                        <textarea class="form-control w-100" name="img_content" id="img_content" cols="30" rows="9" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" placeholder=" Enter Message"></textarea>
-	                                    </div>
-	                                </div>
-                                </c:forEach>
+	                                  
+                                <%-- </c:forEach> --%>
+                                </div>
                             
                             <div class="form-group mt-3">
                                 <button type="submit" class="button button-contactForm boxed-btn">상품등록</button>

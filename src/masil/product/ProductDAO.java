@@ -102,14 +102,14 @@ public class ProductDAO {
 		List<Map<String,String>> productDetail = new ArrayList<Map<String,String>>();
 		try {
 			conn = getConnection();
-			sql = "select a.code, c.sub_code, a.continent, a.course, a.period, a.comment, "
-					+" b.day, b.day_title, b.area, b.day_content, b.stay, b.meal, b.image, b.img_content,"
-					+" c.title, c.start_date, c.end_date, c.max_num, c.curr_num, c.price, c.visible"
-					+" from product a join pro_detail b"
-					+" on a.code=b.code"
-					+" join pro_write c"
-					+" on b.code=c.code"
-					+" where a.code=? and c.sub_code=?";
+			sql= "select a.code, c.sub_code, a.continent, a.course, a.period, a.comment, "
+				+" b.day, b.day_title, b.area, b.day_content, b.stay, b.meal, b.image, b.img_content,"
+				+" c.title, c.start_date, c.end_date, c.max_num, c.curr_num, c.price, c.visible"
+				+" from product a join pro_detail b"
+				+" on a.code=b.code"
+				+" join pro_write c"
+				+" on b.code=c.code"
+				+" where a.code=? and c.sub_code=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, code);
 			pstmt.setString(2, sub_code);
@@ -147,7 +147,6 @@ public class ProductDAO {
 		return productDetail;
 	}//selectProduct()
 	
-
 	
 	
 	

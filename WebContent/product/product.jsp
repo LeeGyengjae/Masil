@@ -225,6 +225,7 @@
 														<i class="fa fa-star"></i> 
 														<i class="fa fa-star"></i> 
 														<i class="fa fa-star"></i> 
+														<p>${product.rating}</p>
 														<%-- 후기 개수 --%>
 														<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}">
 															(${product.recnt} Review)

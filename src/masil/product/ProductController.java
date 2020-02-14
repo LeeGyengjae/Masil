@@ -74,6 +74,7 @@ public class ProductController extends HttpServlet {
 				productList = productService.listProducts();
 				request.setAttribute("productList", productList);
 				nextPage = "/product/pre_write.jsp";
+				
 			}
 			else if(action.equals("/callwrite.do")){
 				String code = request.getParameter("code");

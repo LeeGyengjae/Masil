@@ -49,7 +49,7 @@
 
 	<!-- header-start -->
 	<header>
-		<jsp:include page="../inc/header.jsp"></jsp:include>
+		<jsp:include page="../inc/header2.jsp"></jsp:include>
 	</header>
 	<!-- header-end -->
 
@@ -68,29 +68,27 @@
 	</div>
 	<!--/ bradcam_area  -->
 
-	<%--상품 쓰기 --%>
+	<%--상품 목록 출력 후 새로쓰기 or 기존 상품 불러와서 쓰기 --%>
 	<div class="whole-wrap">
 		<div class="container box_1170">
 			<div class="section-top-border">
 				<div class="row">
 					<div class="section-top-border">
 				<h3 class="mb-30">상품 등록</h3>
-				<a href="#" class="genric-btn success-border radius">새 상품 등록하기</a>
+				<a href="newwrite.do" class="genric-btn success-border radius">새 상품 등록하기</a>
 				<div class="progress-table-wrap">
 					<div class="progress-table">
 						<table>
-							<div class="table-head">
-								<tr>
-									<td>코드</td>
-									<td>대륙</td>
-									<td>코스</td>
-									<td>기간</td>
-									<td>평점</td>
-									<td>가격</td>
-									<td>설명</td>
-									<td>#</td>
-								</tr>
-							</div>
+							<tr>
+								<td>코드</td>
+								<td>대륙</td>
+								<td>코스</td>
+								<td>기간</td>
+								<td>평점</td>
+								<td>가격</td>
+								<td>설명</td>
+								<td>#</td>
+							</tr>
 							<c:choose>
 								<c:when test="${requestScope.productList == null }">
 									<tr>
@@ -132,7 +130,7 @@
 
 
 	<!-- footer start -->
-	<jsp:include page="../inc/footer.jsp"></jsp:include>
+	<jsp:include page="../inc/footer2.jsp"></jsp:include>
 	<!--/ footer end  -->
 
 	<!-- Modal -->
