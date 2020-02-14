@@ -24,7 +24,7 @@ request.setCharacterEncoding("UTF-8");
                                     <nav>
                                         <ul id="navigation">
                                             <li><a class="active" href="../index.jsp">home</a></li>
-                                            <li><a href="about.jsp">About</a></li>
+                                            <li><a href="../about.jsp">About</a></li>
                                             <li><a class="" href="/product.jsp">Destination</a></l/li>
                                             <li><a href="#">pages <i class="ti-angle-down"></i></a>
                                                 <ul class="submenu">
