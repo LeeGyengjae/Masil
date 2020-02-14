@@ -8,7 +8,7 @@ request.setCharacterEncoding("UTF-8");
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
     
 <div class="header-area ">
-            <div id="sticky-header" class="main-header-area">
+            <div id="sticky-header" class="main-header-area"> 
                 <div class="container-fluid">
                     <div class="header_bottom_border">
                         <div class="row align-items-center">

@@ -316,7 +316,7 @@
 						<h3>Recent Trips</h3>
 					</div>
 				</div>
-			</div>
+			</div> 
 			<div class="row">
 				<div class="col-lg-4 col-md-6">
 					<div class="single_trip">
@@ -370,7 +370,7 @@
 
 
 	<!-- footer -->
-	<jsp:include page="../inc/footer.jsp"></jsp:include>
+	<jsp:include page="../inc/footer2.jsp"></jsp:include>
 	<!-- footer -->
 
 

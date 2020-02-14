@@ -49,7 +49,7 @@
         <![endif]-->
 
 	<!-- header-start -->
-	<jsp:include page="../inc/header.jsp"></jsp:include>
+	<jsp:include page="../inc/header2.jsp"></jsp:include>
 	<!-- header-end -->
 
 	<!-- bradcam_area  -->
@@ -213,7 +213,7 @@
 	<!--================Blog Area =================-->
 
 	<!-- footer start -->
-	<jsp:include page="../inc/footer.jsp"></jsp:include>
+	<jsp:include page="../inc/footer2.jsp"></jsp:include>
 	<!--/ footer end  -->
 
 	<!-- Modal -->
