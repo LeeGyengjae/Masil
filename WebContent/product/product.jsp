@@ -46,7 +46,7 @@
         <![endif]-->
 
 	<!-- header-start -->
-	<jsp:include page="../inc/header.jsp"></jsp:include>
+	<jsp:include page="../inc/header2.jsp"></jsp:include>
 	<!-- header-end -->
 
 	<!-- bradcam_area  -->

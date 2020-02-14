@@ -14,7 +14,7 @@ request.setCharacterEncoding("UTF-8");
                         <div class="row align-items-center">
                             <div class="col-xl-2 col-lg-2">
                                 <div class="logo">
-                                    <a href="index.jsp">
+                                    <a href="../index.jsp">
                                         <img src="../img/logo.png" alt="">
                                     </a>
                                 </div>
@@ -23,22 +23,22 @@ request.setCharacterEncoding("UTF-8");
                                 <div class="main-menu  d-none d-lg-block">
                                     <nav>
                                         <ul id="navigation">
-                                            <li><a class="active" href="index.jsp">home</a></li>
-                                            <li><a href="about.jsp">About</a></li>
-                                            <li><a class="" href="travel_destination.jsp">Destination</a></l/li>
+                                            <li><a class="active" href="../index.jsp">home</a></li>
+                                            <li><a href="../about.jsp">About</a></li>
+                                            <li><a class="" href="../travel_destination.jsp">Destination</a></l/li>
                                             <li><a href="#">pages <i class="ti-angle-down"></i></a>
                                                 <ul class="submenu">
-                                                        <li><a href="destination_details.jsp">Destinations details</a></li>
-                                                        <li><a href="elements.jsp">elements</a></li>
+                                                        <li><a href="../destination_details.jsp">Destinations details</a></li>
+                                                        <li><a href="../elements.jsp">elements</a></li>
                                                 </ul>
                                             </li>
                                             <li><a href="#">blog <i class="ti-angle-down"></i></a>
                                                 <ul class="submenu">
-                                                    <li><a href="blog.jsp">blog</a></li>
-                                                    <li><a href="single-blog.jsp">single-blog</a></li>
+                                                    <li><a href="../blog.jsp">blog</a></li>
+                                                    <li><a href="../single-blog.jsp">single-blog</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="contact.jsp">Contact</a></li>
+                                            <li><a href="../contact.jsp">Contact</a></li>
                                         </ul>
                                     </nav>
                                 </div>
