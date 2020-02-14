@@ -25,7 +25,7 @@ request.setCharacterEncoding("UTF-8");
                                         <ul id="navigation">
                                             <li><a class="active" href="index.jsp">home</a></li>
                                             <li><a href="about.jsp">About</a></li>
-                                            <li><a class="" href="travel_destination.jsp">Destination</a></l/li>
+                                            <li><a class="" href="product/product.jsp">Destination</a></l/li>
                                             <li><a href="#">pages <i class="ti-angle-down"></i></a>
                                                 <ul class="submenu">
                                                         <li><a href="destination_details.jsp">Destinations details</a></li>
@@ -34,7 +34,7 @@ request.setCharacterEncoding("UTF-8");
                                             </li>
                                             <li><a href="#">blog <i class="ti-angle-down"></i></a>
                                                 <ul class="submenu">
-                                                    <li><a href="blog.jsp">blog</a></li>
+                                                    <li><a href="product/blog.jsp">blog</a></li>
                                                     <li><a href="single-blog.jsp">single-blog</a></li>
                                                 </ul>
                                             </li>
