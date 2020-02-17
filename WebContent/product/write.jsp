@@ -39,30 +39,85 @@
 
 <script type="text/javascript">
 
-	//기간 입력시 일정을 입력하는 태그들을 기간수만큼 동적으로 생성하기
-	function periodSet(){
+	//이미지 업로드 태그 추가
+	function addImgfile(addImgCnt, next) {
+// 		console.log( "addImgCnt : "+addImgCnt );
+// 		console.log( "addImgHere1 : "+addImgHere1.getAttribute('class') );
+// 		console.log( "next : "+ next );
 		
-	}
+		var period = $("#period").val();
+		var filecnt = new Array();
+		var div = new Array();
+		var msg = "";
+		
+		for (i = 0; i < period; i++) {
+			filecnt[i] = $('.addImgCnt'+i).val();	
+			div[i] = $('.addImgHere'+i);
+		}
+		
+		for (i = 0; i < addImgCnt; i++) {
+			var file = filecnt[i];
+			msg += "<input type='file' name='upfile"+i+"'/><br>";
+			
+			if(filecnt[i]==div[i]){
+			}
+			
+		}//for
+		
+		//이미지 업로드 10장 제한
+		if(addImgCnt<=10){
+			next.html(msg);
+		}else {
+			alert('이미지는 10장까지만 추가 가능');
+		}
+		
+	}//addInput()
 	
-	var cnt=0;
-	//이미지 추가 버튼 클릭시 동적으로 이미지 태그 추가(최대 10장)
-	function imgAdd() {
-	  	cnt++;
-		var pimg = document.getElementById("pimg");
-		pimg.innerHTML += "<input type=file name='image' class='form-control valid'>";
+	//기간 입력시 동적으로 일정 입력 태그 추가
+	function periodSet() {
+	
+		var period = $("#period").val();
+		var div = $("#periodAdd");
 		
-		var addbtn = document.getElementById("addbtn");
-	  	if(cnt>=10){
-	  		alert("최대 10장까지만 추가할 수 있습니다.");
-	  		addbtn.disabled=true;
-	  		addbtn.hidden=true;
-	  	}
+		var msg = "";
+		
+		for (i = 0; i < period; i++) {
+			
+			msg += "<h4>"+(i+1)+" 일자</h4>"
+			+ "<div class='form-group'>"
+			+ "<span>소제목</span>" 
+			+ "<input class='form-control' name='day_title"+i+"' id='day_title"+i+"' type='text' placeholder='소주제'>"
+			+ "</div>"
+			+ "<div class='form-group'>"
+			+ "<span>숙박</span>"
+			+ "<input class='form-control valid' name='stay"+i+"' id='stay"+i+"' type='text' placeholder='숙박'>"
+			+ "</div>"
+			+ "<div class='form-group'>"
+			+ "<span>식사</span>"
+			+ "<input class='form-control valid' name='meal"+i+"' id='meal"+i+"' type='text' placeholder='식사'>"
+			+ "</div>"
+			+ "<div class='form-group'>"
+			+ "<span>일정내용</span>"
+			+ "<textarea class='form-control w-100' name='day_content"+i+"' id='day_content"+i+"' cols='30' rows='9' placeholder='일정내용'></textarea>"
+			+ "</div>"
+			+ "<div class='form-group'>"
+			+ "<span>이미지 설명</span>"
+			+ "<textarea class='form-control w-100' name='img_content"+i+"' id='img_content"+i+"' cols='30' rows='9' placeholder='이미지 설명'></textarea>"
+			+ "</div>"
+			+ "<div class='form-group'>"
+			+ "<span>이미지</span>"
+			+ "<input type='text' value='' id='addImgCnt"+i+"' class='addImgCnt"+i+"'>"
+			+ "<input type='button' value='추가' id='addBtn' onclick='addImgfile(addImgCnt"+i+".value, $(this).next())' class='genric-btn primary-border small'>"
+			+ "<div id='addImgHere"+i+"' class='addImgHere"+i+"'>"
+			+ "</div>"
+			+ "</div>";
+		
+		}
+		div.html(msg);
 	}
 
 
 </script>
-
-
 </head>
 
 <body>
@@ -106,7 +161,6 @@
                                     <div class="form-group">
                                     	<span>메인코드</span>
                                         <input class="form-control" name="code" id="code" type="text" 
-                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" 
                                         placeholder="메인코드">
                                     </div>
                                 </div>
@@ -114,7 +168,6 @@
                                     <div class="form-group">
                                     	<span>세부코드</span>
                                         <input class="form-control" name="sub_code" id="sub_code" type="text" 
-                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" 
                                         placeholder="세부코드">
                                     </div>
                                 </div>
@@ -122,7 +175,6 @@
                                     <div class="form-group">
                                    	 	<span>대륙</span>
                                         <input class="form-control" name="continent" id="continent" type="text" 
-                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" 
                                         placeholder="대륙">
                                     </div>
                                 </div>
@@ -131,34 +183,31 @@
                                     <%--전체 코스 : 아래쪽에서 일자별 코스 입력시 자동 입력되도록 function 만들어야됨 --%>
                                   	  <span>전체 코스</span>
                                         <input class="form-control" name="course" id="course" type="text" 
-                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" 
                                         placeholder="코스" disabled="disabled">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                    <%--기간 입력 후 기간 <= 도착 일자 제한하도록 function설정 해야됨
-                                    	기간 입력시 아래쪽에 일정 입력 칸 동적으로 기간 만큼 생성되도록 설정해야됨
-                                     --%>
+                                    <%--기간 입력 후 기간 <= 도착 일자 제한하도록 function설정 해야됨 --%>
                                     	<span>기간</span>
-                                        <input class="form-control" name="period" id="period" type="text" 
-                                        onfocus="this.placeholder = ''" onblur="periodSet(this)"
-                                        placeholder="기간" >
+										<input class="form-control" name="period" id="period" type="text" onblur="periodSet()"
+											placeholder="기간">
+										<input type="button" value="일정 입력칸 추가" id="addBtn" onclick="periodSet()"
+											class="genric-btn primary-border small">
                                     </div>
                                 </div>
                             	<div class="col-sm-6">
                                     <div class="form-group">
                                     	<span>출발일자</span>
                                         <input class="form-control" name="start_date" id="start_date" type="text" 
-                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" 
                                         placeholder="출발일자"> 
                                     </div>
                                 </div>
                             	<div class="col-sm-6">
                                     <div class="form-group">
+                                    	<%--도착일자 : 기간과 맞춰야됨. --%>
                                     	<span>도착일자</span>
                                         <input class="form-control" name="end_date" id="subject" type="text" 
-                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" 
                                         placeholder="도착일자">
                                     </div>
                                 </div>
@@ -166,70 +215,14 @@
                                     <div class="form-group">
                                    		<span>최대참여인원</span>
                                         <input class="form-control" name="max_num" id="max_num" type="text" 
-                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" 
                                         placeholder="최대참여인원">
                                     </div>
                                 </div>
+                                
+                                <%--기간 입력하면 동적으로 태그 추가됨. --%>
                                 <h3>일정</h3>
-                                <%-- <c:forEach var="product" items="${productDetail}" varStatus="productNum"> --%>
-                                <%-- <c:forEach var="i" begin="0" end="${period-1}" step="1"> --%>
-                               		<div class="col-12">
-                               		<h4>${i+1}일자 </h4>
-	                                    <div class="form-group">
-	                                    	<span>소제목</span>
-	                                    	<input class="form-control" name="day_title" id="day_title" type="text" 
-		                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Subject'" 
-		                                        placeholder="소주제">
-	                                    </div>
-                               		</div>
-	                                <div class="col-sm-6">
-	                                    <div class="form-group">
-	                                    	<span>숙박</span>
-	                                        <input class="form-control valid" name="stay" id="stay" type="text" 
-	                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'"
-	                                        placeholder="숙박">
-	                                    </div>
-	                                </div>
-                                    <div class="col-sm-6">
-	                                    <div class="form-group">
-	                                    	<span>식사</span>
-	                                        <input class="form-control valid" name="meal" id="meal" type="text" 
-	                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'"
-	                                        placeholder="식사">
-	                                    </div>
-	                                 </div>
-	                                <div class="col-12">
-	                                    <div class="form-group">
-	                                    	<span>일정내용</span>
-	                                        <textarea class="form-control w-100" name="day_content" id="day_content" cols="30" rows="9" 
-	                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" 
-	                                        placeholder="일정내용"></textarea>
-	                                    </div>
-	                                </div>
-	                                <div class="col-12">
-	                                    <div class="form-group">
-	                                    	<span>이미지 설명</span>
-	                                        <textarea class="form-control w-100" name="img_content" id="img_content" cols="30" rows="9" 
-	                                        onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Message'" 
-	                                        placeholder="이미지 설명"></textarea>
-	                                    </div>
-	                                </div>
-	                                <div class="col-12">
-	                                    <div class="form-group">
-	                                    	<span>대표이미지</span>
-	                                        <input class="form-control valid" name="image" id="img_boss" type="file" 
-	                                        onfocus="this.placeholder = ''" 
-	                                        onblur="this.placeholder = 'Enter email address'" >
-	                                    </div>
-	                                 </div>
-	                                 <div class="col-12">
-	                                    <div class="form-group" id="pimg">
-	                                    	<span>이미지</span>
-	                                        <input type="button" id="addbtn" onclick="imgAdd()" class="genric-btn primary-border small" value="추가">
-	                                        <input class="form-control valid" name="image" id="image" type="file" 
-	                                        onblur="this.placeholder = 'Enter email address'" >
-	                                    </div>
-	                                 </div>
+                                <div class="col-12" id="periodAdd"></div> 
+								<div id="addPeriodHere"></div>
 	                                  
                                 <%-- </c:forEach> --%>
                                 </div>

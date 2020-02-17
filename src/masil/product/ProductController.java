@@ -71,18 +71,38 @@ public class ProductController extends HttpServlet {
 				System.out.println("controller : "+productDetail);
 			}
 			else if(action.equals("/pre_write.do")){
+				//관리자용-상품 리스트 간단히 보기 
+				//-작동은 하는데 쓸지말지 미지수 
 				productList = productService.listProducts();
 				request.setAttribute("productList", productList);
 				nextPage = "/product/pre_write.jsp";
 				
 			}
 			else if(action.equals("/callwrite.do")){
+				//이미 등록된 상품의 출발/도착 날짜만 바꿔서 등록하고 싶을때
+				//저장된 내용 불러와서 날짜만 바꿀 수 있도록 하는 페이지
+				//-미완성
 				String code = request.getParameter("code");
 				String sub_code = request.getParameter("sub_code");
 				productDetail = productService.viewProduct(code, sub_code);
 				request.setAttribute("productDetail", productDetail);
 
 				nextPage = "/product/callwrite.jsp";
+			}
+			else if(action.equals("/write.do")){
+				String code = request.getParameter("code");
+				String sub_code = request.getParameter("sub_code");
+				String continent = request.getParameter("continent");
+				String course = request.getParameter("course");
+				String period = request.getParameter("period");
+				String start_date = request.getParameter("start_date");
+				String end_date = request.getParameter("end_date");
+				int max_num = Integer.parseInt(request.getParameter("max_num"));
+				
+				
+				
+				
+				nextPage = "/product/write.jsp";
 			}
 			
 			RequestDispatcher dispatche = request.getRequestDispatcher(nextPage);
