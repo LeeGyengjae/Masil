@@ -22,5 +22,10 @@ public class ProductService {
 		System.out.println("Service : "+productDetail);
 		return productDetail;
 	}
+
+	public void insertProduct(ProductVO productVO, Pro_writeVO prowriteVO, Pro_detailVO prodetailVO) {
+		productDAO.insertProduct(productVO,prowriteVO,prodetailVO);
+		System.out.println("Service : РќДо?");
+	}
 	
 }

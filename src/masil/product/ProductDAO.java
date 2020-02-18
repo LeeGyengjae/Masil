@@ -146,6 +146,24 @@ public class ProductDAO {
 		} finally { closeDB(); }
 		return productDetail;
 	}//selectProduct()
+
+	public void insertProduct(ProductVO productVO, Pro_writeVO prowriteVO, Pro_detailVO prodetailVO) {
+		try {
+			conn = getConnection();
+			sql ="insert all"
+				+" into product (values )"
+				+" into pro_detail (values )"
+				+" into pro_write (values )"
+				+" select * from dual";
+			
+			
+		} catch (Exception e) {
+			System.out.println("insertProduct() ¿À·ù "+e);
+		} finally { closeDB(); }
+		
+		
+		
+	}//insertProduct
 	
 	
 	

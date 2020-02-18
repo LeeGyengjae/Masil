@@ -125,6 +125,8 @@ public class ProductController extends HttpServlet {
 					prodetailVO = new Pro_detailVO(day, day_title, day_course, stay, meal, day_content, image, img_content);
 				}
 				
+				//VO전달
+				productService.insertProduct(productVO,prowriteVO,prodetailVO);
 				
 				
 				// request.getParameter-> 전부 map?
