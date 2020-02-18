@@ -1,8 +1,10 @@
 package masil.product;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +15,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FileUtils;
+
 
 @WebServlet("/product1/*")
 public class ProductController extends HttpServlet {
@@ -21,6 +28,10 @@ public class ProductController extends HttpServlet {
     ProductVO productVO;
     Pro_detailVO prodetailVO;
     Pro_writeVO prowriteVO;
+    
+    //test
+    private static String ARTICLE_IMAGE_REPO = "F:\\product\\productImage";
+    //->경로 찾을 수 없음 ㅠ
     
 	public ProductController() {}
 	
@@ -93,57 +104,58 @@ public class ProductController extends HttpServlet {
 
 				nextPage = "/product/callwrite.jsp";
 			}
-			else if(action.equals("/write.do")){
-				String code = request.getParameter("code");
-				String sub_code = request.getParameter("sub_code");
-				String title = request.getParameter("title");
-				String continent = request.getParameter("continent");
-				String course = request.getParameter("course");
-				String period = request.getParameter("period");
-				String comment = request.getParameter("comment");
-				String startDateStr = request.getParameter("start_date");
-				String endDateStr = request.getParameter("end_date");
+			else if(action.equals("/addProduct.do")){
+				System.out.println("controller if안으로 넘어옴");
+				
+				Map<String, String> productMap = upload(request, response);
+				
+				String code = productMap.get("code");
+				String sub_code = productMap.get("sub_code");
+				String title = productMap.get("title");
+				String continent = productMap.get("continent");
+				String course = productMap.get("course");
+				String period = productMap.get("period");
+				String comment = productMap.get("comment");
+				int max_num = Integer.parseInt(productMap.get("max_num"));
+				int price = Integer.parseInt(productMap.get("price"));
+				
+				String startDateStr = productMap.get("start_date");
+				String endDateStr = productMap.get("end_date");
 				SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
 				Date start_date = (Date) dateformat.parse(startDateStr);
 				Date end_date = (Date) dateformat.parse(endDateStr);
-				int max_num = Integer.parseInt(request.getParameter("max_num"));
-				int price = Integer.parseInt(request.getParameter("price"));
+				//->java.util.Date cannot be cast to java.sql.Date
+				
+				
 				
 				productVO = new ProductVO(code, continent, period, course, comment); 
 				prowriteVO = new Pro_writeVO(sub_code, title, start_date, end_date, max_num, price);
 				
 				int period2 = Integer.parseInt(period);
 				for(int i=0; i<period2; i++){
-					String day_title = request.getParameter(i+"day_title");
-					String day_course = request.getParameter(i+"day_course");
-					String stay = request.getParameter(i+"stay");
-					String meal = request.getParameter(i+"meal");
-					String day_content = request.getParameter(i+"day_content");
-					String img_content = request.getParameter(i+"img_content");
-					String[] image = request.getParameterValues(i+"day_image");
+					Map productMap2 = upload(request, response);
+					String day_title = (String) productMap2.get(i+"day_title");
+					String day_course = (String) productMap2.get(i+"day_course");
+					String stay = (String) productMap2.get(i+"stay");
+					String meal = (String) productMap2.get(i+"meal");
+					String day_content = (String) productMap2.get(i+"day_content");
+					String img_content = (String) productMap2.get(i+"img_content");
+					String[] image = (String[]) productMap2.get(i+"day_image");
 					String day = day_title.substring(1,1);
 					prodetailVO = new Pro_detailVO(day, day_title, day_course, stay, meal, day_content, image, img_content);
 				}
 				
 				//VO전달
 				productService.insertProduct(productVO,prowriteVO,prodetailVO);
+				System.out.println("Controller 된거 같음?");
+				String imageFileName = code+"_"+sub_code;
+				if(imageFileName != null && imageFileName.length() != 0){
+					File srcFile = new File(ARTICLE_IMAGE_REPO + "\\" + "temp" + "\\" + imageFileName);
+					File destDir = new File(ARTICLE_IMAGE_REPO + "\\" + imageFileName);
+					destDir.mkdirs();
+					FileUtils.moveFileToDirectory(srcFile, destDir, true);
+				}
 				
-				
-				// request.getParameter-> 전부 map?
-				//=> map / for[day~ img{~}]
-				// productVO, pro_detailVO, pro_writeVO 나눠서?
-				
-				//pro_detail 내용 day_title, day_course, stay, meal, day_content, img_content => 앞에 1 
-				//=> 반복문 사용 편리 (period parseInt string)
-				//=> 글자 잘라서 검사 후 day값으로 전달?
-				// 이미지 : 6day_image => 같은 name 으로 전달하므로 [] 사용?
-				// 이미지 name 받을때 : request.getParameterValues("6day_image");  => 반복문
-				// 코스별 이미지파일명 겹치게 x
-				// 업로드 이미지 저장 -> product code+sub_code명 폴더 생성 후 차곡차곡 저장
-				// 하면 글쓸때마다 이미지는 사용자가 알아서 업로드
-				
-				
-				//업로드한 상품의 상세페이지로 포워딩해서 업로드한 상품 바로 확인하기
 				nextPage = "/product1/blog.do?code="+code+"sub_code="+sub_code;
 			}
 			
@@ -158,4 +170,53 @@ public class ProductController extends HttpServlet {
 		
 	}//doHandle()
 
-}
+	//파일 업로드 처리를 위한 upload메소드
+	private Map<String, String> upload(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException,IOException{
+		
+		Map<String, String> productMap = new HashMap<String, String>();
+		String encoding = "utf-8";
+		
+		File currentDirPath = new File(ARTICLE_IMAGE_REPO);
+		DiskFileItemFactory factory = new DiskFileItemFactory();
+		factory.setSizeThreshold(1024*1024*1);
+		factory.setRepository(currentDirPath);
+		
+		ServletFileUpload upload = new ServletFileUpload(factory);
+		
+		try {
+			List items =  upload.parseRequest(request);
+			
+			for(int i=0; i<items.size(); i++){
+				FileItem fileItem = (FileItem) items.get(i);
+				
+				if(fileItem.isFormField()){
+					System.out.println(fileItem.getFieldName()+ "=" + fileItem.getString(encoding));
+					productMap.put(fileItem.getFieldName(), fileItem.getString(encoding));
+					
+				}else {
+					System.out.println("파라미터명 : "+fileItem.getFieldName());
+					System.out.println("업로드할 파일명 : "+fileItem.getName());
+					System.out.println("업로드할 파일크기 : "+fileItem.getSize()+" bytes");
+					
+					productMap.put(fileItem.getFieldName(), fileItem.getName());
+					
+					if(fileItem.getSize()>0){
+						int idx = fileItem.getName().lastIndexOf("\\");
+						if(idx == -1){
+							idx= fileItem.getName().lastIndexOf("/"); //-1얻기
+						}
+						String fileName = fileItem.getName().substring(idx+1);
+						File uploadFile = new File(currentDirPath+"\\temp\\"+fileName);
+						fileItem.write(uploadFile);
+					}
+				}//main if else
+			}//for
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return productMap; //HashMap리턴
+	}//upload()
+	
+	
+}//ProductController class

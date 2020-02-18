@@ -84,12 +84,12 @@
 			
 			msg += "<h4>"+(i+1)+" 일자</h4>"
 			+ "<div class='form-group'>"
-			+ "<span>소제목</span>" 
-			+ "<input class='form-control' name='"+i+"day_title' id='"+i+"day_title' type='text' placeholder='소주제'>"
+			+ "<span>일정제목</span>" 
+			+ "<input class='form-control' name='"+i+"day_title' id='"+i+"day_title' type='text' placeholder='일정제목'>"
 			+ "</div>"
 			+ "<div class='form-group'>"
 			+ "<span>"+(i+1)+" 일자 코스</span>" 
-			+ "<input class='form-control' name='"+i+"day_course' id='"+i+"day_course' type='text' placeholder='소주제'>"
+			+ "<input class='form-control' name='"+i+"day_course' id='"+i+"day_course' type='text' placeholder='일정별 코스'>"
 			+ "</div>"
 			+ "<div class='form-group'>"
 			+ "<span>숙박</span>"
@@ -160,8 +160,9 @@
                         <h2 class="contact-title">새상품 업로드</h2>
                     </div>
                     <div class="col-lg-8">
-                        <form class="form-contact contact_form" action="${contextPath}/product1/write.do" 
-                        	  method="post" id="contactForm" enctype="multipart/form-data">
+                        <form class="form-contact contact_form" action="${contextPath}/masil/product1/addProduct.do" 
+                        method="post" id="contactForm" enctype="multipart/form-data" name="writeForm" > 
+                        	  
                             <div class="row">
                             	<div class="col-sm-6">
                                     <div class="form-group">
@@ -216,6 +217,20 @@
 											class="genric-btn primary-border small">
                                     </div>
                                 </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                   		<span>최대참여인원</span>
+                                        <input class="form-control" name="max_num" id="max_num" type="text" 
+                                        placeholder="최대참여인원">
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                   		<span>가격</span>
+                                        <input class="form-control" name="price" id="price" type="text" 
+                                        placeholder="가격">
+                                    </div>
+                                </div>
                             	<div class="col-sm-6">
                                     <div class="form-group">
                                     	<span>출발일자</span>
@@ -231,24 +246,18 @@
                                         placeholder="도착일자">
                                     </div>
                                 </div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                   		<span>최대참여인원</span>
-                                        <input class="form-control" name="max_num" id="max_num" type="text" 
-                                        placeholder="최대참여인원">
-                                    </div>
-                                </div>
+                                
+                                
                                 
                                 <%--기간 입력하면 동적으로 태그 추가됨. --%>
                                 <h3>일정</h3>
                                 <div class="col-12" id="periodAdd"></div> 
 								<div id="addPeriodHere"></div>
 	                                  
-                                <%-- </c:forEach> --%>
                                 </div>
                             
                             <div class="form-group mt-3">
-                                <button type="submit" class="button button-contactForm boxed-btn">상품등록</button>
+                                <input type="submit" class="button button-contactForm boxed-btn" value="상품등록">
                             </div>
                         </form>
 					</div>

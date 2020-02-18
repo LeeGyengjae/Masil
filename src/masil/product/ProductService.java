@@ -23,9 +23,10 @@ public class ProductService {
 		return productDetail;
 	}
 
-	public void insertProduct(ProductVO productVO, Pro_writeVO prowriteVO, Pro_detailVO prodetailVO) {
-		productDAO.insertProduct(productVO,prowriteVO,prodetailVO);
+	public int insertProduct(ProductVO productVO, Pro_writeVO prowriteVO, Pro_detailVO prodetailVO) {
+		int re = productDAO.insertProduct(productVO,prowriteVO,prodetailVO);
 		System.out.println("Service : РќДо?");
+		return re;
 	}
 	
 }
