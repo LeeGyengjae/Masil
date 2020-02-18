@@ -96,7 +96,7 @@
 									</tr>
 								</c:when>
 								<c:when test="${requestScope.productList != null }">
-									<c:forEach var="product" items="${productList}" varStatus="productNum">
+									<c:forEach var="product" items="${productList}">
 										<tr>
 											<td>${product.code}-${product.sub_code}</td>
 											<td>${product.continent}</td>								

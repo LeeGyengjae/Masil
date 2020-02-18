@@ -41,6 +41,17 @@ public class Pro_writeVO {
 		this.price = price;
 		this.visible = visible;
 	}
+	
+	//생성자 오버로딩
+	public Pro_writeVO(String sub_code, String title, Date start_date, Date end_date, int max_num, int price) {
+		super();
+		this.sub_code = sub_code;
+		this.title = title;
+		this.start_date = start_date;
+		this.end_date = end_date;
+		this.max_num = max_num;
+		this.price = price;
+	}
 
 	//toString() Override
 	@Override

@@ -1,6 +1,8 @@
 package masil.product;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +18,9 @@ import javax.servlet.http.HttpServletResponse;
 public class ProductController extends HttpServlet {
 	
     ProductService productService;
-    //ProductVO productVO;
+    ProductVO productVO;
+    Pro_detailVO prodetailVO;
+    Pro_writeVO prowriteVO;
     
 	public ProductController() {}
 	
@@ -92,17 +96,53 @@ public class ProductController extends HttpServlet {
 			else if(action.equals("/write.do")){
 				String code = request.getParameter("code");
 				String sub_code = request.getParameter("sub_code");
+				String title = request.getParameter("title");
 				String continent = request.getParameter("continent");
 				String course = request.getParameter("course");
 				String period = request.getParameter("period");
-				String start_date = request.getParameter("start_date");
-				String end_date = request.getParameter("end_date");
+				String comment = request.getParameter("comment");
+				String startDateStr = request.getParameter("start_date");
+				String endDateStr = request.getParameter("end_date");
+				SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+				Date start_date = (Date) dateformat.parse(startDateStr);
+				Date end_date = (Date) dateformat.parse(endDateStr);
 				int max_num = Integer.parseInt(request.getParameter("max_num"));
+				int price = Integer.parseInt(request.getParameter("price"));
+				
+				productVO = new ProductVO(code, continent, period, course, comment); 
+				prowriteVO = new Pro_writeVO(sub_code, title, start_date, end_date, max_num, price);
+				
+				int period2 = Integer.parseInt(period);
+				for(int i=0; i<period2; i++){
+					String day_title = request.getParameter(i+"day_title");
+					String day_course = request.getParameter(i+"day_course");
+					String stay = request.getParameter(i+"stay");
+					String meal = request.getParameter(i+"meal");
+					String day_content = request.getParameter(i+"day_content");
+					String img_content = request.getParameter(i+"img_content");
+					String[] image = request.getParameterValues(i+"day_image");
+					String day = day_title.substring(1,1);
+					prodetailVO = new Pro_detailVO(day, day_title, day_course, stay, meal, day_content, image, img_content);
+				}
 				
 				
 				
+				// request.getParameter-> 전부 map?
+				//=> map / for[day~ img{~}]
+				// productVO, pro_detailVO, pro_writeVO 나눠서?
 				
-				nextPage = "/product/write.jsp";
+				//pro_detail 내용 day_title, day_course, stay, meal, day_content, img_content => 앞에 1 
+				//=> 반복문 사용 편리 (period parseInt string)
+				//=> 글자 잘라서 검사 후 day값으로 전달?
+				// 이미지 : 6day_image => 같은 name 으로 전달하므로 [] 사용?
+				// 이미지 name 받을때 : request.getParameterValues("6day_image");  => 반복문
+				// 코스별 이미지파일명 겹치게 x
+				// 업로드 이미지 저장 -> product code+sub_code명 폴더 생성 후 차곡차곡 저장
+				// 하면 글쓸때마다 이미지는 사용자가 알아서 업로드
+				
+				
+				//업로드한 상품의 상세페이지로 포워딩해서 업로드한 상품 바로 확인하기
+				nextPage = "/product1/blog.do?code="+code+"sub_code="+sub_code;
 			}
 			
 			RequestDispatcher dispatche = request.getRequestDispatcher(nextPage);

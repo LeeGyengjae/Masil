@@ -49,6 +49,8 @@
 		var filecnt = new Array();
 		var div = new Array();
 		var msg = "";
+		var day = next.attr('class');
+		var dayStr = Number(day.substr(10,1));
 		
 		for (i = 0; i < period; i++) {
 			filecnt[i] = $('.addImgCnt'+i).val();	
@@ -57,11 +59,8 @@
 		
 		for (i = 0; i < addImgCnt; i++) {
 			var file = filecnt[i];
-			msg += "<input type='file' name='upfile"+i+"'/><br>";
-			
-			if(filecnt[i]==div[i]){
-			}
-			
+			msg += "<input type='file' name='"+(dayStr+1)+"day_image'/><br>";
+			//name : 1day_image 과 같은 형식으로 들어감.
 		}//for
 		
 		//이미지 업로드 10장 제한
@@ -86,23 +85,27 @@
 			msg += "<h4>"+(i+1)+" 일자</h4>"
 			+ "<div class='form-group'>"
 			+ "<span>소제목</span>" 
-			+ "<input class='form-control' name='day_title"+i+"' id='day_title"+i+"' type='text' placeholder='소주제'>"
+			+ "<input class='form-control' name='"+i+"day_title' id='"+i+"day_title' type='text' placeholder='소주제'>"
+			+ "</div>"
+			+ "<div class='form-group'>"
+			+ "<span>"+(i+1)+" 일자 코스</span>" 
+			+ "<input class='form-control' name='"+i+"day_course' id='"+i+"day_course' type='text' placeholder='소주제'>"
 			+ "</div>"
 			+ "<div class='form-group'>"
 			+ "<span>숙박</span>"
-			+ "<input class='form-control valid' name='stay"+i+"' id='stay"+i+"' type='text' placeholder='숙박'>"
+			+ "<input class='form-control valid' name='"+i+"stay' id='"+i+"stay' type='text' placeholder='숙박'>"
 			+ "</div>"
 			+ "<div class='form-group'>"
 			+ "<span>식사</span>"
-			+ "<input class='form-control valid' name='meal"+i+"' id='meal"+i+"' type='text' placeholder='식사'>"
+			+ "<input class='form-control valid' name='"+i+"meal' id='"+i+"meal' type='text' placeholder='식사'>"
 			+ "</div>"
 			+ "<div class='form-group'>"
 			+ "<span>일정내용</span>"
-			+ "<textarea class='form-control w-100' name='day_content"+i+"' id='day_content"+i+"' cols='30' rows='9' placeholder='일정내용'></textarea>"
+			+ "<textarea class='form-control w-100' name='"+i+"day_content' id='"+i+"day_content' cols='30' rows='9' placeholder='일정내용'></textarea>"
 			+ "</div>"
 			+ "<div class='form-group'>"
 			+ "<span>이미지 설명</span>"
-			+ "<textarea class='form-control w-100' name='img_content"+i+"' id='img_content"+i+"' cols='30' rows='9' placeholder='이미지 설명'></textarea>"
+			+ "<textarea class='form-control w-100' name='"+i+"img_content' id='"+i+"img_content' cols='30' rows='9' placeholder='이미지 설명'></textarea>"
 			+ "</div>"
 			+ "<div class='form-group'>"
 			+ "<span>이미지</span>"
@@ -114,7 +117,9 @@
 		
 		}
 		div.html(msg);
-	}
+	}//periodSet()
+	
+	
 
 
 </script>
@@ -155,7 +160,8 @@
                         <h2 class="contact-title">새상품 업로드</h2>
                     </div>
                     <div class="col-lg-8">
-                        <form class="form-contact contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
+                        <form class="form-contact contact_form" action="${contextPath}/product1/write.do" 
+                        	  method="post" id="contactForm" enctype="multipart/form-data">
                             <div class="row">
                             	<div class="col-sm-6">
                                     <div class="form-group">
@@ -171,6 +177,13 @@
                                         placeholder="세부코드">
                                     </div>
                                 </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                    	<span>제목</span>
+                                        <input class="form-control" name="title" id="title" type="text" 
+                                        placeholder="제목">
+                                    </div>
+                                </div>
                                 <div class="col-12">
                                     <div class="form-group">
                                    	 	<span>대륙</span>
@@ -183,7 +196,14 @@
                                     <%--전체 코스 : 아래쪽에서 일자별 코스 입력시 자동 입력되도록 function 만들어야됨 --%>
                                   	  <span>전체 코스</span>
                                         <input class="form-control" name="course" id="course" type="text" 
-                                        placeholder="코스" disabled="disabled">
+                                        placeholder="코스">
+                                    </div>
+                                </div>
+                                 <div class="col-12">
+                                    <div class="form-group">
+                                  	  <span>상품 한줄 설명</span>
+                                        <input class="form-control" name="comment" id="comment" type="text" 
+                                        placeholder="상품 한줄 설명">
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -199,7 +219,7 @@
                             	<div class="col-sm-6">
                                     <div class="form-group">
                                     	<span>출발일자</span>
-                                        <input class="form-control" name="start_date" id="start_date" type="text" 
+                                        <input class="form-control" name="start_date" id="start_date" type="date" 
                                         placeholder="출발일자"> 
                                     </div>
                                 </div>
@@ -207,7 +227,7 @@
                                     <div class="form-group">
                                     	<%--도착일자 : 기간과 맞춰야됨. --%>
                                     	<span>도착일자</span>
-                                        <input class="form-control" name="end_date" id="subject" type="text" 
+                                        <input class="form-control" name="end_date" id="subject" type="date" 
                                         placeholder="도착일자">
                                     </div>
                                 </div>
@@ -237,8 +257,6 @@
 		</div>
 	</div>
 	<%--상품 쓰기 --%>
-
-
 
 
 

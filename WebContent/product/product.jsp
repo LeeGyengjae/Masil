@@ -197,7 +197,7 @@
 							 
 							<%-- 상품 있을 때 : ↓상품 1개씩↓ --%>
 							<c:when test="${requestScope.productList != null }">
-								<c:forEach var="product" items="${productList}" varStatus="productNum">
+								<c:forEach var="product" items="${productList}">
 									<div class="col-lg-6 col-md-6">
 										<div class="single_place">
 											<div class="thumb">
@@ -219,7 +219,7 @@
 												<div class="rating_days d-flex justify-content-between">
 													<span
 														class="d-flex justify-content-center align-items-center">
-														<%-- 별점 --%>
+														<%-- 별점 ${product.rating} 해서 받아온 값만큼만 ★ 출력, 나머진 ☆ 처리 해야됨--%>
 														<i class="fa fa-star"></i>
 														<i class="fa fa-star"></i>
 														<i class="fa fa-star"></i> 

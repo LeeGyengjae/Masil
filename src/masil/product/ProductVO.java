@@ -30,6 +30,16 @@ public class ProductVO {
 		this.course = course;
 		this.comment = comment;
 	}
+	
+	//생성자 오버로딩
+	public ProductVO(String code, String continent, String period, String course, String comment) {
+		super();
+		this.code = code;
+		this.continent = continent;
+		this.period = period;
+		this.course = course;
+		this.comment = comment;
+	}
 
 	//toString() Override
 	@Override
