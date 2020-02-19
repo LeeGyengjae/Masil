@@ -102,14 +102,14 @@ public class ProductDAO {
 		List<Map<String,String>> productDetail = new ArrayList<Map<String,String>>();
 		try {
 			conn = getConnection();
-			sql = "select a.code, c.sub_code, a.continent, a.course, a.period, a.comment, "
-					+" b.day, b.day_title, b.area, b.day_content, b.stay, b.meal, b.image, b.img_content,"
-					+" c.title, c.start_date, c.end_date, c.max_num, c.curr_num, c.price, c.visible"
-					+" from product a join pro_detail b"
-					+" on a.code=b.code"
-					+" join pro_write c"
-					+" on b.code=c.code"
-					+" where a.code=? and c.sub_code=?";
+			sql= "select a.code, c.sub_code, a.continent, a.course, a.period, a.comment, "
+				+" b.day, b.day_title, b.day_course, b.day_content, b.stay, b.meal, b.image, b.img_content,"
+				+" c.title, c.start_date, c.end_date, c.max_num, c.curr_num, c.price, c.visible"
+				+" from product a join pro_detail b"
+				+" on a.code=b.code"
+				+" join pro_write c"
+				+" on b.code=c.code"
+				+" where a.code=? and c.sub_code=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, code);
 			pstmt.setString(2, sub_code);
@@ -125,7 +125,7 @@ public class ProductDAO {
 				sub_product.put("comment", rs.getString("comment"));
 				sub_product.put("day", rs.getString("day"));
 				sub_product.put("day_title", rs.getString("day_title"));
-				sub_product.put("area", rs.getString("area"));
+				sub_product.put("day_course", rs.getString("day_course"));
 				sub_product.put("day_content", rs.getString("day_content"));
 				sub_product.put("stay", rs.getString("stay"));
 				sub_product.put("meal", rs.getString("meal"));
@@ -146,8 +146,60 @@ public class ProductDAO {
 		} finally { closeDB(); }
 		return productDetail;
 	}//selectProduct()
-	
 
+	public int insertProduct(ProductVO productVO, Pro_writeVO prowriteVO, Pro_detailVO prodetailVO) {
+		int re=0;
+		try {
+			conn = getConnection();
+			sql ="insert into product (code, continent, period, course, comment)"
+				+ " values (?,?,?,?,?)";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, productVO.getCode());
+			pstmt.setString(2, productVO.getContinent());
+			pstmt.setString(3, productVO.getPeriod());
+			pstmt.setString(4, productVO.getCourse());
+			pstmt.setString(5, productVO.getComment());
+			re = pstmt.executeUpdate();
+			System.out.println("sql 1 성공? re : "+re);
+			
+			sql = "insert into pro_detail (code, day, day_title, day_course, stay, meal, day_content, image, img_content)"
+				+ "values (?,?,?,?,?,?,?,?,?)";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, productVO.getCode());
+			pstmt.setString(2, prodetailVO.getDay());
+			pstmt.setString(3, prodetailVO.getDay_title());
+			pstmt.setString(4, prodetailVO.getDay_course());
+			pstmt.setString(5, prodetailVO.getStay());
+			pstmt.setString(6, prodetailVO.getMeal());
+			pstmt.setString(7, prodetailVO.getDay_content());
+			pstmt.setString(8, prodetailVO.getImage().toString());
+			pstmt.setString(9, prodetailVO.getImg_content());
+			re = pstmt.executeUpdate();
+			System.out.println("sql 2성공? re : "+re);
+			
+			sql = "insert into pro_write (code, sub_code, title, start_date, end_date, max_num, price)"
+				+ "values (?,?,?,?,?,?,?)";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, productVO.getCode());
+			pstmt.setString(2, prowriteVO.getSub_code());
+			pstmt.setString(3, prowriteVO.getTitle());
+			//pstmt.setDate(4, prowriteVO.getStart_date());
+			pstmt.setObject(4, prowriteVO.getStart_date());
+			//pstmt.setDate(5, prowriteVO.getEnd_date());
+			pstmt.setObject(5, prowriteVO.getEnd_date());
+			pstmt.setInt(6, prowriteVO.getMax_num());
+			pstmt.setInt(7, prowriteVO.getPrice());
+			re = pstmt.executeUpdate();
+			System.out.println("sql 3성공? re : "+re);
+			
+		} catch (Exception e) {
+			System.out.println("insertProduct() 오류 "+e);
+		} finally { closeDB(); }
+		
+		return re;
+		
+	}//insertProduct
+	
 	
 	
 	
