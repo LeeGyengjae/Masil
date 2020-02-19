@@ -21,7 +21,7 @@ public class Pro_detailVO {
 	private String stay;
 	private String meal;
 	private String day_content;
-	private String[] image;
+	private String image;
 	private String img_content;
 	private String img_boss;
 	
@@ -30,7 +30,7 @@ public class Pro_detailVO {
 
 	//생성자 오버로딩
 	public Pro_detailVO(String day, String day_title, String day_course, String stay, String meal,
-			String day_content, String[] image, String img_content, String img_boss) {
+			String day_content, String image, String img_content, String img_boss) {
 		super();
 		this.day = day;
 		this.day_title = day_title;
@@ -45,7 +45,7 @@ public class Pro_detailVO {
 	
 	//생성자 오버로딩
 	public Pro_detailVO(String day, String day_title, String day_course, String stay, String meal,
-			String day_content, String[] image, String img_content) {
+			String day_content, String image, String img_content) {
 		super();
 		this.day = day;
 		this.day_title = day_title;
@@ -140,11 +140,11 @@ public class Pro_detailVO {
 		this.img_boss = img_boss;
 	}
 
-	public String[] getImage() {
+	public String getImage() {
 		return image;
 	}
 
-	public void setImage(String[] image) {
+	public void setImage(String image) {
 		this.image = image;
 	}
 	

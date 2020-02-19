@@ -20,6 +20,8 @@
 		var filecnt = new Array();
 		var div = new Array();
 		var msg = "";
+		var day = next.attr('class');
+		var dayStr = Number(day.substr(10,1));
 		
 		for (i = 0; i < period; i++) {
 			filecnt[i] = $('.addImgCnt'+i).val();	
@@ -28,15 +30,13 @@
 		
 		for (i = 0; i < addImgCnt; i++) {
 			var file = filecnt[i];
-			msg += "<input type='file' name='upfile"+i+"'/><br>";
-			
-			if(filecnt[i]==div[i]){
-			}
-			
+			msg += "<input type='file' name='"+(dayStr)+"_image_"+i+"'/><br>";
+			//name : 1_image_0 과 같은 형식으로 들어감. 앞쪽 day 뒤쪽 이미지number
 		}//for
 		
+		//이미지 업로드 10장 제한
 		if(addImgCnt<=10){
-			next.html(msg);	
+			next.html(msg);
 		}else {
 			alert('이미지는 10장까지만 추가 가능');
 		}
@@ -51,28 +51,33 @@
 		
 		var msg = "";
 		
-		for (i = 0; i < period; i++) {
+		for (i = 1; i < (Number(period)+1); i++) {
 			
-			msg += "<h4>"+(i+1)+"일자</h4>"
+			msg += "<h4>"+i+" 일자</h4>"
+			+ "<input type='hidden' name='"+i+"_day' value='"+i+"day' >"
 			+ "<div class='form-group'>"
-			+ "<span>소제목</span>" 
-			+ "<input class='form-control' name='day_title"+i+"' id='day_title"+i+"' type='text' placeholder='소주제'>"
+			+ "<span>일정제목</span>" 
+			+ "<input class='form-control' name='"+i+"_day_title' id='"+i+"day_title' type='text' placeholder='일정제목'>"
+			+ "</div>"
+			+ "<div class='form-group'>"
+			+ "<span>"+i+" 일자 코스</span>" 
+			+ "<input class='form-control' name='"+i+"_day_course' id='"+i+"day_course' type='text' placeholder='일정별 코스'>"
 			+ "</div>"
 			+ "<div class='form-group'>"
 			+ "<span>숙박</span>"
-			+ "<input class='form-control valid' name='stay"+i+"' id='stay"+i+"' type='text' placeholder='숙박'>"
+			+ "<input class='form-control valid' name='"+i+"_stay' id='"+i+"stay' type='text' placeholder='숙박'>"
 			+ "</div>"
 			+ "<div class='form-group'>"
 			+ "<span>식사</span>"
-			+ "<input class='form-control valid' name='meal"+i+"' id='meal"+i+"' type='text' placeholder='식사'>"
+			+ "<input class='form-control valid' name='"+i+"_meal' id='"+i+"meal' type='text' placeholder='식사'>"
 			+ "</div>"
 			+ "<div class='form-group'>"
 			+ "<span>일정내용</span>"
-			+ "<textarea class='form-control w-100' name='day_content"+i+"' id='day_content"+i+"' cols='30' rows='9' placeholder='일정내용'></textarea>"
+			+ "<textarea class='form-control w-100' name='"+i+"_day_content' id='"+i+"day_content' cols='30' rows='9' placeholder='일정내용'></textarea>"
 			+ "</div>"
 			+ "<div class='form-group'>"
 			+ "<span>이미지 설명</span>"
-			+ "<textarea class='form-control w-100' name='img_content"+i+"' id='img_content"+i+"' cols='30' rows='9' placeholder='이미지 설명'></textarea>"
+			+ "<textarea class='form-control w-100' name='"+i+"_img_content' id='"+i+"img_content' cols='30' rows='9' placeholder='이미지 설명'></textarea>"
 			+ "</div>"
 			+ "<div class='form-group'>"
 			+ "<span>이미지</span>"

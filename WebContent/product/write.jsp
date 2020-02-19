@@ -59,8 +59,8 @@
 		
 		for (i = 0; i < addImgCnt; i++) {
 			var file = filecnt[i];
-			msg += "<input type='file' name='"+(dayStr+1)+"day_image'/><br>";
-			//name : 1day_image 과 같은 형식으로 들어감.
+			msg += "<input type='file' name='"+(dayStr)+"image_"+i+"'/><br>";
+			//name : 1image_1 과 같은 형식으로 들어감. 앞쪽 day 뒤쪽 이미지number
 		}//for
 		
 		//이미지 업로드 10장 제한
@@ -80,15 +80,16 @@
 		
 		var msg = "";
 		
-		for (i = 0; i < period; i++) {
+		for (i = 1; i < (Number(period)+1); i++) {
 			
-			msg += "<h4>"+(i+1)+" 일자</h4>"
+			msg += "<h4>"+i+" 일자</h4>"
+			+ "<input type='hidden' name='"+i+"day' value='"+i+"day' >"
 			+ "<div class='form-group'>"
 			+ "<span>일정제목</span>" 
 			+ "<input class='form-control' name='"+i+"day_title' id='"+i+"day_title' type='text' placeholder='일정제목'>"
 			+ "</div>"
 			+ "<div class='form-group'>"
-			+ "<span>"+(i+1)+" 일자 코스</span>" 
+			+ "<span>"+i+" 일자 코스</span>" 
 			+ "<input class='form-control' name='"+i+"day_course' id='"+i+"day_course' type='text' placeholder='일정별 코스'>"
 			+ "</div>"
 			+ "<div class='form-group'>"
