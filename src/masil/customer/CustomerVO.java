@@ -4,14 +4,6 @@ import java.sql.Date;
 
 public class CustomerVO {
 	
-	/*
-	 * idx : °í°´¼¾ÅÍ Å×ÀÌºí ÀÎµ¦½º ¹øÈ£
-	 * id : ÀÛ¼ºÀÚ id (User table)
-	 * write_date : ÀÛ¼ºÀÏÀÚ
-	 * title : Á¦¸ñ
-	 * content : ³»¿ë
-	 * img : ÀÌ¹ÌÁö ÆÄÀÏ ÀÌ¸§
-	 */
 	private int idx;
 	private String id;
 	private Date write_date;
@@ -19,7 +11,7 @@ public class CustomerVO {
 	private String content;
 	private String img;
 	
-	//±âº» »ı¼ºÀÚ
+	//ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public CustomerVO() {}
 	
 	//toString() Override

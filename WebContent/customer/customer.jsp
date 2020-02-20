@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
 
     
 <html class="no-js" lang="zxx">
@@ -13,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- <link rel="manifest" href="site.webmanifest"> -->
-    <link rel="shortcut icon" type="../image/x-icon" href="../img/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../img/favicon.png">
     <!-- Place favicon.ico in the root directory -->
 
     <!-- CSS here -->
@@ -31,86 +32,80 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
 
     <link rel="stylesheet" href="../css/style.css">
-	
-    <script type="text/javascript">
-    function deleteuser(){
-    	fr.submit();
-    }
-    
-    </script>
    </head>
 
 <body>
     <!-- header-start -->
     <header>
-    	<jsp:include page="/inc/header2.jsp"/>
+    	<jsp:include page="../inc/header2.jsp"/>
     </header>
     <!-- header-end -->
 
-    <!-- myPage start  -->
+    <!-- bradcam_area  -->
     <section class="container mt-3" style="max-width: 560px;">
-		<form method="post" action="${contextPath}/masil/user/updateUser.do">
-			<div class="form-group">
-				<label>아이디</label>
-				<input type="text" name="id" class="form-control" value="${userVO.id }" readonly="readonly">
-			</div>
-			<div class="form-group">
-				<label>비밀번호</label>
-				<input type="password" name="pwd" class="form-control">
-			</div>
-			<div class="form-group">
-				<label>이름</label>
-				<input type="text" name="name" class="form-control" value=${userVO.name }>
-			</div>
-			<div class="form-group">
-				<label>여권이름</label>
-				<input type="text" name="pname" class="form-control" value=${userVO.pname }>
-			</div>
-			<div class="form-group">
-				<label>여권번호</label>
-				<input type="text" name="pnum" class="form-control" value=${userVO.pnum }>
-			</div>
-			<div class="form-group">
-				<label>주민번호</label>
-				<table>
-					<td width="46%">
-						<input type="text" name="jumin1" class="form-control" maxlength="6" value=${userVO.jumin1 }>
-					</td>
-					<td width="8%">
-						<input type="text" class="form-control" value="-" readonly="readonly">
-					</td>
-					<td width="46%">
-						<input type="password" name="jumin2" class="form-control" maxlength="7" value=${userVO.jumin2 }>
-					</td>
-				</table>
-			</div>
-			<div class="form-group">
-				<label>성별</label>
-				<br>
-				<select name="gender" class="form-control">
-                    <option name="남성" selected>남성</option>
-                    <option name="여성">여성</option>
-                </select>
-                <br>
-			</div>
-			<br>
-			<button type="submit" class="btn btn-primary">정보수정</button>
-			<input type="button" class="btn btn-danger" onclick="deleteuser()" value="회원탈퇴">
-		</form>
-	    	<form method="post" action="${pageContext.request.contextPath}/user/deleteUser.do" name="fr">
-			<p class="form-group">
-				<input type="hidden" name="id" class="form-control" value="${userVO.id }" readonly="readonly">
-			</p>
-		</form>
-	</section>
-    <!--/myPage end  -->
+    	<h1>1:1문의</h1>
+							<table border="1" >
+								<tr class="thead-dark">
+									<th width="100">No.</th>
+									<th width="400">Title</th>
+									<th width="200">Writer</th>
+									<th width="200">Date</th>
+								</tr>
+							<c:forEach var="List" items="${NoticeList }" >
+								<tr>
+									<td align="center">${List.notice_num }</td>
+									<td><a href="View.Notice?Notice_num=${List.notice_num }">${List.notice_title }</a></td>
+									<td align="center">${List.notice_count }</td>
+									<td>${List.notice_date }</td>
+								</tr>
+							</c:forEach>
+							
+							</table>	
+								<ul class="pagination">
+								  <!--  페이지 넘버가 0이 아닐때   ㅁㅁㅁ 중 가운데에 현페이지 넘버  -->
+								<c:choose>
+									<c:when test="${Notice_page == 0 }"><!-- 현재페이지가 0 번일때  -->
+										<li class="page-item active"><a class="page-link" href="Board.Notice?Notice_page=${Notice_page}">${Notice_page +1}</a></li>
+										<c:choose>
+											<c:when test="${NoticeAllCount > 10 && NoticeAllCount < 21 }">
+												<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${Notice_page + 1 }">${Notice_page +2}</a></li>	
+											</c:when>
+											<c:when test="${NoticeAllCount > 20 }">
+												<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${Notice_page+ 1 }">${Notice_page +2}</a></li>
+												<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${Notice_page + 2 }">${Notice_page +3}</a></li>
+											</c:when>
+										</c:choose>
+									</c:when>
+									<c:otherwise>
+										<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${Notice_page - 1}">${Notice_page }</a></li>
+								  		<li class="page-item active"><a class="page-link" href="Board.Notice?Notice_page=${Notice_page}">${Notice_page +1}</a></li>
+								  		<c:choose>
+								  			<c:when test="${NoticeAllCount > (Notice_page+1)*10 }">
+								  				<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${Notice_page + 1 }">${Notice_page +2}</a></li>
+								  			</c:when>
+								  		</c:choose>
+									</c:otherwise>
+								</c:choose>
+								</ul>
+								
+								<c:if test="${user_id == 'admin' }">
+									<a href="writePage.Notice" class="btn btn-dark float-right btn-sm"><i class="fas fa-pen-fancy"></i>글 쓰기</a>
+								</c:if>
+							
+							
+					
+       
+
+</section>
+
+    <!--/ bradcam_area  -->
 
     
 
 
 
     <footer class="footer">
-        <jsp:include page="/inc/footer2.jsp"/>
+        <jsp:include page="../inc/footer2.jsp"/>
     </footer>
 
 

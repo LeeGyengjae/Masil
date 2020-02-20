@@ -24,7 +24,7 @@ public class MyPageAction implements Action{
 		forward=new ActionForward();
 		forward.setRedirect(false);
 
-		forward.setPath("/myPage.jsp");
+		forward.setPath("../myPage/myPage.jsp");
 		
 		return forward;
 	}
