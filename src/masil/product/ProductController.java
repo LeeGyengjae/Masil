@@ -30,8 +30,9 @@ public class ProductController extends HttpServlet {
     Pro_writeVO prowriteVO;
     
     //test
-    private static String ARTICLE_IMAGE_REPO = "F:\\product\\productImage";
+    //private static String ARTICLE_IMAGE_REPO = "F:\\product\\productImage";
     //->경로 찾을 수 없음 ㅠ
+    private static String ARTICLE_IMAGE_REPO = "C:\\board\\product";
     
 	public ProductController() {}
 	
@@ -116,38 +117,31 @@ public class ProductController extends HttpServlet {
 				String course = productMap.get("course");
 				String period = productMap.get("period");
 				String comment = productMap.get("comment");
+				
+				System.out.println("productMap.get(max_num) : "+productMap.get("max_num"));
+				
 				int max_num = Integer.parseInt(productMap.get("max_num"));
 				int price = Integer.parseInt(productMap.get("price"));
 				
 				String startDateStr = productMap.get("start_date");
 				String endDateStr = productMap.get("end_date");
 				SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
-				Date start_date = (Date) dateformat.parse(startDateStr);
-				Date end_date = (Date) dateformat.parse(endDateStr);
+				//Date start_date = (Date) dateformat.parse(startDateStr);
+				//Date end_date = (Date) dateformat.parse(endDateStr);
 				//->java.util.Date cannot be cast to java.sql.Date
 				
+				Date start_date = new Date(dateformat.parse(startDateStr).getTime());
 				
-				
-				productVO = new ProductVO(code, continent, period, course, comment); 
-				prowriteVO = new Pro_writeVO(sub_code, title, start_date, end_date, max_num, price);
-				
-				int period2 = Integer.parseInt(period);
-				for(int i=0; i<period2; i++){
-					Map productMap2 = upload(request, response);
-					String day_title = (String) productMap2.get(i+"day_title");
-					String day_course = (String) productMap2.get(i+"day_course");
-					String stay = (String) productMap2.get(i+"stay");
-					String meal = (String) productMap2.get(i+"meal");
-					String day_content = (String) productMap2.get(i+"day_content");
-					String img_content = (String) productMap2.get(i+"img_content");
-					String[] image = (String[]) productMap2.get(i+"day_image");
-					String day = day_title.substring(1,1);
-					prodetailVO = new Pro_detailVO(day, day_title, day_course, stay, meal, day_content, image, img_content);
-				}
+				//productVO = new ProductVO(code, continent, period, course, comment); 
+				//prowriteVO = new Pro_writeVO(sub_code, title, startDateStr, endDateStr, max_num, price);
 				
 				//VO전달
-				productService.insertProduct(productVO,prowriteVO,prodetailVO);
+				//productService.insertProduct(productVO,prowriteVO,prodetailVO);
+				
+				productService.insertProduct(productMap);
+				
 				System.out.println("Controller 된거 같음?");
+				
 				String imageFileName = code+"_"+sub_code;
 				if(imageFileName != null && imageFileName.length() != 0){
 					File srcFile = new File(ARTICLE_IMAGE_REPO + "\\" + "temp" + "\\" + imageFileName);
