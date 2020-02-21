@@ -1,7 +1,5 @@
 package masil.user;
 
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -32,14 +30,8 @@ public class UserJoinAction implements Action{
 		UserDAO userDAO = new UserDAO();
 		 
 		result = userDAO.insertUser(userVO);
+		 
 		if(result=false){
-			response.setContentType("text/html; charset=UTF-8");
-			PrintWriter out=response.getWriter();
-			out.println("<script>");
-			out.println("alert('회원가입에 실패 하셨습니다');");
-			out.println("location.href='./Main.do';");
-			out.println("</script>");
-			out.close();
 			return null;
 		}
 		

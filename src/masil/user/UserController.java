@@ -59,15 +59,13 @@ public class UserController extends HttpServlet {
 			
 			
 		}else if(command.equals("/addUser.do")){
+			
 			action = new UserJoinAction();
 			try {
 				forward=action.execute(request, response);
 			} catch (Exception e) {
 				System.out.println("/addUser.do 에러 : "+e);
 			}
-			
-			
-			
 			
 		}else if(command.equals("/myPage.do")){	
 			
@@ -79,11 +77,15 @@ public class UserController extends HttpServlet {
 				System.out.println("/myPage.do 에러 : "+e);
 			}
 		
+		}else if(command.equals("/updateUserPageAction.do")){	
 			
+			action = new UpdateUserPageAction();
 			
-			
-			
-			
+			try {
+				forward=action.execute(request, response);
+			} catch (Exception e) {
+				System.out.println("/updateUserPageAction.do 에러 : "+e);
+			}
 		
 		}else if(command.equals("/logout.do")){
 			action=new UserLogoutAction();
@@ -94,10 +96,6 @@ public class UserController extends HttpServlet {
 				e.printStackTrace();
 			}
 			
-			
-			
-			
-			
 		}else if(command.equals("/updateUser.do")){
 			action = new UpdateUserAction();
 			try {
@@ -106,11 +104,25 @@ public class UserController extends HttpServlet {
 				System.out.println("/updateUser.do 에러 : "+e);
 			}
 			
-			
-			
-			
 		}else if(command.equals("/deleteUser.do")){
 			action = new DeleteUserAction();
+			try {
+				forward=action.execute(request, response);
+			} catch (Exception e) {
+				System.out.println("/deleteUser.do 에러 : "+e);
+			}
+			
+		}else if(command.equals("/userList.do")){
+			action = new UserListAction();
+			try {
+				forward=action.execute(request, response);
+			} catch (Exception e) {
+				System.out.println("/updateUser.do 에러 : "+e);
+			}
+			
+			// 리뷰페이지 연동시 작업!!
+		}else if(command.equals("/reviewPageAction.do")){
+			action = new ReviewPageAction();
 			try {
 				forward=action.execute(request, response);
 			} catch (Exception e) {

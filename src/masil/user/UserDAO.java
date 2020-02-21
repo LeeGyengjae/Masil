@@ -1,9 +1,12 @@
 package masil.user;
 
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -158,7 +161,7 @@ public class UserDAO {
 		return result;
 		
 	}//searchingID() 끝
-	
+
 	public boolean updateUser(UserVO userVO) {
 		String sql = "";
 		int result = 0;
@@ -186,7 +189,7 @@ public class UserDAO {
 		}
 		return false;
 	}//updateUser() 끝
-	
+
 	public boolean deleteUser(UserVO userVO) {
 		String sql = "";
 		int result = 0;
@@ -206,7 +209,37 @@ public class UserDAO {
 			allClose();
 		}
 		return false;
-	}//deleteUser() 끝
+	}
 	
+	public List listUser(){
+		List userList = new ArrayList();
+		String sql = "";
+		try{
+			getConnection();
+			
+			sql = "select * from masil.user where id != 'master'";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				String id = rs.getString("id");
+				String pwd = rs.getString("pwd");
+				String name = rs.getString("name");
+				String jumin1 = rs.getString("jumin1");
+				String jumin2 = rs.getString("jumin2");		
+				
+				UserVO userVO = new UserVO(id,pwd, name, jumin1, jumin2) ;
+				
+				userList.add(userVO);
+			}
+			rs.close();
+			pstmt.close();
+			con.close();
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return userList;
+	}
 	
 }//UserDAO() 끝

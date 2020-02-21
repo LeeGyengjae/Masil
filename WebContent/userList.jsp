@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     isELIgnored="false" %>
-
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     
 <html class="no-js" lang="zxx">
 
@@ -31,6 +32,13 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
 
     <link rel="stylesheet" href="../css/style.css">
+    <style>
+    	.cls1 {
+    		font-size:40px;
+    		text-align:center;
+    	}
+    </style>
+    
    </head>
 
 <body>
@@ -39,29 +47,41 @@
     	<jsp:include page="/inc/header2.jsp"/>
     </header>
     <!-- header-end -->
-    
+
+	<section class="container mt-3 mb-3" style="max-width: 560px;">
+		<p class="cls1 mt-3 mb-3">회원정보</p>
+		<table class="container mt-3 mb-3">
+			<tr align="center" bgcolor="skyblue">
+				<td width="7%"><b>아이디</b></td>
+				<td width="7%"><b>비밀번호</b></td>
+				<td width="7%"><b>이름</b></td>
+				<td width="15%" colspan=3><b>주민번호</b></td>
+			</tr>
+			
+			<c:choose>
+				<c:when test="${userList == null }">
+					<tr>
+						<td colspan=6>
+							<b>등록된 회원이 없습니다.</b>
+						</td>
+					</tr>
+				</c:when>
+				<c:when test="${userList != null }">
+					<c:forEach var="user" items="${userList }">	
+						<tr align="center">
+							<td>${user.id }</td>
+							<td>${user.pwd }</td>
+							<td>${user.name }</td>
+							<td>${user.jumin1 }</td>
+							<td>-</td>
+							<td>${user.jumin2 }</td>
+						</tr>
+					</c:forEach>	
+				</c:when>
+			</c:choose>
+		</table>
 	
-     <section class="container  mt-3 mb-3" style="max-width: 560px;">
-     	<div class="row align-items-center">
-          <div class="col-xl-12 col-md-12">
-          	<div class="slider_text text-center">
-                <h3>${userVO.name}님!</h3>
-		     	<table align="center">
-		     		<tr class="mt-3 mb-3">
-		     			<form method="post"  class="mt-3 mb-3" action="${contextPath}/masil/user/updateUserPageAction.do">
-		     				<td class="mt-3 mb-3"><button class="mt-1 mb-1 btn btn-primary" type="submit">정보수정</button></td>
-		     			</form>
-		     		</tr>
-		     		<tr class="mt-3 mb-3">
-		     			<form method="post"  class="mt-3 mb-3" action="${contextPath}/masil/user/reviewPageAction.do">
-		     				<td class="mt-3 mb-3"><button class="mt-1 mb-1 btn btn-primary" type="submit">리뷰관리</button></td>
-		     			</form>
-		     		</tr>
-		     	</table>
-		     </div>	
-     	  </div>	
-     	</div>
-     </section>
+	</section>
     
 
 

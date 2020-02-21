@@ -12,7 +12,13 @@ public class UserVO {
 	private String gender;
 	
 	public UserVO() {}
-	
+	public UserVO(String id,String pwd,String name,String jumin1,String jumin2) {
+		this.id = id;
+		this.pwd = pwd;
+		this.name = name;
+		this.jumin1 = jumin1;
+		this.jumin2 = jumin2;
+	}
 	//toString() Override
 	@Override
 	public String toString() {
@@ -20,6 +26,7 @@ public class UserVO {
 				+", name: "+name+", pname: "+pname+", pnum: "+pnum
 				+", jumin1: "+jumin1+", jumin2: "+jumin2+", gender: "+gender+"]";
 	}//toString() Override
+	
 	
 	/* getter & setter */
 	public String getId() {
@@ -58,15 +65,12 @@ public class UserVO {
 	public void setJumin1(String jumin1) {
 		this.jumin1 = jumin1;
 	}
-	
 	public String getJumin2() {
 		return jumin2;
 	}
-
 	public void setJumin2(String jumin2) {
 		this.jumin2 = jumin2;
 	}
-
 	public String getGender() {
 		return gender;
 	}
