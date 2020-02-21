@@ -1,12 +1,13 @@
 package masil.user;
 
 import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class MyPageAction implements Action{
+public class UserListAction implements Action{
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) 
@@ -15,16 +16,16 @@ public class MyPageAction implements Action{
 		String id = (String)request.getSession().getAttribute("id");
 		
 		UserDAO userDAO = new UserDAO();
-		UserVO userVO = userDAO.getUser(id);
+		List userList = userDAO.listUser();
 		
-		request.setAttribute("userVO",userVO );
+		request.setAttribute("userList", userList );
 		
 		ActionForward forward = null;
 			
 		forward=new ActionForward();
 		forward.setRedirect(false);
 
-		forward.setPath("/myPage.jsp");
+		forward.setPath("/userList.jsp");
 		
 		return forward;
 	}

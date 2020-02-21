@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-public class MyPageAction implements Action{
+public class UpdateUserPageAction implements Action{
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) 
@@ -24,7 +24,7 @@ public class MyPageAction implements Action{
 		forward=new ActionForward();
 		forward.setRedirect(false);
 
-		forward.setPath("/myPage.jsp");
+		forward.setPath("/updateUser.jsp");
 		
 		return forward;
 	}

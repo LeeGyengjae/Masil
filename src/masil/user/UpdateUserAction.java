@@ -1,7 +1,5 @@
 package masil.user;
 
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -40,14 +38,6 @@ public class UpdateUserAction implements Action{
 		ActionForward forward=new ActionForward();
 		forward.setRedirect(true);
 		forward.setPath("/masil/index.jsp");
-		
-		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter out=response.getWriter();
-		out.println("<script>");
-		out.println("alert('정보수정이 완료되었습니다');");
-		out.println("location.href='./Main.do';");
-		out.println("</script>");
-		out.close();
 		
 		return forward;
 		
