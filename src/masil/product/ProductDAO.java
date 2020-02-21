@@ -203,7 +203,7 @@ public class ProductDAO {
 //		
 //	}//insertProduct
 	
-	public int insertProduct(Map<String, String> productMap, Pro_detailVO detailVO) {
+	public int insertProduct(Map productMap, Pro_detailVO detailVO) {
 		int re=0;
 		try {
 			conn = getConnection();
@@ -216,7 +216,7 @@ public class ProductDAO {
 			pstmt.setString(4, productMap.get("course").toString());
 			pstmt.setString(5, productMap.get("comment").toString());
 			re = pstmt.executeUpdate();
-			System.out.println("sql 1 성공? re : "+re);
+			System.out.println("sql 1 성공 re : "+re);
 			
 			sql = "insert into pro_detail (code, day, day_title, day_course, stay, meal, day_content, image, img_content)"
 				+ "values (?,?,?,?,?,?,?,?,?)";
@@ -231,7 +231,7 @@ public class ProductDAO {
 			pstmt.setString(8, detailVO.getImage().toString());
 			pstmt.setString(9, detailVO.getImg_content());
 			re = pstmt.executeUpdate();
-			System.out.println("sql 2성공? re : "+re);
+			System.out.println("sql 2성공 re : "+re);
 			
 			sql = "insert into pro_write (code, sub_code, title, start_date, end_date, max_num, price)"
 				+ "values (?,?,?,?,?,?,?)";
@@ -250,7 +250,7 @@ public class ProductDAO {
 			pstmt.setString(6, productMap.get("max_num").toString());
 			pstmt.setString(7, productMap.get("price").toString());
 			re = pstmt.executeUpdate();
-			System.out.println("sql 3성공? re : "+re);
+			System.out.println("sql 3성공 re : "+re);
 			
 		} catch (Exception e) {
 			System.out.println("insertProduct() 오류 "+e);

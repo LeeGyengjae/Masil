@@ -120,8 +120,19 @@
 		div.html(msg);
 	}//periodSet()
 	
+	//업로드 파일 검사
+	function fileCheck(){
+		var file = frm.upfile.value;
+		var fileExt = file.substring(file.lastIndexOf('.')+1); 
+		if(!file){
+			frm.submit();
+		}else if(!(fileExt.toUpperCase()=="TXT"||fileExt.toUpperCase()=="PNG"||fileExt.toUpperCase()=="JPG" ) ){
+			alert("TXT, JPG, PNG 파일만 업로드 가능");
+	        return false;     
+		}
+		 frm.submit();
+	}//업로드 파일 검사
 	
-
 
 </script>
 </head>
@@ -161,7 +172,7 @@
                         <h2 class="contact-title">새상품 업로드</h2>
                     </div>
                     <div class="col-lg-8">
-                        <form class="form-contact contact_form" action="${contextPath}/masil/product1/addProduct.do" 
+                        <form class="form-contact contact_form" action="${contextPath}/product1/addProduct.do" 
                         method="post" id="contactForm" enctype="multipart/form-data" name="writeForm" > 
                         	  
                             <div class="row">
@@ -258,7 +269,9 @@
                                 </div>
                             
                             <div class="form-group mt-3">
-                                <input type="submit" class="button button-contactForm boxed-btn" value="상품등록">
+                                <input type="submit" class="button button-contactForm boxed-btn" onclick="fileCheck(this.writeForm)" value="상품등록">
+                                <input type="reset" value="다시쓰기" class="button button-contactForm boxed-btn">
+                                <input type="button" value="상품목록" class="button button-contactForm boxed-btn" onclick="location.href='${contextPath}/product1/product.do'">
                             </div>
                         </form>
 					</div>

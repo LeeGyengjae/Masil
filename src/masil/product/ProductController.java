@@ -4,21 +4,25 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileUtils;
+
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 
 @WebServlet("/product1/*")
@@ -112,25 +116,25 @@ public class ProductController extends HttpServlet {
 				
 				String code = productMap.get("code");
 				String sub_code = productMap.get("sub_code");
-				String title = productMap.get("title");
-				String continent = productMap.get("continent");
-				String course = productMap.get("course");
-				String period = productMap.get("period");
-				String comment = productMap.get("comment");
-				
-				System.out.println("productMap.get(max_num) : "+productMap.get("max_num"));
-				
-				int max_num = Integer.parseInt(productMap.get("max_num"));
-				int price = Integer.parseInt(productMap.get("price"));
-				
-				String startDateStr = productMap.get("start_date");
-				String endDateStr = productMap.get("end_date");
-				SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
-				//Date start_date = (Date) dateformat.parse(startDateStr);
-				//Date end_date = (Date) dateformat.parse(endDateStr);
-				//->java.util.Date cannot be cast to java.sql.Date
-				
-				Date start_date = new Date(dateformat.parse(startDateStr).getTime());
+//				String title = productMap.get("title");
+//				String continent = productMap.get("continent");
+//				String course = productMap.get("course");
+//				String period = productMap.get("period");
+//				String comment = productMap.get("comment");
+//				
+//				System.out.println("productMap.get(max_num) : "+productMap.get("max_num"));
+//				
+//				int max_num = Integer.parseInt(productMap.get("max_num"));
+//				int price = Integer.parseInt(productMap.get("price"));
+//				
+//				String startDateStr = productMap.get("start_date");
+//				String endDateStr = productMap.get("end_date");
+//				SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
+//				//Date start_date = (Date) dateformat.parse(startDateStr);
+//				//Date end_date = (Date) dateformat.parse(endDateStr);
+//				//->java.util.Date cannot be cast to java.sql.Date
+//				
+//				Date start_date = new Date(dateformat.parse(startDateStr).getTime());
 				
 				//productVO = new ProductVO(code, continent, period, course, comment); 
 				//prowriteVO = new Pro_writeVO(sub_code, title, startDateStr, endDateStr, max_num, price);
@@ -142,13 +146,13 @@ public class ProductController extends HttpServlet {
 				
 				System.out.println("Controller 된거 같음?");
 				
-				String imageFileName = code+"_"+sub_code;
-				if(imageFileName != null && imageFileName.length() != 0){
-					File srcFile = new File(ARTICLE_IMAGE_REPO + "\\" + "temp" + "\\" + imageFileName);
-					File destDir = new File(ARTICLE_IMAGE_REPO + "\\" + imageFileName);
-					destDir.mkdirs();
-					FileUtils.moveFileToDirectory(srcFile, destDir, true);
-				}
+//				String imageFileName = code+"_"+sub_code;
+//				if(imageFileName != null && imageFileName.length() != 0){
+//					File srcFile = new File(ARTICLE_IMAGE_REPO + "\\" + "temp" + "\\" + imageFileName);
+//					File destDir = new File(ARTICLE_IMAGE_REPO + "\\" + imageFileName);
+//					destDir.mkdirs();
+//					FileUtils.moveFileToDirectory(srcFile, destDir, true);
+//				}
 				
 				nextPage = "/product1/blog.do?code="+code+"sub_code="+sub_code;
 			}
@@ -170,42 +174,41 @@ public class ProductController extends HttpServlet {
 		
 		Map<String, String> productMap = new HashMap<String, String>();
 		String encoding = "utf-8";
+
+		//File currentDirPath = new File(ARTICLE_IMAGE_REPO);
 		
-		File currentDirPath = new File(ARTICLE_IMAGE_REPO);
-		DiskFileItemFactory factory = new DiskFileItemFactory();
-		factory.setSizeThreshold(1024*1024*1);
-		factory.setRepository(currentDirPath);
-		
-		ServletFileUpload upload = new ServletFileUpload(factory);
+		//String realPath = application.getRealPath("/upload");
+		//String realPath = request.getServletContext().getInitParameter("/product/upload");
+		String realPath = request.getServletContext().getRealPath("/product/upload");
+		System.out.println("realPath : "+realPath);
+		String filename="";
+		int maxSize = 1024 * 1024 * 5;
 		
 		try {
-			List items =  upload.parseRequest(request);
+			MultipartRequest multi = new MultipartRequest(request, realPath, maxSize, "utf-8", new DefaultFileRenamePolicy());
 			
-			for(int i=0; i<items.size(); i++){
-				FileItem fileItem = (FileItem) items.get(i);
-				
-				if(fileItem.isFormField()){
-					System.out.println(fileItem.getFieldName()+ "=" + fileItem.getString(encoding));
-					productMap.put(fileItem.getFieldName(), fileItem.getString(encoding));
-					
-				}else {
-					System.out.println("파라미터명 : "+fileItem.getFieldName());
-					System.out.println("업로드할 파일명 : "+fileItem.getName());
-					System.out.println("업로드할 파일크기 : "+fileItem.getSize()+" bytes");
-					
-					productMap.put(fileItem.getFieldName(), fileItem.getName());
-					
-					if(fileItem.getSize()>0){
-						int idx = fileItem.getName().lastIndexOf("\\");
-						if(idx == -1){
-							idx= fileItem.getName().lastIndexOf("/"); //-1얻기
-						}
-						String fileName = fileItem.getName().substring(idx+1);
-						File uploadFile = new File(currentDirPath+"\\temp\\"+fileName);
-						fileItem.write(uploadFile);
-					}
-				}//main if else
-			}//for
+			//List items = multi.getParameterNames();
+			//System.out.println("multi.getParameterNames().nextElement() : "+multi.getParameterNames().nextElement());
+			
+			Enumeration paramNames = multi.getParameterNames();
+			
+			//파라미터가 있는 동안 반복
+			while(paramNames.hasMoreElements()){
+				String keyname = (String) paramNames.nextElement();
+				String[] values = multi.getParameterValues(keyname);
+				for (String value : values) {
+					System.out.println("keyname : " + keyname + "\t\tvalue : " + value);
+					productMap.put(keyname, value);
+				} //for String value : values
+			}//while
+			
+			System.out.println("TEST *** productMap : "+productMap);
+			
+			//업로드된 파일 이름
+			Enumeration imgfile=multi.getFileNames();
+			String file = (String) imgfile.nextElement();
+			filename=multi.getFilesystemName(file);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
