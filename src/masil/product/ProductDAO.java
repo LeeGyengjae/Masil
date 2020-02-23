@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -203,7 +204,7 @@ public class ProductDAO {
 //		
 //	}//insertProduct
 	
-	public int insertProduct(Map productMap, Pro_detailVO detailVO) {
+	public int insertProduct(Map productMap) {
 		int re=0;
 		try {
 			conn = getConnection();
@@ -221,33 +222,60 @@ public class ProductDAO {
 			sql = "insert into pro_detail (code, day, day_title, day_course, stay, meal, day_content, image, img_content)"
 				+ "values (?,?,?,?,?,?,?,?,?)";
 			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, detailVO.getCode());
-			pstmt.setString(2, detailVO.getDay());
-			pstmt.setString(3, detailVO.getDay_title());
-			pstmt.setString(4, detailVO.getDay_course());
-			pstmt.setString(5, detailVO.getStay());
-			pstmt.setString(6, detailVO.getMeal());
-			pstmt.setString(7, detailVO.getDay_content());
-			pstmt.setString(8, detailVO.getImage().toString());
-			pstmt.setString(9, detailVO.getImg_content());
-			re = pstmt.executeUpdate();
+			
+			Iterator<String> keys = productMap.keySet().iterator();
+			for ( int i=0; i<productMap.size(); i++ ) {
+			    String key = keys.next();
+				if(productMap.get(key) instanceof String[]){
+			    	String[] day = (String[]) productMap.get("day");
+			    	String[] day_title = (String[]) productMap.get("dayTitle");
+			    	String[] day_course = (String[]) productMap.get("dayCourse");
+			    	String[] stay = (String[]) productMap.get("stay");
+			    	String[] meal = (String[]) productMap.get("meal");
+			    	String[] day_content = (String[]) productMap.get("dayContent");
+			    	String[] image = (String[]) productMap.get("image");
+			    	String[] imgContent = (String[]) productMap.get("imgContent");
+			    	
+			    	for(int j=0; j<day.length; j++){
+			    		System.out.println("day : "+day[j]);
+			    		System.out.println("day_title : "+day_title[j]);
+			    		System.out.println("day_course : "+day_course[j]);
+			    		System.out.println("stay : "+stay[j]);
+			    		System.out.println("meal : "+meal[j]);
+			    		System.out.println("day_content : "+day_content[j]);
+			    		System.out.println("image : "+image[j]);
+			    		System.out.println("imgContent : "+imgContent[j]);
+			    		pstmt.setString(1, productMap.get("code").toString());
+			    		pstmt.setString(2, day[j]);
+			    		pstmt.setString(3, day_title[j]);
+			    		pstmt.setString(4, day_course[j]);
+			    		pstmt.setString(5, stay[j]);
+			    		pstmt.setString(6, meal[j]);
+			    		pstmt.setString(7, day_content[j]);
+			    		pstmt.setString(8, image[j]);
+			    		pstmt.setString(9, imgContent[j]);
+			    		re = pstmt.executeUpdate();
+			    	}
+			    }
+			}//for
+			
 			System.out.println("sql 2성공 re : "+re);
 			
 			sql = "insert into pro_write (code, sub_code, title, start_date, end_date, max_num, price)"
 				+ "values (?,?,?,?,?,?,?)";
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, productMap.get("code").toString());
-			pstmt.setString(2, productMap.get("sub_code").toString());
+			pstmt.setString(2, productMap.get("subCode").toString());
 			pstmt.setString(3, productMap.get("title").toString());
 //			pstmt.setDate(4, prowriteVO.getStart_date());
 //			pstmt.setDate(5, prowriteVO.getEnd_date());
 			
 			//pstmt.setDate(4, java.sql.Date.valueOf(productMap.getStart_date()));
 			//pstmt.setDate(5, java.sql.Date.valueOf(productMap.getEnd_date()));
-			pstmt.setString(4, productMap.get("start_date").toString());
-			pstmt.setString(5, productMap.get("end_date").toString());
+			pstmt.setString(4, productMap.get("startDate").toString());
+			pstmt.setString(5, productMap.get("endDate").toString());
 			
-			pstmt.setString(6, productMap.get("max_num").toString());
+			pstmt.setString(6, productMap.get("maxNum").toString());
 			pstmt.setString(7, productMap.get("price").toString());
 			re = pstmt.executeUpdate();
 			System.out.println("sql 3성공 re : "+re);

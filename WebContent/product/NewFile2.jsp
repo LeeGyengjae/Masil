@@ -30,10 +30,8 @@
 		
 		for (i = 0; i < addImgCnt; i++) {
 			var file = filecnt[i];
+			msg += "<input type='file' name='"+(dayStr)+"_image_"+i+"'/><br>";
 			//name : 1_image_0 과 같은 형식으로 들어감. 앞쪽 day 뒤쪽 이미지number
-			//msg += "<input type='file' name='"+(dayStr)+"_image_"+i+"'/><br>";
-			msg += "<input type='file' name='image'/><br>";
-			
 		}//for
 		
 		//이미지 업로드 10장 제한
@@ -56,30 +54,30 @@
 		for (i = 1; i < (Number(period)+1); i++) {
 			
 			msg += "<h4>"+i+" 일자</h4>"
-			+ "<input type='hidden' name='day' value='"+i+"day' >"
+			+ "<input type='hidden' name='"+i+"_day' value='"+i+"day' >"
 			+ "<div class='form-group'>"
 			+ "<span>일정제목</span>" 
-			+ "<input class='form-control' name='dayTitle' id='"+i+"dayTitle' type='text' placeholder='일정제목'>"
+			+ "<input class='form-control' name='"+i+"_dayTitle' id='"+i+"dayTitle' type='text' placeholder='일정제목'>"
 			+ "</div>"
 			+ "<div class='form-group'>"
 			+ "<span>"+i+" 일자 코스</span>" 
-			+ "<input class='form-control' name='dayCourse' id='"+i+"dayCourse' type='text' placeholder='일정별 코스'>"
+			+ "<input class='form-control' name='"+i+"_dayCourse' id='"+i+"dayCourse' type='text' placeholder='일정별 코스'>"
 			+ "</div>"
 			+ "<div class='form-group'>"
 			+ "<span>숙박</span>"
-			+ "<input class='form-control valid' name='stay' id='"+i+"stay' type='text' placeholder='숙박'>"
+			+ "<input class='form-control valid' name='"+i+"_stay' id='"+i+"stay' type='text' placeholder='숙박'>"
 			+ "</div>"
 			+ "<div class='form-group'>"
 			+ "<span>식사</span>"
-			+ "<input class='form-control valid' name='meal' id='"+i+"meal' type='text' placeholder='식사'>"
+			+ "<input class='form-control valid' name='"+i+"_meal' id='"+i+"meal' type='text' placeholder='식사'>"
 			+ "</div>"
 			+ "<div class='form-group'>"
 			+ "<span>일정내용</span>"
-			+ "<textarea class='form-control w-100' name='dayContent' id='"+i+"dayContent' cols='30' rows='9' placeholder='일정내용'></textarea>"
+			+ "<textarea class='form-control w-100' name='"+i+"_dayContent' id='"+i+"dayContent' cols='30' rows='9' placeholder='일정내용'></textarea>"
 			+ "</div>"
 			+ "<div class='form-group'>"
 			+ "<span>이미지 설명</span>"
-			+ "<textarea class='form-control w-100' name='imgContent' id='"+i+"imgContent' cols='30' rows='9' placeholder='이미지 설명'></textarea>"
+			+ "<textarea class='form-control w-100' name='"+i+"_imgContent' id='"+i+"imgContent' cols='30' rows='9' placeholder='이미지 설명'></textarea>"
 			+ "</div>"
 			+ "<div class='form-group'>"
 			+ "<span>이미지</span>"
