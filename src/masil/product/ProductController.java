@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
 
+import com.oreilly.servlet.MultipartFilter;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
@@ -112,39 +113,14 @@ public class ProductController extends HttpServlet {
 			else if(action.equals("/addProduct.do")){
 				System.out.println("controller if안으로 넘어옴");
 				
-				Map<String, String> productMap = upload(request, response);
+				Map<String, Object> productMap = upload(request, response);
 				
-				String code = productMap.get("code");
-				String sub_code = productMap.get("sub_code");
-//				String title = productMap.get("title");
-//				String continent = productMap.get("continent");
-//				String course = productMap.get("course");
-//				String period = productMap.get("period");
-//				String comment = productMap.get("comment");
-//				
-//				System.out.println("productMap.get(max_num) : "+productMap.get("max_num"));
-//				
-//				int max_num = Integer.parseInt(productMap.get("max_num"));
-//				int price = Integer.parseInt(productMap.get("price"));
-//				
-//				String startDateStr = productMap.get("start_date");
-//				String endDateStr = productMap.get("end_date");
-//				SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
-//				//Date start_date = (Date) dateformat.parse(startDateStr);
-//				//Date end_date = (Date) dateformat.parse(endDateStr);
-//				//->java.util.Date cannot be cast to java.sql.Date
-//				
-//				Date start_date = new Date(dateformat.parse(startDateStr).getTime());
-				
-				//productVO = new ProductVO(code, continent, period, course, comment); 
-				//prowriteVO = new Pro_writeVO(sub_code, title, startDateStr, endDateStr, max_num, price);
-				
-				//VO전달
-				//productService.insertProduct(productVO,prowriteVO,prodetailVO);
+				String code = productMap.get("code").toString();
+				String sub_code = productMap.get("subCode").toString();
 				
 				productService.insertProduct(productMap);
 				
-				System.out.println("Controller 된거 같음?");
+				System.out.println("Controller 됨");
 				
 //				String imageFileName = code+"_"+sub_code;
 //				if(imageFileName != null && imageFileName.length() != 0){
@@ -154,7 +130,9 @@ public class ProductController extends HttpServlet {
 //					FileUtils.moveFileToDirectory(srcFile, destDir, true);
 //				}
 				
+				//페이지 이동 안됨 ㅠ
 				nextPage = "/product1/blog.do?code="+code+"sub_code="+sub_code;
+				
 			}
 			
 			RequestDispatcher dispatche = request.getRequestDispatcher(nextPage);
@@ -169,10 +147,10 @@ public class ProductController extends HttpServlet {
 	}//doHandle()
 
 	//파일 업로드 처리를 위한 upload메소드
-	private Map<String, String> upload(HttpServletRequest request, HttpServletResponse response) 
+	private Map<String, Object> upload(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException,IOException{
 		
-		Map<String, String> productMap = new HashMap<String, String>();
+		Map<String, Object> productMap = new HashMap<String, Object>();
 		String encoding = "utf-8";
 
 		//File currentDirPath = new File(ARTICLE_IMAGE_REPO);
@@ -182,7 +160,7 @@ public class ProductController extends HttpServlet {
 		String realPath = request.getServletContext().getRealPath("/product/upload");
 		System.out.println("realPath : "+realPath);
 		String filename="";
-		int maxSize = 1024 * 1024 * 5;
+		int maxSize = 1024 * 1024 * 10;
 		
 		try {
 			MultipartRequest multi = new MultipartRequest(request, realPath, maxSize, "utf-8", new DefaultFileRenamePolicy());
@@ -196,18 +174,71 @@ public class ProductController extends HttpServlet {
 			while(paramNames.hasMoreElements()){
 				String keyname = (String) paramNames.nextElement();
 				String[] values = multi.getParameterValues(keyname);
-				for (String value : values) {
-					System.out.println("keyname : " + keyname + "\t\tvalue : " + value);
-					productMap.put(keyname, value);
-				} //for String value : values
+				
+				if(values.length>1){
+//					if (values instanceof String[]) {
+//						for (String value : values) {
+//							System.out.println("keyname : " + keyname + "\t\tvalue : " + value);
+//							productMap.put(keyname, value);
+//						} //for String value : values
+//						productMap.put(keyname, values);
+//					}
+					productMap.put(keyname, values);
+				}else {
+					productMap.put(keyname, values[0]);
+				}//if(values.length>1)
+				
 			}//while
-			
-			System.out.println("TEST *** productMap : "+productMap);
 			
 			//업로드된 파일 이름
 			Enumeration imgfile=multi.getFileNames();
-			String file = (String) imgfile.nextElement();
-			filename=multi.getFilesystemName(file);
+//			String file = (String) imgfile.nextElement();
+//			filename=multi.getFilesystemName(file);
+			
+//			List<String> fileList = new ArrayList<String>();
+			Map<String, String> fileList = new HashMap<String, String>();
+			
+//			System.out.println("imgfile.getClass() : " + (imgfile.getClass()));
+//			System.out.println("imgfile.nextElement().getClass() : " + (imgfile.nextElement().getClass()));	//String
+			System.out.println("imgfile.hasMoreElements() : "+imgfile.hasMoreElements());
+			
+			while(imgfile.hasMoreElements()){
+				String file = (String) imgfile.nextElement();
+				System.out.println("file    : "+file);
+				
+				filename=multi.getFilesystemName(file);
+				System.out.println("file : "+file+"\t\tfilename : "+filename);
+				
+				int idx1 = file.indexOf("_");
+				int idx2 = file.lastIndexOf("_");
+				int daynum = Integer.parseInt(file.substring(0,idx1)); //list index number로 사용
+
+				String tmp = file.substring(0,idx2);
+				
+			    //tmp를 key로하는 값이 있다면
+			    if(fileList.get(tmp)!=null){
+//			    	System.out.println("기존 fileList Value : "+fileList.get(tmp));
+			    	String tempValue = filename+","+fileList.get(tmp);
+			    	
+			    	fileList.put(tmp,tempValue);
+//			    	System.out.println("새 fileList Value  : "+fileList.get(tmp));
+			    }
+			    //tmp를 key로하는 값이 없다면
+			    else {
+			    	fileList.put(tmp,filename);
+//			    	System.out.println("새 fileList Value1  : "+fileList.get(tmp));
+			    }//else
+				
+				
+			}//while(imgfile.hasMoreElements())
+			
+//			System.out.println("file List : "+fileList);
+			productMap.put("image", fileList);
+			
+			System.out.println("TEST *** productMap : "+productMap);
+			//System.out.println("productMap.get(image).getClass : "+ productMap.get("image").getClass());	//HashMap
+			//System.out.println("productMap.get(code).getClass : "+ productMap.get("code").getClass());	//String
+			//System.out.println("productMap.get(day).getClass : "+ productMap.get("day").getClass());	//String[]
 			
 		} catch (Exception e) {
 			e.printStackTrace();

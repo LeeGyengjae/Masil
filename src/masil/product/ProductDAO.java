@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -64,14 +65,6 @@ public class ProductDAO {
 			pstmt=conn.prepareStatement(sql);
 			rs=pstmt.executeQuery();
 			while(rs.next()){
-				/* VO에 담기 -> VO클래스 만들어야함.
-				Product_joinVO productjoinVO = new Product_joinVO();
-				productjoinVO.setPrice(rs.getString("price"));
-				productjoinVO.setImage(rs.getString("image"));
-				productjoinVO.setTitle(rs.getString("title"));
-				productjoinVO.setComment(rs.getString("comment"));
-				productjoinVO.setPeriod(rs.getString("period"));
-				*/
 				//Map에 담기
 				Map<String, String> proJoinRe = new HashMap<String,String>();
 				proJoinRe.put("code", rs.getString("code"));			
@@ -147,63 +140,9 @@ public class ProductDAO {
 		return productDetail;
 	}//selectProduct()
 
-//	public int insertProduct(ProductVO productVO, Pro_writeVO prowriteVO, Pro_detailVO prodetailVO) {
-//		int re=0;
-//		try {
-//			conn = getConnection();
-//			sql ="insert into product (code, continent, period, course, comment)"
-//				+ " values (?,?,?,?,?)";
-//			pstmt=conn.prepareStatement(sql);
-//			pstmt.setString(1, productVO.getCode());
-//			pstmt.setString(2, productVO.getContinent());
-//			pstmt.setString(3, productVO.getPeriod());
-//			pstmt.setString(4, productVO.getCourse());
-//			pstmt.setString(5, productVO.getComment());
-//			re = pstmt.executeUpdate();
-//			System.out.println("sql 1 성공? re : "+re);
-//			
-//			sql = "insert into pro_detail (code, day, day_title, day_course, stay, meal, day_content, image, img_content)"
-//				+ "values (?,?,?,?,?,?,?,?,?)";
-//			pstmt=conn.prepareStatement(sql);
-//			pstmt.setString(1, productVO.getCode());
-//			pstmt.setString(2, prodetailVO.getDay());
-//			pstmt.setString(3, prodetailVO.getDay_title());
-//			pstmt.setString(4, prodetailVO.getDay_course());
-//			pstmt.setString(5, prodetailVO.getStay());
-//			pstmt.setString(6, prodetailVO.getMeal());
-//			pstmt.setString(7, prodetailVO.getDay_content());
-//			pstmt.setString(8, prodetailVO.getImage().toString());
-//			pstmt.setString(9, prodetailVO.getImg_content());
-//			re = pstmt.executeUpdate();
-//			System.out.println("sql 2성공? re : "+re);
-//			
-//			sql = "insert into pro_write (code, sub_code, title, start_date, end_date, max_num, price)"
-//				+ "values (?,?,?,?,?,?,?)";
-//			pstmt=conn.prepareStatement(sql);
-//			pstmt.setString(1, productVO.getCode());
-//			pstmt.setString(2, prowriteVO.getSub_code());
-//			pstmt.setString(3, prowriteVO.getTitle());
-////			pstmt.setDate(4, prowriteVO.getStart_date());
-////			pstmt.setDate(5, prowriteVO.getEnd_date());
-//			
-//			pstmt.setDate(4, java.sql.Date.valueOf(prowriteVO.getStart_date()));
-//			pstmt.setDate(5, java.sql.Date.valueOf(prowriteVO.getEnd_date()));
-//			
-//			
-//			pstmt.setInt(6, prowriteVO.getMax_num());
-//			pstmt.setInt(7, prowriteVO.getPrice());
-//			re = pstmt.executeUpdate();
-//			System.out.println("sql 3성공? re : "+re);
-//			
-//		} catch (Exception e) {
-//			System.out.println("insertProduct() 오류 "+e);
-//		} finally { closeDB(); }
-//		
-//		return re;
-//		
-//	}//insertProduct
-	
-	public int insertProduct(Map productMap, Pro_detailVO detailVO) {
+	//새 상품 업로드
+	public int insertProduct(Map<String, Object> productMap) {
+		System.out.println("insertProduct시작");
 		int re=0;
 		try {
 			conn = getConnection();
@@ -221,33 +160,43 @@ public class ProductDAO {
 			sql = "insert into pro_detail (code, day, day_title, day_course, stay, meal, day_content, image, img_content)"
 				+ "values (?,?,?,?,?,?,?,?,?)";
 			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, detailVO.getCode());
-			pstmt.setString(2, detailVO.getDay());
-			pstmt.setString(3, detailVO.getDay_title());
-			pstmt.setString(4, detailVO.getDay_course());
-			pstmt.setString(5, detailVO.getStay());
-			pstmt.setString(6, detailVO.getMeal());
-			pstmt.setString(7, detailVO.getDay_content());
-			pstmt.setString(8, detailVO.getImage().toString());
-			pstmt.setString(9, detailVO.getImg_content());
-			re = pstmt.executeUpdate();
-			System.out.println("sql 2성공 re : "+re);
+			
+			for(int j=0;j<Integer.parseInt(productMap.get("period").toString()); j++){
+			
+		    	String[] day = (String[]) productMap.get("day");
+		    	String[] day_title = (String[]) productMap.get("dayTitle");
+		    	String[] day_course = (String[]) productMap.get("dayCourse");
+		    	String[] stay = (String[]) productMap.get("stay");
+		    	String[] meal = (String[]) productMap.get("meal");
+		    	String[] day_content = (String[]) productMap.get("dayContent");
+		    	String[] img_content = (String[]) productMap.get("imgContent");
+		    	
+	    		pstmt.setString(1, productMap.get("code").toString());
+	    		pstmt.setString(2, day[j]);
+	    		pstmt.setString(3, day_title[j]);
+	    		pstmt.setString(4, day_course[j]);
+	    		pstmt.setString(5, stay[j]);
+	    		pstmt.setString(6, meal[j]);
+	    		pstmt.setString(7, day_content[j]);
+	    		pstmt.setString(9, img_content[j]);
+	    	
+	    		Map<String,String> imageMap = (HashMap<String,String>) productMap.get("image");
+				pstmt.setString(8, imageMap.get((j+1)+"_image").toString());
+				
+				re = pstmt.executeUpdate();
+	    		System.out.println("sql 2성공? re : "+re);
+				
+			}//for
 			
 			sql = "insert into pro_write (code, sub_code, title, start_date, end_date, max_num, price)"
 				+ "values (?,?,?,?,?,?,?)";
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, productMap.get("code").toString());
-			pstmt.setString(2, productMap.get("sub_code").toString());
+			pstmt.setString(2, productMap.get("subCode").toString());
 			pstmt.setString(3, productMap.get("title").toString());
-//			pstmt.setDate(4, prowriteVO.getStart_date());
-//			pstmt.setDate(5, prowriteVO.getEnd_date());
-			
-			//pstmt.setDate(4, java.sql.Date.valueOf(productMap.getStart_date()));
-			//pstmt.setDate(5, java.sql.Date.valueOf(productMap.getEnd_date()));
-			pstmt.setString(4, productMap.get("start_date").toString());
-			pstmt.setString(5, productMap.get("end_date").toString());
-			
-			pstmt.setString(6, productMap.get("max_num").toString());
+			pstmt.setString(4, productMap.get("startDate").toString());
+			pstmt.setString(5, productMap.get("endDate").toString());
+			pstmt.setString(6, productMap.get("maxNum").toString());
 			pstmt.setString(7, productMap.get("price").toString());
 			re = pstmt.executeUpdate();
 			System.out.println("sql 3성공 re : "+re);
