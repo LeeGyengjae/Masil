@@ -22,6 +22,8 @@
 <link rel="shortcut icon" type="../image/x-icon" href="../img/favicon.png">
 <!-- Place favicon.ico in the root directory -->
 
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
 <!-- CSS here -->
 <link rel="stylesheet" href="../css/bootstrap.min.css">
 <link rel="stylesheet" href="../css/owl.carousel.min.css">
@@ -100,10 +102,12 @@
 	</div>
 	<!-- where_togo_area_end  -->
 
-
+	
 	<div class="popular_places_area">
 		<div class="container">
 			<div class="row">
+			
+				<%--검색영역 - DB에 맞게 수정해야함 --%>
 				<div class="col-lg-4">
 					<div class="filter_result_wrap">
 						<h3>Filter Result</h3>
@@ -142,16 +146,22 @@
 									</div>
 								</div>
 
-
 							</div>
 
 							<div class="reset_btn">
 								<button class="boxed-btn4" type="submit">Reset</button>
 							</div>
 						</div>
+						
+						<%--새 상품 업로드 버튼 - 관리자일 경우에만 출력하도록 변경해야함 + 위치 수정 필요--%>
+						<div class="button-group-area mt-40">
+							<a href="${contextPath}/product/write.jsp" class="genric-btn success radius w-100">새상품업로드</a>
+							<a href="${contextPath}/product1/pre_write.do" class="genric-btn success radius w-100">상품 목록2</a>
+						</div>
+						
 					</div>
 				</div>
-
+				<%--검색영역끝 --%>
 
 				<%-- ↓상품 띄울 영역↓ --%>
 				<div class="col-lg-8">
@@ -201,9 +211,13 @@
 									<div class="col-lg-6 col-md-6">
 										<div class="single_place">
 											<div class="thumb">
-												<img src="../img/place/1.png" alt="${product.image}"> 
+												<c:forTokens items="${product.image}" delims="," var="images">
+													<img alt="${images}" src="${contextPath}/product/upload/${images}"> 
+												</c:forTokens>
 												<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}"	class="prise">
-													${product.price}
+													
+												<fmt:formatNumber type="currency" value="${product.price}" currencySymbol="￦ "/>	
+													
 												</a>
 											</div>
 											<div class="place_info">
@@ -220,16 +234,14 @@
 													<span
 														class="d-flex justify-content-center align-items-center">
 														<%-- 별점 ${product.rating} 해서 받아온 값만큼만 ★ 출력, 나머진 ☆ 처리 해야됨--%>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i> 
-														<i class="fa fa-star"></i> 
-														<i class="fa fa-star"></i> 
+															<i class="fas fa-star"></i>
 														<p>${product.rating}</p>
 														<%-- 후기 개수 --%>
-														<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}">
-															(${product.recnt} Review)
-														</a>
+														<c:if test="${product.recnt != null}">
+															<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}">
+																(${product.recnt} Review)
+															</a>
+														</c:if>
 													</span>
 
 													<%-- 여행기간 --%>

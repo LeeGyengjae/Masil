@@ -54,12 +54,12 @@ public class ProductDAO {
 		try {
 			conn=getConnection();
 			sql= "select a.code, c.sub_code, a.continent, a.period, a.course, a.comment,"
-					+" b.image, c.title, c.start_date, c.end_date, c.price, d.recnt, d.rating"
-					+" from product a join (select image, code from pro_detail where img_boss='Y') b"
+					+" substring_index(b.image, ',',1) image, c.title, c.start_date, c.end_date, c.price, d.recnt, d.rating"
+					+" from product a join (select image, code from pro_detail group by code) b"
 					+" on a.code=b.code"
 					+" join pro_write c"
 					+" on b.code=c.code"
-					+" join (select code, count(*) recnt, round(avg(rating),1) rating from review group by code) d"
+					+" left join (select code, count(*) recnt, round(avg(rating),1) rating from review group by code) d"
 					+" on c.code = d.code"
 					+" order by c.start_date";
 			pstmt=conn.prepareStatement(sql);

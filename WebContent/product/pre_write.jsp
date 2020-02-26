@@ -68,6 +68,7 @@
 	</div>
 	<!--/ bradcam_area  -->
 
+	<%--상품 목록 이미지 빼고 간단히 출력하는 페이지 --%>
 	<%--상품 목록 출력 후 새로쓰기 or 기존 상품 불러와서 쓰기 --%>
 	<div class="whole-wrap">
 		<div class="container box_1170">
@@ -101,7 +102,8 @@
 											<td>${product.code}-${product.sub_code}</td>
 											<td>${product.continent}</td>								
 											<td>${product.course}</td>								
-											<td>${product.period}</td>								
+											<td>${product.period}</td>		
+											<%--등록된 평점(후기) 없을 경우 '-' 출력해서 -/5 처럼 출력되도록 해야함 --%>						
 											<td>${product.rating}/5</td>								
 											<td>${product.price}</td>								
 											<td>${product.comment}</td>								

@@ -149,30 +149,30 @@
 							
 							<%--n일차--%> 
 							<c:forEach var="product" items="${productDetail}" varStatus="productNum">
-								<article class="blog_item">
-									<div class="blog_item_img">
-										<img class="card-img rounded-0" src="../product/img/osaka/uu.jpg"
-											height="350px" width="50px" alt=""> 
-										<a href="#" class="blog_item_date">
-											<h3>${product.day} 일차</h3>
-											<p>${product.day_area}</p>
-										</a>
+								<article class="blog_item slider_area">
+									<div class="blog_item_img slider_active owl-carousel">
+										<c:forTokens items="${product.image}" delims="," var="images">
+											<img class="card-img rounded-0" alt="${images}" 
+											src="${contextPath}/product/upload/${images}" height="350px" width="50px" > 
+										</c:forTokens>
 									</div>
-		
+									
 									<div class="blog_details">
-										<a class="d-inline-block" href="#">
+										<div class="typography">
+											<h3>${product.day} 일차</h3>
 											<h2>${product.day_title}</h2>
-										</a>
+											<p>코스 : ${product.day_course}</p>
+										</div>
+									
 										<p>${product.day_content}</p>
-										<p>이미지 : ${product.image}</p>
 										<p>이미지 설명 : ${product.img_content}</p>
 										<ul class="blog-info-link">
 											<li>
-												<a href="#"><i class="fa fa-user"></i>${product.stay}</a>
+												<i class='fas fa-hotel'></i>숙박 - ${product.stay}
 											</li>
 											
 											<li>
-												<a href="#"><i class="fa fa-comments"></i>${product.meal}</a>
+												<i class="fas fa-bread-slice"></i>식사 - ${product.meal}
 											</li>
 										</ul>
 									</div>
@@ -182,7 +182,36 @@
 						</c:when>
 					</c:choose>
 
-						<%-- 페이징 - 언제 쓰지? --%>
+				<%--후기 --%>
+				<div class="comments-area">
+                  <h4>05 Comments</h4>
+                  <div class="comment-list">
+                     <div class="single-comment justify-content-between d-flex">
+                        <div class="user justify-content-between d-flex">
+                           <div class="desc">
+                              <p class="comment">
+                                 Multiply sea night grass fourth day sea lesser rule open subdue female fill which them
+                                 Blessed, give fill lesser bearing multiply sea night grass fourth day sea lesser
+                              </p>
+                              <div class="d-flex justify-content-between">
+                                 <div class="d-flex align-items-center">
+                                    <h5>
+                                       <a href="#">Emilly Blunt</a>
+                                    </h5>
+                                    <p class="date">December 4, 2017 at 3:12 pm </p>
+                                 </div>
+                                 <div class="reply-btn">
+                                    <a href="#" class="btn-reply text-uppercase">reply</a>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+			<%--후기 --%>
+
+						<%-- 페이징 - 후기 최근5개만 출력하고 나머진 페이징 처리해야됨 --%>
 						<nav class="blog-pagination justify-content-center d-flex">
 							<ul class="pagination">
 								<li class="page-item">
@@ -203,10 +232,191 @@
 								</li>
 							</ul>
 						</nav>
-						<%-- 페이징 --%>
-						
 					</div>
 				</div>
+				<%-- 페이징 --%>
+				
+				<%--오른쪽 사이드바 --%>
+				<div class="col-lg-4">
+                    <div class="blog_right_sidebar">
+                    
+                    <aside class="single_sidebar_widget">
+                    	<h4 class="widget_title">관리자용</h4>
+	                    <div class="button-group-area mt-10">
+							<input type="button" value="상 품 목 록" class="genric-btn success radius w-100" onclick="location.href='${contextPath}/product1/product.do'">
+							<input type="button" value="상 품 수 정" class="genric-btn success radius w-100" onclick="location.href='${contextPath}/product1/update.do'">
+							<input type="button" value="상 품 삭 제" class="genric-btn success radius w-100" onclick="location.href='${contextPath}/product1/delete.do'">
+						</div>
+					</aside>
+						
+						
+                        <aside class="single_sidebar_widget search_widget">
+                            <form action="#">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder='Search Keyword'
+                                            onfocus="this.placeholder = ''"
+                                            onblur="this.placeholder = 'Search Keyword'">
+                                        <div class="input-group-append">
+                                            <button class="btn" type="button"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="genric-btn success radius w-100"
+                                    type="submit">Search</button>
+                            </form>
+                        </aside>
+
+                        <aside class="single_sidebar_widget post_category_widget">
+                            <h4 class="widget_title">Category</h4>
+                            <ul class="list cat-list">
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>Resaurant food</p>
+                                        <p>(37)</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>Travel news</p>
+                                        <p>(10)</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>Modern technology</p>
+                                        <p>(03)</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>Product</p>
+                                        <p>(11)</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>Inspiration</p>
+                                        <p>21</p>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="d-flex">
+                                        <p>Health Care (21)</p>
+                                        <p>09</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </aside>
+
+                        <aside class="single_sidebar_widget popular_post_widget">
+                            <h3 class="widget_title">Recent Post</h3>
+                            <div class="media post_item">
+                                <img src="../img/post/post_1.png" alt="post">
+                                <div class="media-body">
+                                    <a href="single-blog.jsp">
+                                        <h3>From life was you fish...</h3>
+                                    </a>
+                                    <p>January 12, 2019</p>
+                                </div>
+                            </div>
+                            <div class="media post_item">
+                                <img src="../img/post/post_2.png" alt="post">
+                                <div class="media-body">
+                                    <a href="single-blog.jsp">
+                                        <h3>The Amazing Hubble</h3>
+                                    </a>
+                                    <p>02 Hours ago</p>
+                                </div>
+                            </div>
+                            <div class="media post_item">
+                                <img src="../img/post/post_3.png" alt="post">
+                                <div class="media-body">
+                                    <a href="single-blog.jsp">
+                                        <h3>Astronomy Or Astrology</h3>
+                                    </a>
+                                    <p>03 Hours ago</p>
+                                </div>
+                            </div>
+                            <div class="media post_item">
+                                <img src="../img/post/post_4.png" alt="post">
+                                <div class="media-body">
+                                    <a href="single-blog.jsp">
+                                        <h3>Asteroids telescope</h3>
+                                    </a>
+                                    <p>01 Hours ago</p>
+                                </div>
+                            </div>
+                        </aside>
+                        <aside class="single_sidebar_widget tag_cloud_widget">
+                            <h4 class="widget_title">Tag Clouds</h4>
+                            <ul class="list">
+                                <li>
+                                    <a href="#">project</a>
+                                </li>
+                                <li>
+                                    <a href="#">love</a>
+                                </li>
+                                <li>
+                                    <a href="#">technology</a>
+                                </li>
+                                <li>
+                                    <a href="#">travel</a>
+                                </li>
+                                <li>
+                                    <a href="#">restaurant</a>
+                                </li>
+                                <li>
+                                    <a href="#">life style</a>
+                                </li>
+                                <li>
+                                    <a href="#">design</a>
+                                </li>
+                                <li>
+                                    <a href="#">illustration</a>
+                                </li>
+                            </ul>
+                        </aside>
+
+
+                        <aside class="single_sidebar_widget instagram_feeds">
+                            <h4 class="widget_title">Instagram Feeds</h4>
+                            <ul class="instagram_row flex-wrap">
+                                <li>
+                                    <a href="#">
+                                        <img class="img-fluid" src="../img/post/post_5.png" alt="">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img class="img-fluid" src="../img/post/post_6.png" alt="">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img class="img-fluid" src="../img/post/post_7.png" alt="">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img class="img-fluid" src="../img/post/post_8.png" alt="">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img class="img-fluid" src="../img/post/post_9.png" alt="">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <img class="img-fluid" src="../img/post/post_10.png" alt="">
+                                    </a>
+                                </li>
+                            </ul>
+                        </aside>
+                    </div>
+                </div>
+				<%--오른쪽 사이드바 --%>
 			</div>
 		</div>
 	</section>

@@ -51,7 +51,7 @@
 		for (i = 1; i < (Number(period)+1); i++) {
 			
 			msg += "<h4>"+i+" 일자</h4>"
-			+ "<input type='hidden' name='day' value='"+i+"day' >"
+			+ "<input type='hidden' name='day' value='"+i+"' >"
 			+ "<div class='form-group'>"
 			+ "<span>일정제목</span>" 
 			+ "<input class='form-control' name='dayTitle' id='"+i+"dayTitle' type='text' placeholder='일정제목'>"
@@ -142,7 +142,6 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
-                                    <%--전체 코스 : 아래쪽에서 일자별 코스 입력시 자동 입력되도록 function 만들어야됨 --%>
                                   	  <span>전체 코스</span>
                                         <input class="form-control" name="course" id="course" type="text" 
                                         placeholder="코스">

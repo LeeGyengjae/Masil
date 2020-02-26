@@ -94,6 +94,7 @@ public class ProductController extends HttpServlet {
 			else if(action.equals("/pre_write.do")){
 				//관리자용-상품 리스트 간단히 보기 
 				//-작동은 하는데 쓸지말지 미지수 
+				//-쓸거면 jsp디자인 수정 필요
 				productList = productService.listProducts();
 				request.setAttribute("productList", productList);
 				nextPage = "/product/pre_write.jsp";
@@ -122,16 +123,24 @@ public class ProductController extends HttpServlet {
 				
 				System.out.println("Controller 됨");
 				
-//				String imageFileName = code+"_"+sub_code;
-//				if(imageFileName != null && imageFileName.length() != 0){
-//					File srcFile = new File(ARTICLE_IMAGE_REPO + "\\" + "temp" + "\\" + imageFileName);
-//					File destDir = new File(ARTICLE_IMAGE_REPO + "\\" + imageFileName);
-//					destDir.mkdirs();
-//					FileUtils.moveFileToDirectory(srcFile, destDir, true);
-//				}
+				//nextPage = "/product1/blog.do?code="+code+"sub_code="+sub_code; //페이지 이동 안됨 ㅠ
+				nextPage="/product1/product.do";
 				
-				//페이지 이동 안됨 ㅠ
-				nextPage = "/product1/blog.do?code="+code+"sub_code="+sub_code;
+			}
+			else if(action.equals("/addProduct2.do")){
+				System.out.println("controller if안으로 넘어옴");
+				
+				Map<String, Object> productMap = upload(request, response);
+				
+				String code = productMap.get("code").toString();
+				String sub_code = productMap.get("subCode").toString();
+				
+				productService.insertProduct(productMap);
+				
+				System.out.println("Controller 됨");
+				
+				//nextPage = "/product1/blog.do?code="+code+"sub_code="+sub_code; //페이지 이동 안됨 ㅠ
+				nextPage="/product1/product.do";
 				
 			}
 			
@@ -165,26 +174,17 @@ public class ProductController extends HttpServlet {
 		try {
 			MultipartRequest multi = new MultipartRequest(request, realPath, maxSize, "utf-8", new DefaultFileRenamePolicy());
 			
-			//List items = multi.getParameterNames();
-			//System.out.println("multi.getParameterNames().nextElement() : "+multi.getParameterNames().nextElement());
-			
 			Enumeration paramNames = multi.getParameterNames();
 			
-			//파라미터가 있는 동안 반복
+			//request영역에서 넘어온 값이 있는 동안 반복
 			while(paramNames.hasMoreElements()){
 				String keyname = (String) paramNames.nextElement();
 				String[] values = multi.getParameterValues(keyname);
 				
+				//같은 name은 배열로 넘어옴-> 그 배열의 길이가 1보다 크면 -> 일정에 들어가는 내용
 				if(values.length>1){
-//					if (values instanceof String[]) {
-//						for (String value : values) {
-//							System.out.println("keyname : " + keyname + "\t\tvalue : " + value);
-//							productMap.put(keyname, value);
-//						} //for String value : values
-//						productMap.put(keyname, values);
-//					}
 					productMap.put(keyname, values);
-				}else {
+				}else {	//아니면 배열에 값은 1개이므로 첫번째값만 저장
 					productMap.put(keyname, values[0]);
 				}//if(values.length>1)
 				
@@ -192,53 +192,55 @@ public class ProductController extends HttpServlet {
 			
 			//업로드된 파일 이름
 			Enumeration imgfile=multi.getFileNames();
-//			String file = (String) imgfile.nextElement();
-//			filename=multi.getFilesystemName(file);
-			
-//			List<String> fileList = new ArrayList<String>();
 			Map<String, String> fileList = new HashMap<String, String>();
 			
-//			System.out.println("imgfile.getClass() : " + (imgfile.getClass()));
 //			System.out.println("imgfile.nextElement().getClass() : " + (imgfile.nextElement().getClass()));	//String
-			System.out.println("imgfile.hasMoreElements() : "+imgfile.hasMoreElements());
+//			System.out.println("imgfile.hasMoreElements() : "+imgfile.hasMoreElements());	//true
 			
-			while(imgfile.hasMoreElements()){
-				String file = (String) imgfile.nextElement();
-				System.out.println("file    : "+file);
-				
-				filename=multi.getFilesystemName(file);
-				System.out.println("file : "+file+"\t\tfilename : "+filename);
-				
-				int idx1 = file.indexOf("_");
-				int idx2 = file.lastIndexOf("_");
-				int daynum = Integer.parseInt(file.substring(0,idx1)); //list index number로 사용
-
-				String tmp = file.substring(0,idx2);
-				
-			    //tmp를 key로하는 값이 있다면
-			    if(fileList.get(tmp)!=null){
-//			    	System.out.println("기존 fileList Value : "+fileList.get(tmp));
-			    	String tempValue = filename+","+fileList.get(tmp);
-			    	
-			    	fileList.put(tmp,tempValue);
-//			    	System.out.println("새 fileList Value  : "+fileList.get(tmp));
-			    }
-			    //tmp를 key로하는 값이 없다면
-			    else {
-			    	fileList.put(tmp,filename);
-//			    	System.out.println("새 fileList Value1  : "+fileList.get(tmp));
-			    }//else
-				
-				
-			}//while(imgfile.hasMoreElements())
-			
-//			System.out.println("file List : "+fileList);
-			productMap.put("image", fileList);
-			
-			System.out.println("TEST *** productMap : "+productMap);
-			//System.out.println("productMap.get(image).getClass : "+ productMap.get("image").getClass());	//HashMap
-			//System.out.println("productMap.get(code).getClass : "+ productMap.get("code").getClass());	//String
-			//System.out.println("productMap.get(day).getClass : "+ productMap.get("day").getClass());	//String[]
+			//업로드한 파일이 있을경우
+			if(imgfile.hasMoreElements()){
+				while(imgfile.hasMoreElements()){
+					String file = (String) imgfile.nextElement();
+					System.out.println("file    : "+file);
+					
+					filename=multi.getFilesystemName(file);
+					System.out.println("file : "+file+"\t\tfilename : "+filename);
+					
+					//name : 1_image_0 과 같은 형식으로 넘어옴. 앞쪽 day 뒤쪽 이미지number
+					int idx1 = file.indexOf("_");
+					int idx2 = file.lastIndexOf("_");
+					int daynum = Integer.parseInt(file.substring(0,idx1)); //list index number로 사용하기 위함
+					
+					String tmp = file.substring(0,idx2);
+				    //tmp를 key로하는 값이 있다면
+				    if(fileList.get(tmp)!=null){
+				    	String tempValue = filename+","+fileList.get(tmp);
+				    	fileList.put(tmp,tempValue);
+				    } else {	//tmp를 key로하는 값이 없다면
+				    	fileList.put(tmp,filename);
+				    }//else
+				    
+				}//while(imgfile.hasMoreElements())
+				productMap.put("image", fileList);
+			}
+			//업로드한 파일(사진)이 없을경우
+			else if(!imgfile.hasMoreElements()){
+				//기존상품수정/불러와서 쓰기일 경우 hidden으로 넘오온 업로드되어 있던 이미지를 등록
+				while(paramNames.hasMoreElements()){
+					String keyname = (String) paramNames.nextElement();
+					String[] values = multi.getParameterValues(keyname);
+					if(keyname.equals("old_image")){
+						if(values.length>1){
+							productMap.put("image", values);
+						}else {	
+							productMap.put("image", values[0]);
+						}
+					}
+				}//while
+				//새 상품 쓰기인데 사진이 없을 경우
+				//->?
+			}//else if
+//			System.out.println("TEST *** productMap : "+productMap);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
