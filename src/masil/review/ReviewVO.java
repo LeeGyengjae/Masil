@@ -16,12 +16,24 @@ public class ReviewVO {
 	private String code;
 	private String id;
 	private String content;
-	private Date write_date;
+	private String write_date;
 	private int rating;
-	private Date end_date;
+	private String end_date;
 	
 	//기본 생성자
 	public ReviewVO() {}
+	
+	//생성자 오버로딩
+	public ReviewVO(String code, String id, String content, String write_date, int rating, String end_date) {
+		super();
+		this.code = code;
+		this.id = id;
+		this.content = content;
+		this.write_date = write_date;
+		this.rating = rating;
+		this.end_date = end_date;
+	}
+	//생성자 오버로딩
 	
 	//toString() Override
 	@Override
@@ -30,7 +42,7 @@ public class ReviewVO {
 				+", id: "+id+", content: "+content+", write_date: "+write_date
 				+", rating: "+rating+", end_date: "+end_date+"]";
 	}//toString() Override
-	
+
 	/* getter & setter */
 	public int getIdx() {
 		return idx;
@@ -64,11 +76,11 @@ public class ReviewVO {
 		this.content = content;
 	}
 
-	public Date getWrite_date() {
+	public String getWrite_date() {
 		return write_date;
 	}
 
-	public void setWrite_date(Date write_date) {
+	public void setWrite_date(String write_date) {
 		this.write_date = write_date;
 	}
 
@@ -80,13 +92,13 @@ public class ReviewVO {
 		this.rating = rating;
 	}
 
-	public Date getEnd_date() {
+	public String getEnd_date() {
 		return end_date;
 	}
 
-	public void setEnd_date(Date end_date) {
+	public void setEnd_date(String end_date) {
 		this.end_date = end_date;
 	}
-
+	
 	
 }

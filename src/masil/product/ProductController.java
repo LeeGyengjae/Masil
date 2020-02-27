@@ -1,29 +1,22 @@
 package masil.product;
 
-import java.io.File;
 import java.io.IOException;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.FileUtils;
-
-import com.oreilly.servlet.MultipartFilter;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+
+import masil.review.ReviewService;
 
 
 @WebServlet("/product1/*")
@@ -34,16 +27,14 @@ public class ProductController extends HttpServlet {
     Pro_detailVO prodetailVO;
     Pro_writeVO prowriteVO;
     
-    //test
-    //private static String ARTICLE_IMAGE_REPO = "F:\\product\\productImage";
-    //->경로 찾을 수 없음 ㅠ
-    private static String ARTICLE_IMAGE_REPO = "C:\\board\\product";
+    ReviewService reviewService;
     
 	public ProductController() {}
 	
 	@Override
 	public void init() throws ServletException {
 		productService = new ProductService();
+		reviewService = new ReviewService();
 	}
     
     @Override
@@ -70,6 +61,7 @@ public class ProductController extends HttpServlet {
 		try {
 			List<Map<String,String>> productList;
 			List<Map<String,String>> productDetail;
+			List<Map<String,String>> reviewList;
 			
 			if(action==null){
 				productList = productService.listProducts();
@@ -85,11 +77,15 @@ public class ProductController extends HttpServlet {
 			else if(action.equals("/blog.do")){
 				String code = request.getParameter("code");
 				String sub_code = request.getParameter("sub_code");
-				productDetail = productService.viewProduct(code, sub_code);
-				request.setAttribute("productDetail", productDetail);
-				nextPage = "/product/blog.jsp";
 				
-				System.out.println("controller : "+productDetail);
+				productDetail = productService.viewProduct(code, sub_code);
+				//상품 상세 페이지에서 리뷰도 같이 출력해야함.
+				System.out.println("test : "+reviewService.reviewList(code));
+				reviewList = reviewService.reviewList(code);
+				
+				request.setAttribute("productDetail", productDetail);
+				request.setAttribute("reviewList", reviewList);
+				nextPage = "/product/blog.jsp";
 			}
 			else if(action.equals("/pre_write.do")){
 				//관리자용-상품 리스트 간단히 보기 
@@ -98,7 +94,6 @@ public class ProductController extends HttpServlet {
 				productList = productService.listProducts();
 				request.setAttribute("productList", productList);
 				nextPage = "/product/pre_write.jsp";
-				
 			}
 			else if(action.equals("/callwrite.do")){
 				//이미 등록된 상품의 출발/도착 날짜만 바꿔서 등록하고 싶을때
@@ -112,8 +107,6 @@ public class ProductController extends HttpServlet {
 				nextPage = "/product/callwrite.jsp";
 			}
 			else if(action.equals("/addProduct.do")){
-				System.out.println("controller if안으로 넘어옴");
-				
 				Map<String, Object> productMap = upload(request, response);
 				
 				String code = productMap.get("code").toString();
@@ -121,13 +114,12 @@ public class ProductController extends HttpServlet {
 				
 				productService.insertProduct(productMap);
 				
-				System.out.println("Controller 됨");
-				
 				//nextPage = "/product1/blog.do?code="+code+"sub_code="+sub_code; //페이지 이동 안됨 ㅠ
 				nextPage="/product1/product.do";
 				
 			}
 			else if(action.equals("/addProduct2.do")){
+				//기존 상품 작성 내용 불러와서 새상품으로 등록할때 사용
 				System.out.println("controller if안으로 넘어옴");
 				
 				Map<String, Object> productMap = upload(request, response);

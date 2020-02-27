@@ -18,12 +18,12 @@ import javax.sql.DataSource;
 public class ProductDAO {
 
 	//DB연결 관련 변수 모음
-	Connection conn;
-	Context init;
-	PreparedStatement pstmt;
-	DataSource ds;
-	ResultSet rs;
-	String sql;
+	private Connection conn;
+	private Context init;
+	private PreparedStatement pstmt;
+	private DataSource ds;
+	private ResultSet rs;
+	private String sql;
 	
 	//기본 생성자
 	public ProductDAO() {
@@ -204,12 +204,10 @@ public class ProductDAO {
 		} catch (Exception e) {
 			System.out.println("insertProduct() 오류 "+e);
 		} finally { closeDB(); }
-		
 		return re;
-		
 	}//insertProduct
 	
 	
 	
 	
-}
+}//productDAO

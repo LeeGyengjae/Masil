@@ -133,10 +133,7 @@
 											<div class="">
 												<ul class="unordered-list">
 													<li>가격 : ${product.price}</li>
-													<li>대륙 : ${product.continent }</li>
-													<li>?? : ${product.day_area}</li>
-													<li>Make Myspace Your Best Designed Space</li>
-													<li>Cleaning And Organizing Your Computer</li>
+													<li>대륙 : ${product.continent}</li>
 												</ul>
 											</div>
 										</div>
@@ -170,7 +167,6 @@
 											<li>
 												<i class='fas fa-hotel'></i>숙박 - ${product.stay}
 											</li>
-											
 											<li>
 												<i class="fas fa-bread-slice"></i>식사 - ${product.meal}
 											</li>
@@ -182,33 +178,44 @@
 						</c:when>
 					</c:choose>
 
-				<%--후기 --%>
+				<%--후기 : 내용이 없으면 쪼그라드는거 가로 길이 가득 차도록 해야함 / 총 후기 갯수 출력 필요--%>
 				<div class="comments-area">
-                  <h4>05 Comments</h4>
-                  <div class="comment-list">
-                     <div class="single-comment justify-content-between d-flex">
-                        <div class="user justify-content-between d-flex">
-                           <div class="desc">
-                              <p class="comment">
-                                 Multiply sea night grass fourth day sea lesser rule open subdue female fill which them
-                                 Blessed, give fill lesser bearing multiply sea night grass fourth day sea lesser
-                              </p>
-                              <div class="d-flex justify-content-between">
-                                 <div class="d-flex align-items-center">
-                                    <h5>
-                                       <a href="#">Emilly Blunt</a>
-                                    </h5>
-                                    <p class="date">December 4, 2017 at 3:12 pm </p>
-                                 </div>
-                                 <div class="reply-btn">
-                                    <a href="#" class="btn-reply text-uppercase">reply</a>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
+				<c:choose>
+					<%-- 후기 없으면 띄워야하는데 후기 없는데도 안뜸 ㅜㅜ --%>
+					<c:when test="${reviewList == null}">
+						<h4>등록된 후기가 없습니다. 후기를 등록해주세요!</h4>
+					</c:when>
+					
+					<c:when test="${reviewList!=null}">
+						<%--메인 코드로 검색해서 가져와서 총 후기 개수 출력 하기 -> For input string 에러 해결해야함--%>
+						<%-- <h4>${reviewList.reviewCnt} Reviews</h4> --%>
+						
+						<c:forEach var="review" items="${reviewList}">
+							<div class="comment-list">
+								<div class="single-comment justify-content-between d-flex">
+									<div class="user justify-content-between d-flex">
+										<div class="desc">
+											<div class="d-flex justify-content-between">
+								             	<div class="d-flex align-items-center">
+													<h5><a href="#">${review.id}</a></h5>
+													<p class="date">${review.rating}</p>
+													<p class="date">${review.write_date}</p>
+												</div>
+												<%--후기작성자or관리자일경우에만 수정/삭제 띄우기 해야함 --%>
+												<div class="reply-btn">
+													<a href="${contextPath}/review1/updateReview.do" class="btn-reply text-uppercase">수정</a>
+													<a href="${contextPath}/review1/deleteReview.do" class="btn-reply text-uppercase">삭제</a>
+												</div>
+											</div>
+											<p class="comment">${review.content}</p>
+											<p class="comment">여행 다녀온 날짜 : ${review.end_date}</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</c:forEach>
+					</c:when>
+				</c:choose>
 			<%--후기 --%>
 
 						<%-- 페이징 - 후기 최근5개만 출력하고 나머진 페이징 처리해야됨 --%>
@@ -232,11 +239,43 @@
 								</li>
 							</ul>
 						</nav>
+						<%--페이징 --%>
+						
+						<%--후기 입력칸 -> 로그인한 사람 중 다녀온 사람만 작성 할 수 있도록 해야함 / ajax로 페이지 이동없이 처리해야함 --%>
+						<div class="comment-form">
+		                  <h4>여행 후기</h4>
+		                  <form class="form-contact comment_form" action="${contextPath}/review1/insertReview.do" id="commentForm">
+		                  	<input type="hidden" name="code" value="${reviewList.code}">
+		                  	<input type="hidden" name="write_date" value="">
+		                  	
+		                     <div class="row">
+		                    	 <div class="col-12">
+	                    	       <div class="form-group">
+		                              <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9"
+		                                 placeholder="Write Comment"></textarea>
+		                           </div>
+		                        </div>
+		                     	<div class="col-sm-6">
+		                           <div class="form-group">
+		                              <input class="form-control" name="id" id="id" type="text" placeholder="Name">
+		                           </div>
+		                        </div>
+		                        <div class="col-sm-6">
+			                        <div class="form-group">
+			                        	<button type="submit" class="genric-btn success radius">후기 등록</button>
+			                     	</div>
+		                     	</div>
+		                     </div>
+		                  </form>
+		               </div>
+		               <%--후기 입력칸 --%>
+		               
 					</div>
 				</div>
-				<%-- 페이징 --%>
-				
-				<%--오른쪽 사이드바 --%>
+			</div>
+			<%-- 상품상세페이지 왼쪽 영역 --%>
+			
+			<%--오른쪽 사이드바 --%>
 				<div class="col-lg-4">
                     <div class="blog_right_sidebar">
                     
@@ -417,7 +456,7 @@
                     </div>
                 </div>
 				<%--오른쪽 사이드바 --%>
-			</div>
+			
 		</div>
 	</section>
 	<!--================Blog Area =================-->

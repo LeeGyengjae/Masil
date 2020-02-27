@@ -241,9 +241,9 @@
                             
                            <div class="form-group mt-3">
                                 <!-- <input type="submit" class="button button-contactForm boxed-btn" onclick="fileCheck(contactForm.writeForm)" value="상품등록"> -->
-                                <input type="submit" class="button button-contactForm boxed-btn" value="상품등록">
+                                <button type="submit" class="button button-contactForm boxed-btn" >상품등록</button>
                                 <input type="reset" value="다시쓰기" class="button button-contactForm boxed-btn">
-                                <input type="button" value="상품목록" class="button button-contactForm boxed-btn" onclick="location.href='${contextPath}/product1/product.do'">
+                                <button type="button" class="button button-contactForm boxed-btn" onclick="location.href='${contextPath}/product1/product.do'">상품목록</button>
                             </div>
                         </form>
 					</div>

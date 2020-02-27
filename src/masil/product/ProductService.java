@@ -6,13 +6,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import masil.review.ReviewDAO;
+
 // View -> Controller -> [Service] -> DAO
 public class ProductService {
 	
 	ProductDAO productDAO;
+	ReviewDAO reviewDAO;
 	
 	public ProductService() {
 		productDAO = new ProductDAO();
+		reviewDAO = new ReviewDAO();
 	}
 	
 	public List<Map<String,String>> listProducts() {
@@ -22,7 +26,6 @@ public class ProductService {
  
 	public List<Map<String,String>> viewProduct(String code, String sub_code) {
 		List<Map<String,String>> productDetail = productDAO.selectProduct(code, sub_code);
-		System.out.println("Service : "+productDetail);
 		return productDetail;
 	}
 	
@@ -39,6 +42,12 @@ public class ProductService {
 		return 0;
 		
 	}//insertProduct
+	
+	public List<Map<String,String>> reviewList(String code) {
+		System.out.println("review service page");
+		List<Map<String,String>> reviewList = reviewDAO.selectReview(code);
+		return reviewList;
+	}
 	
 	
 	

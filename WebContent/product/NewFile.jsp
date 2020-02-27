@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" isELIgnored="false"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%
+	request.setCharacterEncoding("UTF-8");
+%>
 
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -108,7 +114,7 @@
 	
 <!-- form div -->
                     <div class="col-lg-8">
-                        <form class="form-contact contact_form" action="${contextPath}/masil/product1/addProduct.do" 
+                        <form class="form-contact contact_form" action="${contextPath}/product1/addProduct.do" 
                         method="post" id="contactForm" enctype="multipart/form-data" name="writeForm" > 
                         	  
                             <div class="row">
@@ -116,7 +122,7 @@
                                     <div class="form-group">
                                     	<span>메인코드</span>
                                         <input class="form-control" name="code" id="code" type="text" 
-                                        placeholder="메인코드">
+                                        placeholder="메인코드"> 
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
