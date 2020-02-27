@@ -12,9 +12,8 @@ public class ReviewService {
 		reviewDAO = new ReviewDAO();
 	}
 
-	public List<Map<String,String>> reviewList(String code) {
-		System.out.println("review service page");
-		List<Map<String,String>> reviewList = reviewDAO.selectReview(code);
+	public List<Map<String,String>> reviewList(String code, int pageNum) {
+		List<Map<String,String>> reviewList = reviewDAO.selectReview(code, pageNum);
 		return reviewList;
 	}
 

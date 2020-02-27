@@ -60,6 +60,7 @@ public class ReviewController extends HttpServlet {
 				reviewVO = new ReviewVO(code, id, content, write_date, rating, end_date);
 				reviewService.insertReview(reviewVO);
 				nextPage = "/product1/blog.do?code="+code+"sub_code="+sub_code;
+				
 			} else if (action.equals("updateReview.do")){
 				String code = request.getParameter("code");
 				String sub_code = request.getParameter("sub_code");

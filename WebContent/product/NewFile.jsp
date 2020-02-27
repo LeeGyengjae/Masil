@@ -51,8 +51,12 @@
 
 		var period = $("#period").val();
 		var div = $("#periodAdd");
-		
 		var msg = "";
+		
+		//기간 입력 후 태그, 버튼 비활성화
+		$("#period").prop("readonly", true);
+		$("#addBtn").addClass('disable');
+		$("#addBtn").removeClass('primary-border');
 		
 		for (i = 1; i < (Number(period)+1); i++) {
 			

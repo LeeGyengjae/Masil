@@ -43,9 +43,9 @@ public class ProductService {
 		
 	}//insertProduct
 	
-	public List<Map<String,String>> reviewList(String code) {
+	public List<Map<String,String>> reviewList(String code, int pageNum) {
 		System.out.println("review service page");
-		List<Map<String,String>> reviewList = reviewDAO.selectReview(code);
+		List<Map<String,String>> reviewList = reviewDAO.selectReview(code, pageNum);
 		return reviewList;
 	}
 	

@@ -47,17 +47,19 @@ public class ReviewDAO {
 	}//closeDB
 
 	//상품 상세페이지에서 후기 출력하기
-	public List<Map<String,String>> selectReview(String code) {
+	public List<Map<String,String>> selectReview(String code, int pageNum) {
 		List<Map<String,String>> reviewList = new ArrayList<Map<String,String>>();
 		try {
 			conn=getConnection();
 			sql = "select a.code, a.id, a.content, a.write_date, a.rating, a.end_date, b.reviewCnt"
 				+ " from review a join (select count(code) reviewCnt, code from review where code=?) b"
 				+ " on a.code=b.code"
-				+ " where a.code=?";
+				+ " where a.code=?"
+				+ " limit ?,5";
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, code);
 			pstmt.setString(2, code);
+			//pstmt.setString(2, code);
 			rs=pstmt.executeQuery();
 			while(rs.next()){
 				Map<String, String> reviewMap = new HashMap<String, String>();

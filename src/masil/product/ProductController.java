@@ -77,14 +77,15 @@ public class ProductController extends HttpServlet {
 			else if(action.equals("/blog.do")){
 				String code = request.getParameter("code");
 				String sub_code = request.getParameter("sub_code");
+				//후기 페이징 처리 위해 필요.
+//				int pageNum = Integer.parseInt(request.getParameter("pageNum"));
 				
 				productDetail = productService.viewProduct(code, sub_code);
 				//상품 상세 페이지에서 리뷰도 같이 출력해야함.
-				System.out.println("test : "+reviewService.reviewList(code));
-				reviewList = reviewService.reviewList(code);
+//				reviewList = reviewService.reviewList(code, pageNum);
 				
 				request.setAttribute("productDetail", productDetail);
-				request.setAttribute("reviewList", reviewList);
+//				request.setAttribute("reviewList", reviewList);
 				nextPage = "/product/blog.jsp";
 			}
 			else if(action.equals("/pre_write.do")){
@@ -201,9 +202,12 @@ public class ProductController extends HttpServlet {
 					//name : 1_image_0 과 같은 형식으로 넘어옴. 앞쪽 day 뒤쪽 이미지number
 					int idx1 = file.indexOf("_");
 					int idx2 = file.lastIndexOf("_");
-					int daynum = Integer.parseInt(file.substring(0,idx1)); //list index number로 사용하기 위함
-					
-					String tmp = file.substring(0,idx2);
+					int daynum = 0;
+					String tmp="";
+					if(file.contains("_")){
+						daynum = Integer.parseInt(file.substring(0,idx1)); //list index number로 사용하기 위함
+						tmp = file.substring(0,idx2);
+					}
 				    //tmp를 key로하는 값이 있다면
 				    if(fileList.get(tmp)!=null){
 				    	String tempValue = filename+","+fileList.get(tmp);

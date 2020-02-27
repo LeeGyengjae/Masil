@@ -245,14 +245,13 @@
 						<div class="comment-form">
 		                  <h4>여행 후기</h4>
 		                  <form class="form-contact comment_form" action="${contextPath}/review1/insertReview.do" id="commentForm">
-		                  	<input type="hidden" name="code" value="${reviewList.code}">
 		                  	<input type="hidden" name="write_date" value="">
 		                  	
 		                     <div class="row">
 		                    	 <div class="col-12">
 	                    	       <div class="form-group">
 		                              <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9"
-		                                 placeholder="Write Comment"></textarea>
+		                                 placeholder="Write Comment">test : ${reviewList}</textarea>
 		                           </div>
 		                        </div>
 		                     	<div class="col-sm-6">

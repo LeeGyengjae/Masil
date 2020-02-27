@@ -75,8 +75,12 @@
 	
 		var period = $("#period").val();
 		var div = $("#periodAdd");
-		
 		var msg = "";
+		
+		//기간 입력 후 태그, 버튼 비활성화
+		$("#period").prop("readonly", true);
+		$("#addBtn").addClass('disable');
+		$("#addBtn").removeClass('primary-border');
 		
 		for (i = 1; i < (Number(period)+1); i++) {
 			
@@ -131,10 +135,14 @@
 			+ "</div>"
 			+ "</div>"
 			+ "</div>";
-		
 		}
 		div.after(msg);
 	}//periodSet()
+	
+	function submit(){
+	   writeForm.submit(); 
+	}//notNull()
+	
 	
 	//업로드 파일 검사 - 수정 필요 
 	//input type='file' 태그 value값 가져온 후 .을 기준으로 뒷글자 잘라서 검사
@@ -204,7 +212,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                     	<span>세부코드</span>
-                                        <input class="form-control" name="sub_code" id="sub_code" type="text" 
+                                        <input class="form-control" name="subCode" id="sub_code" type="text" 
                                         placeholder="세부코드">
                                     </div>
                                 </div>
@@ -240,8 +248,7 @@
                                     <div class="form-group">
                                     	<%--기간 입력 후 기간 <= 도착 일자 제한하도록 function설정 해야됨 --%>
                                     	<span>기간</span>
-										<input class="form-control" name="period" id="period" type="text" onblur="periodSet()"
-											placeholder="기간">
+										<input class="form-control" name="period" id="period" type="text" placeholder="기간">
 										<input type="button" value="일정 입력칸 추가" id="addBtn" onclick="periodSet()"
 											class="genric-btn primary-border small">
                                     </div>
@@ -249,7 +256,7 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                    		<span>최대참여인원</span>
-                                        <input class="form-control" name="max_num" id="max_num" type="text" 
+                                        <input class="form-control" name="maxNum" id="max_num" type="text" 
                                         placeholder="최대참여인원">
                                     </div>
                                 </div>
@@ -263,7 +270,7 @@
                             	<div class="col-sm-6">
                                     <div class="form-group">
                                     	<span>출발일자</span>
-                                        <input class="form-control" name="start_date" id="start_date" type="date" 
+                                        <input class="form-control" name="startDate" id="start_date" type="date" 
                                         placeholder="출발일자"> 
                                     </div>
                                 </div>
@@ -271,7 +278,7 @@
                                     <div class="form-group">
                                     	<%--도착일자 : 기간과 맞춰야됨. --%>
                                     	<span>도착일자</span>
-                                        <input class="form-control" name="end_date" id="subject" type="date" 
+                                        <input class="form-control" name="endDate" id="endDate" type="date" 
                                         placeholder="도착일자">
                                     </div>
                                 </div>
@@ -281,13 +288,13 @@
                                     <div class="form-group">
                                		 	<h3 class="text-heading">일정</h3>
                            		 	</div>
+                           		 	<%--일정 태그 추가 되는 차리 --%>
                          		</div>
 		                                  
                             </div>
                             
                             <div class="form-group mt-3">
-                                <!-- <input type="submit" class="button button-contactForm boxed-btn" onclick="fileCheck(contactForm.writeForm)" value="상품등록"> -->
-                                <button type="submit" class="button button-contactForm boxed-btn">상품등록</button>
+                                <button type="submit" class="button button-contactForm boxed-btn" onclick='submit()'>상품등록</button>
                                 <input type="reset" value="다시쓰기" class="button button-contactForm boxed-btn">
                                 <input type="button" value="상품목록" class="button button-contactForm boxed-btn" onclick="location.href='${contextPath}/product1/product.do'">
                             </div>

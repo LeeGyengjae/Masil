@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -143,9 +144,11 @@ public class ProductDAO {
 	//새 상품 업로드
 	public int insertProduct(Map<String, Object> productMap) {
 		System.out.println("insertProduct시작");
+		System.out.println("DAO productMap : "+productMap);
 		int re=0;
 		try {
 			conn = getConnection();
+			conn.setAutoCommit(false); //트랜잭션 처리 위해 auto commit off
 			sql ="insert into product (code, continent, period, course, comment)"
 				+ " values (?,?,?,?,?)";
 			pstmt=conn.prepareStatement(sql);
@@ -199,11 +202,26 @@ public class ProductDAO {
 			pstmt.setString(6, productMap.get("maxNum").toString());
 			pstmt.setString(7, productMap.get("price").toString());
 			re = pstmt.executeUpdate();
+			conn.commit();    //트랜잭션 종료, commit하기
 			System.out.println("sql 3성공 re : "+re);
 			
 		} catch (Exception e) {
+			if(conn!=null) { //예외 발생시 롤백 처리
+				try {
+					conn.rollback();
+				} catch (Exception e2) {
+					System.out.println("conn.rollback() 실패"+e2);
+				}
+			}
 			System.out.println("insertProduct() 오류 "+e);
-		} finally { closeDB(); }
+		} finally { 
+			try {
+				conn.setAutoCommit(true);	//다시 auto Commit on
+			} catch (SQLException e) {
+				System.out.println("conn.setAutoCommit(true) 실패 "+e);
+			}    
+			closeDB(); 
+		}
 		return re;
 	}//insertProduct
 	
