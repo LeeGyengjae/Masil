@@ -5,14 +5,30 @@ import java.sql.Date;
 public class CustomerVO {
 	
 	private int idx;
+	private int level;
+	private int articleNO;
+	private int parentNO;
 	private String id;
 	private Date write_date;
 	private String title;
 	private String content;
 	private String img;
 	
-	//�⺻ ������
 	public CustomerVO() {}
+	
+	public CustomerVO(int idx, int level, int articleNO, int parentNO, String id, Date write_date, String title,
+			String content, String img) {
+		super();
+		this.idx = idx;
+		this.level = level;
+		this.articleNO = articleNO;
+		this.parentNO = parentNO;
+		this.id = id;
+		this.write_date = write_date;
+		this.title = title;
+		this.content = content;
+		this.img = img;
+	}
 	
 	//toString() Override
 	@Override
@@ -23,10 +39,35 @@ public class CustomerVO {
 	}//toString() Override
 	
 	/* getter & setter */
+	
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public int getArticleNO() {
+		return articleNO;
+	}
+
+	public void setArticleNO(int articleNO) {
+		this.articleNO = articleNO;
+	}
+
+	public int getParentNO() {
+		return parentNO;
+	}
+
+	public void setParentNO(int parentNO) {
+		this.parentNO = parentNO;
+	}
+	
 	public int getIdx() {
 		return idx;
 	}
-
+	
 	public void setIdx(int idx) {
 		this.idx = idx;
 	}

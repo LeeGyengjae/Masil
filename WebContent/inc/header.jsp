@@ -39,7 +39,7 @@ request.setCharacterEncoding("UTF-8");
                                                 </ul>
                                             </li>
                                             <li><a href="contact.jsp">Contact</a></li>
-                                            <li><a href="customer/customer.jsp">Customer</a></li>
+                                            <li><a href="Customer/customer.do">Customer</a></li>
                                         </ul>
                                     </nav>
                                 </div>
