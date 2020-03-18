@@ -1,7 +1,6 @@
 package masil.review;
 
 import java.io.IOException;
-import java.util.Enumeration;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,9 +8,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import masil.product.ProductService;
-
 
 @WebServlet("/review1/*")
 public class ReviewController extends HttpServlet {
@@ -50,6 +46,8 @@ public class ReviewController extends HttpServlet {
 		try {
 			
 			if(action.equals("insertReview.do")){
+				System.out.println("reviewController");
+				
 				String code = request.getParameter("code");
 				String sub_code = request.getParameter("sub_code");
 				String id = request.getParameter("id");
@@ -59,7 +57,9 @@ public class ReviewController extends HttpServlet {
 				String end_date = request.getParameter("end_date");
 				reviewVO = new ReviewVO(code, id, content, write_date, rating, end_date);
 				reviewService.insertReview(reviewVO);
-				nextPage = "/product1/blog.do?code="+code+"sub_code="+sub_code;
+				System.out.println("reviewVO : "+reviewVO.toString());
+				
+				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code;
 				
 			} else if (action.equals("updateReview.do")){
 				String code = request.getParameter("code");
@@ -71,7 +71,7 @@ public class ReviewController extends HttpServlet {
 				String end_date = request.getParameter("end_date");
 				reviewVO = new ReviewVO(code, id, content, write_date, rating, end_date);
 				reviewService.updateReview(reviewVO);
-				nextPage = "/product1/blog.do?code="+code+"sub_code="+sub_code;
+				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code;
 				
 			} else if (action.equals("deleteReview.do")){
 				String code = request.getParameter("code");
@@ -83,7 +83,7 @@ public class ReviewController extends HttpServlet {
 				String end_date = request.getParameter("end_date");
 				reviewVO = new ReviewVO(code, id, content, write_date, rating, end_date);
 				reviewService.deleteReview(reviewVO);
-				nextPage = "/product1/blog.do?code="+code+"sub_code="+sub_code;
+				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code;
 				
 			}
 			

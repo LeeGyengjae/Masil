@@ -66,6 +66,8 @@
 	}//addImgfile()
 	
 	function submit(){
+        // readonly 삭제
+        $("*").removeAttr("readonly");
 	   writeForm.submit(); 
 	}//notNull()
 
@@ -106,7 +108,7 @@
                         <h2 class="contact-title">상품 업로드</h2>
                     </div>
                     <div class="col-lg-8">
-                        <form class="form-contact contact_form" action="${contextPath}/product1/addProduct2.do" 
+                        <form class="form-contact contact_form" action="${contextPath}/product1/update.do" 
                         method="post" id="contactForm" enctype="multipart/form-data" name="writeForm" > 
                         
                             <div class="row">
@@ -115,35 +117,35 @@
                                     <div class="form-group">
                                     	<span>메인코드</span>
                                         <input class="form-control" name="code" id="code" type="text" 
-                                        onfocus="this.placeholder = ''"  
-                                        placeholder="${product.code}" disabled="disabled">
+                                        value="${product.code}" readonly="readonly">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                     	<span>세부코드</span>
-                                        <input class="form-control" name="subCode" id="sub_code" type="text">
+                                        <input class="form-control" name="subCode" id="sub_code" type="text"
+                                        value="${product.sub_code}" readonly="readonly">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
                                    	 	<span>대륙</span>
-                                        <input class="form-control" name="continent" id="continent" type="text" 
-                                        onfocus="this.placeholder = ''" placeholder="${product.continent}" disabled="disabled">
+                                        <input class="form-control" name="continent" id="continent" type="text" value="${product.continent}"
+                                        onfocus="this.placeholder = ''" placeholder="${product.continent}" readonly="readonly">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
                                   	  <span>코스</span>
-                                        <input class="form-control" name="course" id="course" type="text" 
-                                        onfocus="this.placeholder = ''" placeholder="${product.course}" disabled="disabled">
+                                        <input class="form-control" name="course" id="course" type="text" value="${product.course}"
+                                        onfocus="this.placeholder = ''" placeholder="${product.course}" readonly="readonly">
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
                                     	<span>기간</span>
-                                        <input class="form-control" name="period" id="period" type="text" 
-                                        onfocus="this.placeholder = ''" placeholder="${product.period}" disabled="disabled">
+                                        <input class="form-control" name="period" id="period" type="text" value="${product.period}"
+                                        onfocus="this.placeholder = ''" placeholder="${product.period}" readonly="readonly">
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -155,78 +157,78 @@
                             	<div class="col-sm-6">
                                     <div class="form-group">
                                     	<span>출발일자</span>
-                                        <input class="form-control" name="startDate" id="start_date" type="date" > 
+                                        <input class="form-control" name="startDate" id="start_date" type="date" value="${product.start_date}"> 
                                     </div>
                                 </div>
                             	<div class="col-sm-6">
                                     <div class="form-group">
                                     	<span>도착일자</span>
-                                        <input class="form-control" name="endDate" id="subject" type="date" >
+                                        <input class="form-control" name="endDate" id="subject" type="date" value="${product.end_date}">
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-group">
                                    		<span>최대참여인원</span>
-                                        <input class="form-control" name="maxNum" id="max_num" type="text">
+                                        <input class="form-control" name="maxNum" id="max_num" type="text" value="${product.max_num}">
                                     </div>
                                 </div>
                                 <fmt:parseNumber value="${product.period}" type="number" var="period" />
                                 </c:forEach>
                                 <h3>일정</h3>
-                                <%-- <c:forEach var="product" items="${productDetail}" varStatus="productNum"> --%>
-                                <c:forEach var="detail" items="${productDetail}" begin="0" end="${period-1}" step="1">
+<%--                                 <c:forEach var="product" items="${productDetail}" varStatus="productNum"> --%>
+                                <c:forEach var="detail" items="${productDetail}" begin="0" end="${period-1}" step="1" >
                                		<div class="col-12">
                                		<h4>${detail.day}일자 </h4>
 	                                    <div class="form-group">
 	                                    	<span>일정 제목</span>
-	                                    	<input class="form-control" name="dayTitle" id='day_title${i+1}' type="text" 
+	                                    	<input class="form-control" name="dayTitle" id='day_title${detail.day}' type="text" 
 		                                        value="${detail.day_title}">
 	                                    </div>
                                		</div>
                                		 <div class="col-sm-12">
 	                               		<div class='form-group'>
 											<span>${i+1} 일자 코스</span>
-											<input class='form-control' name='dayCourse' id='${i+1}dayCourse' type='text' 
+											<input class='form-control' name='dayCourse' id='${detail.day}dayCourse' type='text' 
 											value='${detail.day_course}'>
 										</div>
 									</div>
 	                                <div class="col-sm-6">
 	                                    <div class="form-group">
 	                                    	<span>숙박</span>
-	                                        <input class="form-control valid" name="stay" id='stay${i+1}' type="text" 
+	                                        <input class="form-control valid" name="stay" id='stay${detail.day}' type="text" 
 	                                        value="${detail.stay}">
 	                                    </div>
 	                                </div>
                                     <div class="col-sm-6">
 	                                    <div class="form-group">
 	                                    	<span>식사</span>
-	                                        <input class="form-control valid" name="meal" id='meal${i+1}' type="text" 
+	                                        <input class="form-control valid" name="meal" id='meal${detail.day}' type="text" 
 	                                        value="${detail.meal}">
 	                                    </div>
 	                                 </div>
 	                                <div class="col-12">
 	                                    <div class="form-group">
 	                                    	<span>일정내용</span>
-	                                        <textarea class="form-control w-100" name="dayContent" id='day_content${i+1}' cols="30" rows="9">
-	                                        	${fn:replace(detail.day_content, linechange, '<br/>')}
+	                                        <textarea class="form-control w-100" name="dayContent" id='day_content${detail.day}' cols="30" rows="9">
+	                                        	${detail.day_content}
 	                                        </textarea>
 	                                    </div>
 	                                </div>
                                   	<div class="col-12">
 	                                    <div class="form-group">
 	                                    	<span>이미지 설명</span>
-	                                        <textarea class="form-control w-100" name="imgContent" id='img_content${i+1}' cols="30" rows="9">
-	                                        	<c:out value="${fn:replace(detail.img_content, linechange, '<br/>')}"/>
+	                                        <textarea class="form-control w-100" name="imgContent" id='img_content${detail.day}' cols="30" rows="9">
+	                                        	${detail.img_content}
 	                                        </textarea>
 	                                    </div>
 	                                </div>
 	                                <div class="col-12">
 		                                <div class='form-group'>
-											<span>첨부된 이미지</span>
+											<span>기존 이미지</span>
 											<div class="thumb">
 												<c:forTokens items="${detail.image}" delims="," var="images">
 													<img alt="${images}" src="${contextPath}/product/upload/${images}" width="50px" height="50px">
-													<input type="hidden" name="old_image" value="${i+1}_old${images}"> 
+													<input type="hidden" name="old_image" value="${detail.day}_old${images}"> 
 												</c:forTokens>
 											</div>
 										</div>
@@ -234,11 +236,11 @@
 									<div class="col-12">
 										<div class='form-group'>
 											<span>이미지 새로 등록하기</span>
-											<input type='text' value='' id='addImgCnt${i+1}' class='addImgCnt${i+1} form-control'
+											<input type='text' value='' id='addImgCnt${detail.day}' class='addImgCnt${detail.day} form-control'
 											onfocus="this.placeholder = ''" onblur="this.placeholder = '등록할 이미지 파일 개수 입력'" 
 											placeholder="등록할 이미지 파일 개수 입력" >
-											<input type='button' value='추가' id='addBtn' onclick='addImgfile(${i+1})' class='genric-btn primary-border small'>									
-											<div id='addImgHere${i+1}' class='addImgHere${i+1}'></div>
+											<input type='button' value='추가' id='addBtn' onclick='addImgfile(${detail.day})' class='genric-btn primary-border small'>									
+											<div id='addImgHere${detail.day}' class='addImgHere${detail.day}'></div>
 										</div>
 									</div>
                                 </c:forEach>

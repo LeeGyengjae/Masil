@@ -39,16 +39,33 @@ public class ProductService {
 //	    }//for
 		int re = productDAO.insertProduct(productMap);
 		System.out.println("Service : 호출끝");
-		return 0;
+		return re;
 		
 	}//insertProduct
 	
 	public List<Map<String,String>> reviewList(String code, int pageNum) {
-		System.out.println("review service page");
+		System.out.println("reviewList 호출하는 service page");
 		List<Map<String,String>> reviewList = reviewDAO.selectReview(code, pageNum);
 		return reviewList;
 	}
+
+	public int updateProduct(Map<String, Object> productMap) {
+		System.out.println("updateProduct Service : 호출");
+		int re = productDAO.updateProduct(productMap);
+		System.out.println("updateProduct Service : 끝");
+		return re;
+	}
 	
+	public int deleteProduct(Map<String, Object> productMap) {
+		int re = productDAO.deleteProduct(productMap);
+		System.out.println("Service : 호출끝");
+		return re;
+	}
+
+	public int countProduct() {
+		int countProduct = productDAO.countProduct();
+		return countProduct;
+	}
 	
 	
 }

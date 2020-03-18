@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 	request.setCharacterEncoding("UTF-8");
+	String pageNum = request.getParameter("pageNum");
 %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
@@ -40,9 +41,47 @@
 
 <link rel="stylesheet" href="../css/style.css">
 <!-- <link rel="stylesheet" href="css/responsive.css"> -->
+
+<script type="text/javascript">
+
+	//더보기 버튼 클릭시 상품 목록 5개씩 추가 출력 -해야함
+	function moreList() {
+		if (count > 0) {
+			int pageCount = count / pageSize + (count % pageSize == 0 ? 0 : 1);
+			int pageBlock = 5;
+			int startPage = ((currentPage / pageBlock) - (currentPage % pageBlock == 0 ? 1 : 0)) * pageBlock + 1;
+			int endPage = startPage + pageBlock - 1;
+			if (endPage > pageCount) {
+				endPage = pageCount;
+			}
+			if (startPage > pageBlock) {
+				pageNum=startPage - pageBlock;
+			}
+			
+			for (i = startPage; i <= endPage; i++) {
+				pageNum=i;
+			}
+			
+		}
+		
+	}//function moreList
+
+
+</script>
+
 </head>
 
 <body>
+
+<%-- 	<c:set var="count" value="${countProduct}" /> --%>
+<%-- 	<c:set var="pageSize" value="5" /> --%>
+<%-- 	<c:if test="${pageNum==null}"> --%>
+<%-- 		<c:set var="pageNum" value="1"/> --%>
+<%-- 	</c:if> --%>
+<%-- 	<fmt:parseNumber value="pageNum" type="number" var="currentPage"/> --%>
+<%-- 	<c:set var="startRow" value="${(currentPage-1)*pageSize}" /> --%>
+
+
 	<!--[if lte IE 9]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
         <![endif]-->
@@ -209,33 +248,42 @@
 							<c:when test="${requestScope.productList != null }">
 								<c:forEach var="product" items="${productList}">
 									<div class="col-lg-6 col-md-6">
-										<div class="single_place">
+										<div class="single_place" style="cursor:pointer;" 
+										onclick="location.href='blog.do?code=${product.code}&sub_code=${product.sub_code}'" >
 											<div class="thumb">
 												<c:forTokens items="${product.image}" delims="," var="images">
-													<img alt="${images}" src="${contextPath}/product/upload/${images}"> 
+													<img alt="${images}" src="${contextPath}/product/upload/${images}" >
 												</c:forTokens>
 												<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}"	class="prise">
-													
-												<fmt:formatNumber type="currency" value="${product.price}" currencySymbol="￦ "/>	
-													
+													<fmt:formatNumber type="currency" value="${product.price}" currencySymbol="￦ "/>	
 												</a>
 											</div>
 											<div class="place_info">
 
 												<%--여행지역,상품명 --%>
-												<%-- <a href="productDetail.do?code=${product.code}"> --%>
 												<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}">
 													<h3>${product.title}</h3>
 												</a>
-												<p>${product.code} ${product.sub_code} <br>
+												<p>${product.code}-${product.sub_code} <br>
 												 ${product.comment} | start : ${product.start_date}</p>
 
 												<div class="rating_days d-flex justify-content-between">
 													<span
 														class="d-flex justify-content-center align-items-center">
-														<%-- 별점 ${product.rating} 해서 받아온 값만큼만 ★ 출력, 나머진 ☆ 처리 해야됨--%>
-															<i class="fas fa-star"></i>
-														<p>${product.rating}</p>
+															
+														<c:if test="${product.rating != null}">
+															<fmt:parseNumber var="ratingNum" value="${product.rating}" integerOnly="true" />
+															<fmt:parseNumber var="ratingNum2" value="${product.rating}" />
+															
+															<c:forEach var="ratNum" begin="1" end="${(ratingNum*10)/10}">
+																<i class="fas fa-star"></i>
+															</c:forEach>
+															<c:if test="${ratingNum2-(ratingNum*10)/10 != 0}">
+																<i class="fas fa-star-half"></i>
+															</c:if>
+														</c:if>
+
+														
 														<%-- 후기 개수 --%>
 														<c:if test="${product.recnt != null}">
 															<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}">
@@ -243,25 +291,20 @@
 															</a>
 														</c:if>
 													</span>
-
 													<%-- 여행기간 --%>
 													<div class="days">
 														<i class="fa fa-clock-o"></i>
 														<a href="#">
-															<%-- <fmt:parseDate value="${product.end_date}" var="endDate" pattern="yyyy-MM-dd"/>
-															<fmt:parseNumber value="${endDate.time / (1000*60*60*24)}" integerOnly="true" var="end_Date"/>
-															<fmt:parseDate value="${product.start_date}" var="startDate" pattern="yyyy-MM-dd"/>
-															<fmt:parseNumber value="${startDate.time / (1000*60*60*24)}" integerOnly="true" var="start_Date"/> --%>
 															${product.period} 일
 														</a>
 													</div>
-
+													<%-- 여행기간 --%>
 												</div>
 											</div>
 										</div>
+										
 									</div>
 								</c:forEach>
-
 
 								<%-- ↑상품 1개씩↑ --%>
 							</c:when>
@@ -269,11 +312,11 @@
 					</div>
 
 
-					<%-- 상품 더 보기 버튼 --%>
+					<%-- 페이징 처리 대신 상품 더 보기 버튼 사용 : 더보기 버튼 눌러서 일정 개수 목록 출력 --%>
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="more_place_btn text-center">
-								<a class="boxed-btn4" href="#">상품 더보기</a>
+								<a class="boxed-btn4" href="#" function="moreList()">상품 더보기</a>
 							</div>
 						</div>
 					</div>

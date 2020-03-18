@@ -54,12 +54,12 @@ public class ReviewDAO {
 			sql = "select a.code, a.id, a.content, a.write_date, a.rating, a.end_date, b.reviewCnt"
 				+ " from review a join (select count(code) reviewCnt, code from review where code=?) b"
 				+ " on a.code=b.code"
-				+ " where a.code=?"
-				+ " limit ?,5";
+				+ " where a.code=?";
+//				+ " where a.code=? limit ?,5";
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, code);
 			pstmt.setString(2, code);
-			//pstmt.setString(2, code);
+//			pstmt.setInt(3, pageNum);
 			rs=pstmt.executeQuery();
 			while(rs.next()){
 				Map<String, String> reviewMap = new HashMap<String, String>();
@@ -83,17 +83,27 @@ public class ReviewDAO {
 		int re=0;
 		try {
 			conn=getConnection();
-			sql = "insert into review (code, id, content, write_date, rating, end_date)"
-					+ " values (?,?,?,?,?,?)";
-			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, reviewVO.getCode());
-			pstmt.setString(2, reviewVO.getId());
-			pstmt.setString(3, reviewVO.getContent());
-			pstmt.setString(4, reviewVO.getWrite_date());
-			pstmt.setInt(5, reviewVO.getRating());
-			pstmt.setString(6, reviewVO.getEnd_date());
-			re=pstmt.executeUpdate();
-			System.out.println("insertReview()성공!!");
+			sql = "select a.id, a.code, b.end_date"
+					+" from res_table a join pro_write b"
+					+" on a.code=b.sub_code"
+					+" where a.id=? and a.code=?";
+				pstmt=conn.prepareStatement(sql);
+				pstmt.setString(1, reviewVO.getId());
+				pstmt.setString(2, reviewVO.getCode());
+				rs=pstmt.executeQuery();
+				if(rs.next()){	//다녀온 사람만 후기 작성할 수 있도록 함
+					sql = "insert into review (code, id, content, write_date, rating, end_date)"
+							+ " values (?,?,?,?,?,?)";
+					pstmt=conn.prepareStatement(sql);
+					pstmt.setString(1, reviewVO.getCode());
+					pstmt.setString(2, reviewVO.getId());
+					pstmt.setString(3, reviewVO.getContent());
+					pstmt.setString(4, reviewVO.getWrite_date());
+					pstmt.setInt(5, reviewVO.getRating());
+					pstmt.setString(6, reviewVO.getEnd_date());
+					re=pstmt.executeUpdate();
+				}
+				System.out.println("insertReview()성공!!");
 		} catch (Exception e) {
 			System.out.println("insertReveiw() 실패 "+e);
 		} finally { closeDB(); }
@@ -109,7 +119,7 @@ public class ReviewDAO {
 			pstmt=conn.prepareStatement(sql);
 			rs=pstmt.executeQuery();
 			if(rs.next()){
-				if(reviewVO.getId().equals("masiladmin")){	//문제성 후기 작성시 관리자가 수정 버튼 클릭하여 내용 가릴 수 있도록함
+				if(reviewVO.getId().equals("master")){	//문제성 후기 작성시 관리자가 수정 버튼 클릭하여 내용 가릴 수 있도록함
 					sql="update review set content=? where code=? and id=?";
 					pstmt = conn.prepareStatement(sql);
 					pstmt.setString(1, "관리자에 의해 가려진 후기입니다");
