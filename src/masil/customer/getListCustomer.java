@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import masil.user.Action;
 import masil.user.ActionForward;
+import masil.user.UserDAO;
 
 public class getListCustomer implements Action {
 
@@ -24,17 +25,27 @@ public class getListCustomer implements Action {
 		
 		//게시판 글 갯수를 저장하는 변수
 		int allCount = new CustomerDAO().customerAllCount();
+		//유저 id 확인
+		String user = (String)request.getSession().getAttribute("id");
+//		int idcheck = new UserDAO().searchingId(id);
+//		if(idcheck==0){
+//			System.out.println("아이디가 있다");
+//		}else{
+//			System.out.println("아이디가 없다");
+//		}
+		
 		//얻어온 자료 ArrayList 넘기기
 		request.setAttribute("List", List);
 		//현재 페이지 넘버 넘기기
 		request.setAttribute("page", page);
 		//게시판 글 갯수 넘기기
 		request.setAttribute("AllCount", allCount);
-		
+		//아이디 넘기기
+		request.setAttribute("user", user);
 		
 		
 		forward = new ActionForward();
-		forward.setPath("/customer.jsp");
+		forward.setPath("/customer/customer.jsp");
 		forward.setRedirect(false);
 		
 		return forward;

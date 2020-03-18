@@ -43,18 +43,7 @@ public class CustomerController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=utf-8");
 		
-		if(command.equals("/write.do")){
-			 
-			action=new CustomerWriteAction(); 
-			try {
-				forward=action.execute(request, response);
-			} catch (Exception e) {
-				System.out.println("/write.do 에러 : "+e);
-			}
-			
-			
-			
-		}else if(command.equals("/customer.do")){
+		if(command.equals("/customer.do")){
 			action = new getListCustomer();
 			try {
 				forward= action.execute(request, response);
@@ -62,6 +51,15 @@ public class CustomerController extends HttpServlet {
 				System.out.println("/customer.do 에러 : "+e);
 			}
 			
+			
+		}else if(command.equals("/wirte.do")){
+			
+			action=new CustomerWriteAction();  
+			try {
+				forward=action.execute(request, response);
+			} catch (Exception e) {
+				System.out.println("/write.do 에러 : "+e);
+			}
 			
 		}else{
 			

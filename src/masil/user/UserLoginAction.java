@@ -49,7 +49,6 @@ public class UserLoginAction implements Action {
 			forward.setRedirect(true);
 			forward.setPath("/masil/index.jsp"); 
 			
-			
 			return forward;
 	}
 	

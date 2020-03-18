@@ -57,6 +57,7 @@ public class CustomerDAO {
 			
 			while(rs.next()){
 				CustomerVO customervo = new CustomerVO();
+				customervo.setId(rs.getString("id"));
 				customervo.setContent(rs.getString("content"));
 				customervo.setWrite_date(rs.getDate("write_date"));
 				customervo.setIdx(rs.getInt("idx"));
@@ -92,6 +93,36 @@ public class CustomerDAO {
 		
 		return result;
 	}//CustomerAllCount() 끝
+
+	public boolean wirteCustomer(CustomerVO customervo) {
+		boolean result = false;
+		try {
+			getConnection();
+			String sql = "insert into masil.customer (id,write_date,title,content";
+			if(customervo.getImg()!=null){
+				sql += ",img) values(?,now(),?,?,?)";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(4, customervo.getImg());
+			}else{
+				sql += ") values(?,now(),?,?)";
+				pstmt = con.prepareStatement(sql);
+			}
+			pstmt.setString(1, customervo.getId());
+			pstmt.setString(2, customervo.getTitle());
+			pstmt.setString(3, customervo.getContent());
+			if(pstmt.executeUpdate()==1){
+				result = true;
+			}
+			
+		} catch (Exception e) {
+			System.out.println("writeCustomer() 오류 : "+e);
+		} finally {
+			allClose();
+		}
+		
+		return result;
+		
+	}
 	
 	
 

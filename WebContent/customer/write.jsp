@@ -32,8 +32,28 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
 
     <link rel="stylesheet" href="../css/style.css">
+    
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript">
+	    function readURL(input) {
+		   console.debug(input); 
+	       console.debug(input.files); 
+		   if (input.files && input.files[0]) {
+			  $("#tdImg").html("<img  id='preview' src='#'   width=200 height=200/>");
+		      var reader = new FileReader();
+		      reader.readAsDataURL(input.files[0]);
+		      reader.onload = function (ProgressEvent) {
+	    		  console.debug(ProgressEvent);
+		      	 $('#preview').attr('src',ProgressEvent.target.result);
+		          }
+		      }  
+		} 
+	  function backToList(obj){
+	    obj.action="${contextPath}/Customer/customer.do";
+	    obj.submit();
+	  }
+  </script>
    </head>
-
 <body>
     <!-- header-start -->
     <header>
@@ -43,57 +63,33 @@
 
     <!-- bradcam_area  -->
     <section class="container mt-3" style="max-width: 560px;">
-    	<h1>1:1문의</h1>
-							<table border="1" >
-								<tr class="thead-dark" align="center">
-									<th width="100">No.</th>
-									<th width="400">Title</th>
-									<th width="200">Writer</th>
-									<th width="200">Date</th>
-								</tr>
-							<c:forEach var="List" items="${List }" >
-								<tr>
-									<td align="center">${List.idx }</td>
-									<td><a href="View.Notice?Notice_num=${List.idx }">${List.title }</a></td>
-									<td align="center">${List.id }</td>
-									<td>${List.write_date }</td>
-								</tr>
-							</c:forEach>
-							
-							</table>	
-								<ul class="pagination">
-								  <!--  페이지 넘버가 0이 아닐때   ㅁㅁㅁ 중 가운데에 현페이지 넘버  -->
-								<c:choose>
-									<c:when test="${page == 0 }"><!-- 현재페이지가 0 번일때  -->
-										<li class="page-item active"><a class="page-link" href="Board.Notice?Notice_page=${page}">${page +1}</a></li>
-										<c:choose>
-											<c:when test="${AllCount > 10 && AllCount < 21 }">
-												<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${page + 1 }">${page +2}</a></li>	
-											</c:when>
-											<c:when test="${AllCount > 20 }">
-												<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${page+ 1 }">${page +2}</a></li>
-												<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${page + 2 }">${page +3}</a></li>
-											</c:when>
-										</c:choose>
-									</c:when>
-									<c:otherwise>
-										<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${page - 1}">${page }</a></li>
-								  		<li class="page-item active"><a class="page-link" href="Board.Notice?Notice_page=${page}">${page +1}</a></li>
-								  		<c:choose>
-								  			<c:when test="${AllCount > (page+1)*10 }">
-								  				<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${page + 1 }">${page +2}</a></li>
-								  			</c:when>
-								  		</c:choose>
-									</c:otherwise>
-								</c:choose>
-								</ul>
-								
-								<c:if test="${id!=null }">
-									<a href="${contextPath}/masil/customer/write.jsp" class="btn btn-dark float-right btn-sm">
-									<i class="fas fa-pen-fancy">글 쓰기</i></a>
-								</c:if>
-								<br>
-								<br>
+    	<h1>글쓰기</h1>
+	  <form name="customerForm" method="post"   
+	  						   action="${contextPath}/customer/writePro.do"   
+	  						   enctype="multipart/form-data">
+	    <table border=0 align="center">
+	     <tr >
+		   <td align="right" width="500px">글제목: </td>
+		   <td colspan="2"><input type="text" size="67"  maxlength="500" name="title" /></td>
+		 </tr>
+		 <tr>
+			<td align="right" valign="top"><br>글내용: </td>
+			<td colspan=2><textarea name="content" rows="10" cols="65" maxlength="4000"></textarea> </td>
+	     </tr>
+	     <tr>
+	        <td align="right">이미지파일 첨부:  </td>
+		     <td> <input type="file"  name="imageFileName"  onchange="readURL(this);" /></td>
+	         <td id="tdImg"></td>
+		 </tr>
+		 <tr>
+		    <td align="right"> </td>
+		    <td colspan="2">
+		       <input type="submit" value="글쓰기" />
+		       <input type=button value="목록보기"onClick="backToList(this.form)" />
+		    </td>
+	     </tr>
+	    </table>
+	  </form>
 							
 					
        
@@ -111,17 +107,7 @@
     </footer>
 
 
-  <!-- Modal -->
-  <div class="modal fade custom_search_pop" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="serch_form">
-            <input type="text" placeholder="Search" >
-            <button type="submit">search</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  
     <!-- link that opens popup -->
 <!--     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
