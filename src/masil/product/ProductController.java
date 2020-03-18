@@ -1,6 +1,8 @@
 package masil.product;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -34,29 +36,50 @@ public class ProductController extends HttpServlet {
 	public ProductController() {}
 	
 	@Override
-	public void init() throws ServletException {
-		productService = new ProductService();
-		reviewService = new ReviewService();
+//	public void init() throws ServletException {
+	public void init() {
+		try {
+			productService = new ProductService();
+			reviewService = new ReviewService();
+		} catch (Exception e) {
+//			e.printStackTrace();
+		}
 	}
     
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
-		doHandle(request, response);
+//			throws ServletException, IOException {
+    	{
+		try {
+			doHandle(request, response);
+		} catch (Exception e) {
+//			e.printStackTrace();
+		}
 	}
     
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
-		doHandle(request, response);
+//			throws ServletException, IOException {
+    	{
+		try {
+			doHandle(request, response);
+		} catch (Exception e) {
+//			e.printStackTrace();
+		}
 	}
 	
 	protected void doHandle(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
+//			throws ServletException, IOException {
+		 {
 		
 		String nextPage="";
 		
-		request.setCharacterEncoding("UTF-8");
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+//			e1.printStackTrace();
+		}
+		response.setContentType("text/html; charset=utf-8");
 		String action = request.getPathInfo();
 		System.out.println("action : " + action );
 		
@@ -140,12 +163,6 @@ public class ProductController extends HttpServlet {
 			}
 			else if(action.equals("/updateProduct.do")){
 				//상품 수정 하기 위해 기존 내용 뿌려줌
-//				Map<String, Object> productMap = upload(request, response);
-//				String code = productMap.get("code").toString();
-//				String sub_code = productMap.get("subCode").toString();
-//				productService.updateProduct(productMap);
-//				System.out.println("Controller 됨");
-				
 				String code = request.getParameter("code");
 				String sub_code = request.getParameter("sub_code");
 				productDetail = productService.viewProduct(code, sub_code);
@@ -164,7 +181,20 @@ public class ProductController extends HttpServlet {
 				
 				productService.updateProduct(productMap);
 				
-				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code;
+//				int result = productService.updateProduct(productMap);
+//				PrintWriter out = response.getWriter();
+//				
+//				if(result==1){
+//					out.println("<script>alert('수정성공');</script>");
+//					out.flush();
+//					nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code;
+//				}else {
+//					out.println("<script>alert('수정실패\n목록화면으로 이동'); </script>");
+//					out.flush();
+//					nextPage="/product1/product.do";
+//				}
+
+				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code; 
 //				nextPage="/product1/product.do";
 				
 			}
@@ -205,7 +235,7 @@ public class ProductController extends HttpServlet {
 			dispatche.forward(request, response);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 		
 		
@@ -214,7 +244,8 @@ public class ProductController extends HttpServlet {
 
 	//파일 업로드 처리를 위한 upload메소드
 	private Map<String, Object> upload(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException,IOException{
+//			throws ServletException,IOException{
+		{
 		
 		Map<String, Object> productMap = new HashMap<String, Object>();
 		String encoding = "utf-8";
@@ -303,7 +334,7 @@ public class ProductController extends HttpServlet {
 			System.out.println("TEST *** productMap : "+productMap);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 		return productMap; //HashMap리턴
 	}//upload()

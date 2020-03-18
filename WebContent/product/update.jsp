@@ -65,6 +65,16 @@
 		
 	}//addImgfile()
 	
+	function delCk(pnum) {
+		
+		var pnum2 = pnum;
+		if($('#'+pnum+'delImgCk').is(':checked')){
+			$('#'+pnum+'_delImg').attr('value','delImg');
+		}else{
+			$('#'+pnum+'_delImg').val('Notdel'); 
+		}
+	}
+	
 	function submit(){
         // readonly 삭제
         $("*").removeAttr("readonly");
@@ -109,7 +119,7 @@
                     </div>
                     <div class="col-lg-8">
                         <form class="form-contact contact_form" action="${contextPath}/product1/update.do" 
-                        method="post" id="contactForm" enctype="multipart/form-data" name="writeForm" > 
+                        method="post" id="contactForm" enctype="multipart/form-data" name="writeForm" novalidate="novalidate"> 
                         
                             <div class="row">
                             <c:forEach var="product" items="${productDetail}" begin="0" end="0" step="1">
@@ -127,6 +137,13 @@
                                         value="${product.sub_code}" readonly="readonly">
                                     </div>
                                 </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                    	<span>제목</span>
+                                        <input class="form-control" name="title" id="title" type="text" 
+                                        value="${product.title}" >
+                                    </div>
+                                </div>
                                 <div class="col-12">
                                     <div class="form-group">
                                    	 	<span>대륙</span>
@@ -139,6 +156,13 @@
                                   	  <span>코스</span>
                                         <input class="form-control" name="course" id="course" type="text" value="${product.course}"
                                         onfocus="this.placeholder = ''" placeholder="${product.course}" readonly="readonly">
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                  	  <span>상품 한줄 설명</span>
+                                        <input class="form-control" name="comment" id="comment" type="text" 
+                                        value="${product.comment}" placeholder="상품 한줄 설명">
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -175,10 +199,11 @@
                                 <fmt:parseNumber value="${product.period}" type="number" var="period" />
                                 </c:forEach>
                                 <h3>일정</h3>
-<%--                                 <c:forEach var="product" items="${productDetail}" varStatus="productNum"> --%>
                                 <c:forEach var="detail" items="${productDetail}" begin="0" end="${period-1}" step="1" >
                                		<div class="col-12">
                                		<h4>${detail.day}일자 </h4>
+                               		<input type='hidden' name="day" id="day" value='${detail.day}' >
+                               		
 	                                    <div class="form-group">
 	                                    	<span>일정 제목</span>
 	                                    	<input class="form-control" name="dayTitle" id='day_title${detail.day}' type="text" 
@@ -187,7 +212,7 @@
                                		</div>
                                		 <div class="col-sm-12">
 	                               		<div class='form-group'>
-											<span>${i+1} 일자 코스</span>
+											<span>${detail.day} 일자 코스</span>
 											<input class='form-control' name='dayCourse' id='${detail.day}dayCourse' type='text' 
 											value='${detail.day_course}'>
 										</div>
@@ -209,17 +234,13 @@
 	                                <div class="col-12">
 	                                    <div class="form-group">
 	                                    	<span>일정내용</span>
-	                                        <textarea class="form-control w-100" name="dayContent" id='day_content${detail.day}' cols="30" rows="9">
-	                                        	${detail.day_content}
-	                                        </textarea>
+	                                        <textarea class="form-control w-100" name="dayContent" id='day_content${detail.day}' cols="30" rows="9">${detail.day_content}</textarea>
 	                                    </div>
 	                                </div>
                                   	<div class="col-12">
 	                                    <div class="form-group">
 	                                    	<span>이미지 설명</span>
-	                                        <textarea class="form-control w-100" name="imgContent" id='img_content${detail.day}' cols="30" rows="9">
-	                                        	${detail.img_content}
-	                                        </textarea>
+	                                        <textarea class="form-control w-100" name="imgContent" id='img_content${detail.day}' cols="30" rows="9">${detail.img_content}</textarea>
 	                                    </div>
 	                                </div>
 	                                <div class="col-12">
@@ -231,6 +252,9 @@
 													<input type="hidden" name="old_image" value="${detail.day}_old${images}"> 
 												</c:forTokens>
 											</div>
+											<input type="checkbox" name="${detail.day}_delImgCk" id="${detail.day}delImgCk" value="delImg" 
+											onclick='delCk(${detail.day})' ><label for="delImg">이미지 지우기</label>
+											<input type="hidden" name="${detail.day}_delImg" id="${detail.day}_delImg">
 										</div>
 									</div>
 									<div class="col-12">

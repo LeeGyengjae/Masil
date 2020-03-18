@@ -126,9 +126,9 @@
 										<c:if test="${product.rating != null}">
 											<fmt:parseNumber var="ratingNum" value="${product.rating}" integerOnly="true" />
 											<fmt:parseNumber var="ratingNum2" value="${product.rating}" />
-												
+												평점 : 
 											<c:forEach var="ratNum" begin="1" end="${(ratingNum*10)/10}">
-												평점 : <i class="fas fa-star"></i>
+												<i class="fas fa-star"></i>
 											</c:forEach>
 											<c:if test="${ratingNum2-(ratingNum*10)/10 != 0}">
 												<i class="fas fa-star-half"></i>
@@ -198,10 +198,12 @@
 							<c:forEach var="product" items="${productDetail}" varStatus="productNum">
 								<article class="blog_item slider_area">
 									<div class="blog_item_img slider_active owl-carousel">
-										<c:forTokens items="${product.image}" delims="," var="images">
-											<img class="card-img rounded-0" alt="${images}" 
-											src="${contextPath}/product/upload/${images}" height="350px" width="50px" > 
-										</c:forTokens>
+										<c:if test="${product.image!=null}">
+											<c:forTokens items="${product.image}" delims="," var="images">
+												<img class="card-img rounded-0" alt="${images}" 
+												src="${contextPath}/product/upload/${images}" height="350px" width="50px" > 
+											</c:forTokens>
+										</c:if>
 									</div>
 									
 									<div class="blog_details">
@@ -212,7 +214,9 @@
 										</div>
 									
 										<p>${fn:replace(product.day_content, newLineChar, "<br/>")}</p>
-										<p>이미지 설명 : ${fn:replace(product.img_content, newLineChar, "<br/>")}</p>
+										<c:if test="${product.img_content!=null}">
+											<p>이미지 설명 : ${fn:replace(product.img_content, newLineChar, "<br/>")}</p>
+										</c:if>
 										<ul class="blog-info-link">
 											<li>
 												<i class='fas fa-hotel'></i>숙박 - ${product.stay}
@@ -347,8 +351,12 @@
                     	<h4 class="widget_title">관리자용</h4>
 	                    <div class="button-group-area mt-10">
 							<input type="button" value="상 품 목 록" class="genric-btn success radius w-100" onclick="location.href='${contextPath}/product1/product.do'">
-							<input type="button" value="상 품 수 정" class="genric-btn success radius w-100" onclick="location.href='${contextPath}/product1/update.do'">
-							<input type="button" value="상 품 삭 제" class="genric-btn success radius w-100" onclick="location.href='${contextPath}/product1/delete.do'">
+							<c:forEach var="product" items="${productDetail}" begin="0" end="0" step="1">
+								<input type="button" value="상 품 수 정" class="genric-btn success radius w-100" 
+									onclick="location.href='${contextPath}/product1/updateProduct.do?code=${product.code}&sub_code=${product.sub_code}'">
+								<input type="button" value="상 품 삭 제" class="genric-btn success radius w-100" 
+									onclick="location.href='${contextPath}/product1/delete.do?code=${product.code}&sub_code=${product.sub_code}'">
+							</c:forEach>
 						</div>
 					</aside>
 						

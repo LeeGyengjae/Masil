@@ -251,9 +251,11 @@
 										<div class="single_place" style="cursor:pointer;" 
 										onclick="location.href='blog.do?code=${product.code}&sub_code=${product.sub_code}'" >
 											<div class="thumb">
-												<c:forTokens items="${product.image}" delims="," var="images">
-													<img alt="${images}" src="${contextPath}/product/upload/${images}" >
-												</c:forTokens>
+												<c:if test="${product.image!=null}">
+													<c:forTokens items="${product.image}" delims="," var="images">
+														<img alt="${images}" src="${contextPath}/product/upload/${images}" >
+													</c:forTokens>
+												</c:if>
 												<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}"	class="prise">
 													<fmt:formatNumber type="currency" value="${product.price}" currencySymbol="￦ "/>	
 												</a>
