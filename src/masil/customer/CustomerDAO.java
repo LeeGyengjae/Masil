@@ -1,11 +1,42 @@
 package masil.customer;
 
-//DBÀÛ¾÷
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
 public class CustomerDAO {
 
-	//±âº» »ı¼ºÀÚ
+	Connection con = null;
+	ResultSet rs = null;
+	PreparedStatement pstmt = null;
+	DataSource ds = null;
+
+	private void getConnection() throws Exception{
+		Context init = new InitialContext();
+		
+		ds = (DataSource)init.lookup("java:comp/env/jdbc/masil");
+		con = ds.getConnection();
+	}//getConnection() ë
+	
+	public void allClose(){
+		try {
+			if(con != null) con.close();
+			if(rs != null) rs.close();
+			if(pstmt != null) pstmt.close();
+			
+		} catch (Exception e) {
+			System.out.println("allClose()ì˜¤ë¥˜ : "+e);
+		}
+	}//allClose() ë
+	
+	
 	public CustomerDAO() {
 		
-	}//±âº» »ı¼ºÀÚ
+	}
+
 	
 }

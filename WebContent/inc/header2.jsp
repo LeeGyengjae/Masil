@@ -25,20 +25,21 @@ request.setCharacterEncoding("UTF-8");
                                         <ul id="navigation">
                                             <li><a class="active" href="../index.jsp">home</a></li>
                                             <li><a href="../about.jsp">About</a></li>
-                                            <li><a class="" href="/product.jsp">Destination</a></l/li>
+                                            <li><a class="" href="../product/product.jsp">Product</a></l/li>
                                             <li><a href="#">pages <i class="ti-angle-down"></i></a>
                                                 <ul class="submenu">
-                                                        <li><a href="destination_details.jsp">Destinations details</a></li>
-                                                        <li><a href="elements.jsp">elements</a></li>
+                                                        <li><a href="../destination_details.jsp">Destinations details</a></li>
+                                                        <li><a href="../elements.jsp">elements</a></li>
                                                 </ul>
                                             </li>
                                             <li><a href="#">blog <i class="ti-angle-down"></i></a>
                                                 <ul class="submenu">
                                                     <li><a href="../product/blog.jsp">blog</a></li>
-                                                    <li><a href="single-blog.jsp">single-blog</a></li>
+                                                    <li><a href="../single-blog.jsp">single-blog</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="contact.jsp">Contact</a></li>
+                                            <li><a href="../contact.jsp">Contact</a></li>
+                                            <li><a href="../customer/customer.jsp">Customer</a></li>
                                         </ul>
                                     </nav>
                                 </div>

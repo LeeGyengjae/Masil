@@ -88,8 +88,8 @@
 								</c:choose>
 								</ul>
 								
-								<c:if test="${user_id == 'admin' }">
-									<a href="writePage.Notice" class="btn btn-dark float-right btn-sm"><i class="fas fa-pen-fancy"></i>글 쓰기</a>
+								<c:if test="${user_id == 'masiladmin' }">
+									<a href="asdf" class="btn btn-dark float-right btn-sm"><i class="fas fa-pen-fancy"></i>글 쓰기</a>
 								</c:if>
 							
 							
