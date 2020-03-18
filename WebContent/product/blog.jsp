@@ -2,8 +2,10 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%
 	request.setCharacterEncoding("UTF-8");
+	pageContext.setAttribute("newLineChar", "\n");	//개행문자 처리
 %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
@@ -41,6 +43,40 @@
 
 <link rel="stylesheet" href="../css/style.css">
 <!-- <link rel="stylesheet" href="css/responsive.css"> -->
+
+<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('.starRev span').click(function(){
+			$(this).parent().children('span').removeClass('on');
+			$(this).parent().children('span').removeClass('ratings');
+			$(this).addClass('on').prevAll('span').addClass('on');
+			$(this).addClass('ratings').prevAll('span').addClass('ratings');
+			var rate = $('.ratings').length;
+			$('#rating').attr('value',rate);
+			return false;
+		});
+	});
+</script>
+
+<style type="text/css">
+
+.starR{
+  background: url('http://miuu227.godohosting.com/images/icon/ico_review.png') no-repeat right 0;
+  background-size: auto 100%;
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  text-indent: -9999px;
+  cursor: pointer;
+}
+.starR.on{background-position:0 0;}
+
+
+</style>
+
+
 </head>
 
 <body>
@@ -85,7 +121,20 @@
 							<article class="blog_item">
 								<div class="blog_item_img">
 									<h1>${product.title}</h1>
-									<p>상품 코드 : ${product.code}-${product.sub_code}</p>
+									<p>상품 코드 : ${product.code}-${product.sub_code} </p>
+									<p>	
+										<c:if test="${product.rating != null}">
+											<fmt:parseNumber var="ratingNum" value="${product.rating}" integerOnly="true" />
+											<fmt:parseNumber var="ratingNum2" value="${product.rating}" />
+												
+											<c:forEach var="ratNum" begin="1" end="${(ratingNum*10)/10}">
+												평점 : <i class="fas fa-star"></i>
+											</c:forEach>
+											<c:if test="${ratingNum2-(ratingNum*10)/10 != 0}">
+												<i class="fas fa-star-half"></i>
+											</c:if>
+										</c:if>
+									</p>
 									
 									<%--출발,도착 등 일정 --%>
 									<div class="section-top-border">
@@ -134,6 +183,7 @@
 												<ul class="unordered-list">
 													<li>가격 : ${product.price}</li>
 													<li>대륙 : ${product.continent}</li>
+													<li>기간 : ${product.period} 일</li>
 												</ul>
 											</div>
 										</div>
@@ -161,8 +211,8 @@
 											<p>코스 : ${product.day_course}</p>
 										</div>
 									
-										<p>${product.day_content}</p>
-										<p>이미지 설명 : ${product.img_content}</p>
+										<p>${fn:replace(product.day_content, newLineChar, "<br/>")}</p>
+										<p>이미지 설명 : ${fn:replace(product.img_content, newLineChar, "<br/>")}</p>
 										<ul class="blog-info-link">
 											<li>
 												<i class='fas fa-hotel'></i>숙박 - ${product.stay}
@@ -181,14 +231,12 @@
 				<%--후기 : 내용이 없으면 쪼그라드는거 가로 길이 가득 차도록 해야함 / 총 후기 갯수 출력 필요--%>
 				<div class="comments-area">
 				<c:choose>
-					<%-- 후기 없으면 띄워야하는데 후기 없는데도 안뜸 ㅜㅜ --%>
-					<c:when test="${reviewList == null}">
-						<h4>등록된 후기가 없습니다. 후기를 등록해주세요!</h4>
+					<c:when test="${fn:length(reviewList)==0}">
+						<h4>등록된 후기가 없습니다. 후기를 등록해주세요.</h4>
 					</c:when>
 					
-					<c:when test="${reviewList!=null}">
-						<%--메인 코드로 검색해서 가져와서 총 후기 개수 출력 하기 -> For input string 에러 해결해야함--%>
-						<%-- <h4>${reviewList.reviewCnt} Reviews</h4> --%>
+					<c:when test="${fn:length(reviewList)!=0}">
+						<h4>${reviewList[0].reviewCnt} Reviews</h4>
 						
 						<c:forEach var="review" items="${reviewList}">
 							<div class="comment-list">
@@ -198,8 +246,8 @@
 											<div class="d-flex justify-content-between">
 								             	<div class="d-flex align-items-center">
 													<h5><a href="#">${review.id}</a></h5>
-													<p class="date">${review.rating}</p>
-													<p class="date">${review.write_date}</p>
+													<p class="date">평점 : ${review.rating}</p>
+													<p class="date">작성일자 : ${review.write_date}</p>
 												</div>
 												<%--후기작성자or관리자일경우에만 수정/삭제 띄우기 해야함 --%>
 												<div class="reply-btn">
@@ -245,26 +293,43 @@
 						<div class="comment-form">
 		                  <h4>여행 후기</h4>
 		                  <form class="form-contact comment_form" action="${contextPath}/review1/insertReview.do" id="commentForm">
-		                  	<input type="hidden" name="write_date" value="">
+		                   <div class="row">
+		                  	<input type="hidden" name="write_date" id="write_date" value="2020-03-15">
+							<input type="hidden" name="end_date" id="end_date" value="2020-03-15">
+							<input type="hidden" name="id" id="id" value="${userVO.id}">
+							
+							<c:forEach var="product" items="${productDetail}" begin="0" end="0" step="1">
+								<input type="hidden" name="code" id="code" value="${product.code}">
+								<input type="hidden" name="sub_code" id="sub_code" value="${product.sub_code}">
+							</c:forEach>
 		                  	
-		                     <div class="row">
-		                    	 <div class="col-12">
-	                    	       <div class="form-group">
-		                              <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9"
-		                                 placeholder="Write Comment">test : ${reviewList}</textarea>
-		                           </div>
-		                        </div>
-		                     	<div class="col-sm-6">
-		                           <div class="form-group">
-		                              <input class="form-control" name="id" id="id" type="text" placeholder="Name">
-		                           </div>
-		                        </div>
+		                        <%--별점 --%>
 		                        <div class="col-sm-6">
+									<div class="form-group starRev">
+										<p>${userVO.id} 님</p>
+										<span class="starR">별1</span>
+										<span class="starR">별2</span>
+										<span class="starR">별3</span>
+										<span class="starR">별4</span>
+										<span class="starR">별5</span>
+										<input type="hidden" name="rating" id="rating">
+									</div>
+								</div>
+								
+								<div class="col-sm-6">
 			                        <div class="form-group">
 			                        	<button type="submit" class="genric-btn success radius">후기 등록</button>
 			                     	</div>
 		                     	</div>
-		                     </div>
+								
+		                    	<div class="col-12">
+	                    	       <div class="form-group">
+		                               <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9"
+		                               	onfocus="this.placeholder = ''" onblur="this.placeholder = '후기를 입력해주세요.'" 
+		                               	placeholder="후기를 입력해주세요."></textarea>
+		                           </div>
+		                        </div>
+		                      </div>  
 		                  </form>
 		               </div>
 		               <%--후기 입력칸 --%>

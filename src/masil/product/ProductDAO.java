@@ -37,6 +37,7 @@ public class ProductDAO {
 		init = new InitialContext();
 		ds = (DataSource) init.lookup("java:comp/env/jdbc/masil");
 		conn=ds.getConnection();
+		System.out.println("DB연결 성공~!!");
 		return conn;
 	}//getConnection()
 	
@@ -55,15 +56,18 @@ public class ProductDAO {
 		try {
 			conn=getConnection();
 			sql= "select a.code, c.sub_code, a.continent, a.period, a.course, a.comment,"
-					+" substring_index(b.image, ',',1) image, c.title, c.start_date, c.end_date, c.price, d.recnt, d.rating"
-					+" from product a join (select image, code from pro_detail group by code) b"
-					+" on a.code=b.code"
-					+" join pro_write c"
-					+" on b.code=c.code"
-					+" left join (select code, count(*) recnt, round(avg(rating),1) rating from review group by code) d"
-					+" on c.code = d.code"
-					+" order by c.start_date";
+				+" substring_index(b.image, ',',1) image, c.title, c.start_date, c.end_date, c.price, d.recnt, d.rating"
+				+" from product a join (select image, code from pro_detail group by code) b"
+				+" on a.code=b.code"
+				+" join pro_write c"
+				+" on b.code=c.code"
+				+" left join (select code, count(*) recnt, round(avg(rating),1) rating from review group by code) d"
+				+" on c.code = d.code"
+				+" where c.visible='Y'"
+				+" order by c.start_date desc";
+//				+" order by c.start_date desc limit ?,5";
 			pstmt=conn.prepareStatement(sql);
+//			pstmt.setInt(1, pageNum);
 			rs=pstmt.executeQuery();
 			while(rs.next()){
 				//Map에 담기
@@ -90,6 +94,22 @@ public class ProductDAO {
 		} finally { closeDB(); }
 		return productList;
 	}//selectAllProducts()
+	
+	//게시된 상품수 출력
+	public int countProduct(){
+		int count=0;
+		try {
+			conn=getConnection();
+			sql="select count(*) from pro_write where visible='Y'";
+			pstmt=conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if(rs.next()) count=Integer.parseInt(rs.getString(1));
+			else count=0;
+		} catch (Exception e) {
+			System.out.println("countProduct()오류 : "+e);
+		} finally { closeDB(); }
+		return count;
+	}
 
 	//상품 상세페이지로 출력 - 상품 한개씩 가져오기
 	public List<Map<String,String>> selectProduct(String code, String sub_code) {
@@ -98,11 +118,13 @@ public class ProductDAO {
 			conn = getConnection();
 			sql= "select a.code, c.sub_code, a.continent, a.course, a.period, a.comment, "
 				+" b.day, b.day_title, b.day_course, b.day_content, b.stay, b.meal, b.image, b.img_content,"
-				+" c.title, c.start_date, c.end_date, c.max_num, c.curr_num, c.price, c.visible"
+				+" c.title, c.start_date, c.end_date, c.max_num, c.curr_num, c.price, c.visible, d.rating"
 				+" from product a join pro_detail b"
 				+" on a.code=b.code"
 				+" join pro_write c"
 				+" on b.code=c.code"
+				+" left join (select code, count(*) recnt, round(avg(rating),1) rating from review group by code) d"
+				+" on c.code = d.code"
 				+" where a.code=? and c.sub_code=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, code);
@@ -132,6 +154,7 @@ public class ProductDAO {
 				sub_product.put("curr_num", rs.getString("curr_num")); 
 				sub_product.put("price", rs.getString("price")); 
 				sub_product.put("visible", rs.getString("visible")); 
+				sub_product.put("rating", rs.getString("rating")); 
 				productDetail.add(sub_product);
 			}
 			System.out.println("selectProduct()성공!!");
@@ -164,32 +187,50 @@ public class ProductDAO {
 				+ "values (?,?,?,?,?,?,?,?,?)";
 			pstmt=conn.prepareStatement(sql);
 			
-			for(int j=0;j<Integer.parseInt(productMap.get("period").toString()); j++){
-			
-		    	String[] day = (String[]) productMap.get("day");
-		    	String[] day_title = (String[]) productMap.get("dayTitle");
-		    	String[] day_course = (String[]) productMap.get("dayCourse");
-		    	String[] stay = (String[]) productMap.get("stay");
-		    	String[] meal = (String[]) productMap.get("meal");
-		    	String[] day_content = (String[]) productMap.get("dayContent");
-		    	String[] img_content = (String[]) productMap.get("imgContent");
+			if(Integer.parseInt(productMap.get("period").toString()) > 1){
+				for(int j=0;j<Integer.parseInt(productMap.get("period").toString()); j++){
+				
+			    	String[] day = (String[]) productMap.get("day");
+			    	String[] day_title = (String[]) productMap.get("dayTitle");
+			    	String[] day_course = (String[]) productMap.get("dayCourse");
+			    	String[] stay = (String[]) productMap.get("stay");
+			    	String[] meal = (String[]) productMap.get("meal");
+			    	String[] day_content = (String[]) productMap.get("dayContent");
+			    	String[] img_content = (String[]) productMap.get("imgContent");
+			    	
+		    		pstmt.setString(1, productMap.get("code").toString());
+		    		pstmt.setString(2, day[j]);
+		    		pstmt.setString(3, day_title[j]);
+		    		pstmt.setString(4, day_course[j]);
+		    		pstmt.setString(5, stay[j]);
+		    		pstmt.setString(6, meal[j]);
+		    		pstmt.setString(7, day_content[j]);
+		    		pstmt.setString(9, img_content[j]);
 		    	
-	    		pstmt.setString(1, productMap.get("code").toString());
-	    		pstmt.setString(2, day[j]);
-	    		pstmt.setString(3, day_title[j]);
-	    		pstmt.setString(4, day_course[j]);
-	    		pstmt.setString(5, stay[j]);
-	    		pstmt.setString(6, meal[j]);
-	    		pstmt.setString(7, day_content[j]);
-	    		pstmt.setString(9, img_content[j]);
+		    		Map<String,String> imageMap = (HashMap<String,String>) productMap.get("image");
+					pstmt.setString(8, imageMap.get((j+1)+"_image").toString());
+					
+					re = pstmt.executeUpdate();
+		    		System.out.println("sql 2성공 re : "+re);
+					
+				}//for
+				
+			}else if(Integer.parseInt(productMap.get("period").toString())==1){
+				pstmt.setString(1, productMap.get("code").toString());
+	    		pstmt.setString(2, productMap.get("day").toString());
+	    		pstmt.setString(3, productMap.get("dayTitle").toString());
+	    		pstmt.setString(4, productMap.get("dayCourse").toString());
+	    		pstmt.setString(5, productMap.get("stay").toString());
+	    		pstmt.setString(6, productMap.get("meal").toString());
+	    		pstmt.setString(7, productMap.get("dayContent").toString());
+	    		pstmt.setString(9, productMap.get("imgContent").toString());
 	    	
 	    		Map<String,String> imageMap = (HashMap<String,String>) productMap.get("image");
-				pstmt.setString(8, imageMap.get((j+1)+"_image").toString());
-				
+				pstmt.setString(8, imageMap.get(1+"_image").toString());
+	    		
 				re = pstmt.executeUpdate();
-	    		System.out.println("sql 2성공? re : "+re);
-				
-			}//for
+	    		System.out.println("sql 2성공 re : "+re);
+			}
 			
 			sql = "insert into pro_write (code, sub_code, title, start_date, end_date, max_num, price)"
 				+ "values (?,?,?,?,?,?,?)";
@@ -224,6 +265,135 @@ public class ProductDAO {
 		}
 		return re;
 	}//insertProduct
+	
+	
+	//상품수정
+	public int updateProduct(Map<String, Object> productMap) {
+		System.out.println("updateProduct시작");
+		System.out.println("DAO productMap : "+productMap);
+		System.out.println("productMap.get(continent) : "+productMap.get("continent"));
+		int re=0;
+		try {
+			conn = getConnection();
+			conn.setAutoCommit(false); //트랜잭션 처리 위해 auto commit off
+			sql ="update product set continent=?, period=?, course=?, comment=?"
+				+ " where code=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, productMap.get("continent").toString());
+			pstmt.setString(2, productMap.get("period").toString());
+			pstmt.setString(3, productMap.get("course").toString());
+			pstmt.setString(4, productMap.get("comment").toString());
+			pstmt.setString(5, productMap.get("code").toString());
+			re = pstmt.executeUpdate();
+			System.out.println("sql 1 성공 re : "+re);
+			
+			sql = "update pro_detail set day_title=?, day_course=?, stay=?, meal=?, day_content=?, image=?, img_content=?"
+				+ " where code=? and day=?";
+			pstmt=conn.prepareStatement(sql);
+			
+			for(int j=0;j<Integer.parseInt(productMap.get("period").toString()); j++){
+			
+		    	String[] day = (String[]) productMap.get("day");
+		    	String[] day_title = (String[]) productMap.get("dayTitle");
+		    	String[] day_course = (String[]) productMap.get("dayCourse");
+		    	String[] stay = (String[]) productMap.get("stay");
+		    	String[] meal = (String[]) productMap.get("meal");
+		    	String[] day_content = (String[]) productMap.get("dayContent");
+		    	String[] img_content = (String[]) productMap.get("imgContent");
+		    	String[] old_image = (String[]) productMap.get("old_image");
+		    	
+	    		pstmt.setString(1, day_title[j]);
+	    		pstmt.setString(2, day_course[j]);
+	    		pstmt.setString(3, stay[j]);
+	    		pstmt.setString(4, meal[j]);
+	    		pstmt.setString(5, day_content[j]);
+	    		
+	    		pstmt.setString(7, img_content[j]);
+	    		pstmt.setString(8, productMap.get("code").toString());
+	    		pstmt.setString(9, day[j]);
+	    		
+	    		if(productMap.get("image") !=null ){
+		    		Map<String,String> imageMap = (HashMap<String,String>) productMap.get("image");
+					pstmt.setString(6, imageMap.get((j+1)+"_image").toString());
+	    		}else {
+	    			pstmt.setString(6, old_image[j].toString());
+	    		}
+	    		
+				re = pstmt.executeUpdate();
+	    		System.out.println("sql 2성공? re : "+re);
+				
+			}//for
+			
+			sql = "update pro_write set title=?, start_date=?, end_date=?, max_num=?, price=?"
+				+ " where code=? and sub_code=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, productMap.get("title").toString());
+			pstmt.setString(2, productMap.get("startDate").toString());
+			pstmt.setString(3, productMap.get("endDate").toString());
+			pstmt.setString(4, productMap.get("maxNum").toString());
+			pstmt.setString(5, productMap.get("price").toString());
+			pstmt.setString(6, productMap.get("code").toString());
+			pstmt.setString(7, productMap.get("subCode").toString());
+			
+			re = pstmt.executeUpdate();
+			conn.commit();    //트랜잭션 종료, commit하기
+			System.out.println("sql 3성공 re : "+re);
+			
+		} catch (Exception e) {
+			if(conn!=null) { //예외 발생시 롤백 처리
+				try {
+					conn.rollback();
+				} catch (Exception e2) {
+					System.out.println("conn.rollback() 실패"+e2);
+				}
+			}
+			System.out.println("updateProduct() 오류 "+e);
+		} finally { 
+			try {
+				conn.setAutoCommit(true);	//다시 auto Commit on
+			} catch (SQLException e) {
+				System.out.println("conn.setAutoCommit(true) 실패 "+e);
+			}    
+			closeDB(); 
+		}
+		return re;
+	}//updateProduct
+	
+	//상품 삭제 - 데이터 삭제가 아니라 관리차원으로 목록에서 숨기도록 함.
+	public int deleteProduct(Map<String, Object> productMap) {
+		System.out.println("deleteProduct시작");
+		System.out.println("DAO productMap : "+productMap);
+		int re=0;
+		try {
+			conn = getConnection();
+			sql= "select a.code, c.sub_code, a.continent, a.course, a.period, a.comment, "
+				+" b.day, b.day_title, b.day_course, b.day_content, b.stay, b.meal, b.image, b.img_content,"
+				+" c.title, c.start_date, c.end_date, c.max_num, c.curr_num, c.price, c.visible"
+				+" from product a join pro_detail b"
+				+" on a.code=b.code"
+				+" join pro_write c"
+				+" on b.code=c.code"
+				+" where a.code=? and c.sub_code=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, productMap.get("code").toString());
+			pstmt.setString(2, productMap.get("subCode").toString());
+			rs = pstmt.executeQuery();
+			if(rs.next()){
+				sql = "update pro_write set visible=?"
+					+ " where code=? and sub_code=?";
+				pstmt=conn.prepareStatement(sql);
+				pstmt.setString(1, "N");
+				pstmt.setString(2, productMap.get("code").toString());
+				pstmt.setString(3, productMap.get("subCode").toString());
+				re = pstmt.executeUpdate();
+				conn.commit();    //트랜잭션 종료, commit하기
+				System.out.println("상품 삭제 성공 : "+re);
+			}
+		} catch (Exception e) {
+			System.out.println("updateProduct() 오류 "+e);
+		} finally { closeDB(); }
+		return re;
+	}//deleteProduct
 	
 	
 	

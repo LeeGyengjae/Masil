@@ -76,7 +76,7 @@
 				<div class="row">
 					<div class="section-top-border">
 				<h3 class="mb-30">상품 등록</h3>
-				<a href="newwrite.do" class="genric-btn success-border radius">새 상품 등록하기</a>
+				<a href="${contextPath}/product/write.jsp" class="genric-btn success-border radius">새 상품 등록하기</a>
 				<div class="progress-table-wrap">
 					<div class="progress-table">
 						<table>
@@ -102,21 +102,25 @@
 											<td>${product.code}-${product.sub_code}</td>
 											<td>${product.continent}</td>								
 											<td>${product.course}</td>								
-											<td>${product.period}</td>		
-											<%--등록된 평점(후기) 없을 경우 '-' 출력해서 -/5 처럼 출력되도록 해야함 --%>						
-											<td>${product.rating}/5</td>								
-											<td>${product.price}</td>								
+											<td>${product.period}일</td>		
+											<c:if test="${product.rating != null}">
+												<td>${product.rating}/5</td>	
+											</c:if>
+											<c:if test="${product.rating == null}">
+												<td>-</td>	
+											</c:if>
+											<td><fmt:formatNumber type="currency" value="${product.price}" currencySymbol="￦ "/></td>
 											<td>${product.comment}</td>								
 											<td>
 												<a href="callwrite.do?code=${product.code}&sub_code=${product.sub_code}" class="genric-btn primary-border small">사용</a>
-												<a href="#" class="genric-btn primary-border small">수정</a>
+												<a href="updateProduct.do?code=${product.code}&sub_code=${product.sub_code}" class="genric-btn primary-border small">수정</a>
 											</td>								
 										</tr>
 									</c:forEach>
 								</c:when>
 							</c:choose>
 						</table>
-						<a href="#" class="genric-btn success-border radius">새 상품 등록하기</a>
+						<a href="${contextPath}/product/write.jsp" class="genric-btn success-border radius">새 상품 등록하기</a>
 					</div>
 				</div>
 			</div>

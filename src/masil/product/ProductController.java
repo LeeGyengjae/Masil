@@ -17,6 +17,8 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import masil.review.ReviewService;
+import masil.user.UserDAO;
+import masil.user.UserVO;
 
 
 @WebServlet("/product1/*")
@@ -62,36 +64,65 @@ public class ProductController extends HttpServlet {
 			List<Map<String,String>> productList;
 			List<Map<String,String>> productDetail;
 			List<Map<String,String>> reviewList;
+			int countProduct=0;
+			UserDAO userDAO = new UserDAO(); 
 			
 			if(action==null){
 				productList = productService.listProducts();
+				countProduct = productService.countProduct();
 				request.setAttribute("productList", productList);
+				request.setAttribute("countProduct", countProduct);
 				nextPage = "/product/product.jsp";
 				
 			}else if(action.equals("/product.do")){
 				productList = productService.listProducts();
+				countProduct = productService.countProduct();
 				request.setAttribute("productList", productList);
+				request.setAttribute("countProduct", countProduct);
 				nextPage = "/product/product.jsp";
 				
 			} 
 			else if(action.equals("/blog.do")){
 				String code = request.getParameter("code");
 				String sub_code = request.getParameter("sub_code");
+				String id = request.getParameter("id");
+				
 				//후기 페이징 처리 위해 필요.
 //				int pageNum = Integer.parseInt(request.getParameter("pageNum"));
+//				System.out.println("Product Controller - pageNum : "+pageNum);
 				
 				productDetail = productService.viewProduct(code, sub_code);
 				//상품 상세 페이지에서 리뷰도 같이 출력해야함.
 //				reviewList = reviewService.reviewList(code, pageNum);
+				reviewList = reviewService.reviewList(code, 0);
+//				UserVO userVO = userDAO.getUser("a"); //로그인 사용자 정보 가져와서 id로 검색하기
 				
 				request.setAttribute("productDetail", productDetail);
-//				request.setAttribute("reviewList", reviewList);
+				request.setAttribute("reviewList", reviewList);
+//				request.setAttribute("userVO", userVO);
+				
+				
+				System.out.println("Product Contorller - reviewList : "+reviewList);
 				nextPage = "/product/blog.jsp";
+				
+			}
+			else if(action.equals("/addProduct.do")){
+				Map<String, Object> productMap = upload(request, response);
+				
+				String code = productMap.get("code").toString();
+				String sub_code = productMap.get("subCode").toString();
+				
+				productService.insertProduct(productMap);
+				
+				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code; 
+//				nextPage="/product1/product.do";
+				
 			}
 			else if(action.equals("/pre_write.do")){
 				//관리자용-상품 리스트 간단히 보기 
 				//-작동은 하는데 쓸지말지 미지수 
 				//-쓸거면 jsp디자인 수정 필요
+//				int pageNum = Integer.parseInt(request.getParameter("pageNum"));
 				productList = productService.listProducts();
 				request.setAttribute("productList", productList);
 				nextPage = "/product/pre_write.jsp";
@@ -107,35 +138,68 @@ public class ProductController extends HttpServlet {
 
 				nextPage = "/product/callwrite.jsp";
 			}
-			else if(action.equals("/addProduct.do")){
-				Map<String, Object> productMap = upload(request, response);
+			else if(action.equals("/updateProduct.do")){
+				//상품 수정 하기 위해 기존 내용 뿌려줌
+//				Map<String, Object> productMap = upload(request, response);
+//				String code = productMap.get("code").toString();
+//				String sub_code = productMap.get("subCode").toString();
+//				productService.updateProduct(productMap);
+//				System.out.println("Controller 됨");
 				
-				String code = productMap.get("code").toString();
-				String sub_code = productMap.get("subCode").toString();
+				String code = request.getParameter("code");
+				String sub_code = request.getParameter("sub_code");
+				productDetail = productService.viewProduct(code, sub_code);
+				request.setAttribute("productDetail", productDetail);
 				
-				productService.insertProduct(productMap);
-				
-				//nextPage = "/product1/blog.do?code="+code+"sub_code="+sub_code; //페이지 이동 안됨 ㅠ
-				nextPage="/product1/product.do";
+				nextPage = "/product/update.jsp"; 
+//				nextPage="/product1/product.do";
 				
 			}
-			else if(action.equals("/addProduct2.do")){
-				//기존 상품 작성 내용 불러와서 새상품으로 등록할때 사용
-				System.out.println("controller if안으로 넘어옴");
-				
+			else if(action.equals("/update.do")){
+				System.out.println("update.do진입");
 				Map<String, Object> productMap = upload(request, response);
 				
 				String code = productMap.get("code").toString();
 				String sub_code = productMap.get("subCode").toString();
 				
-				productService.insertProduct(productMap);
+				productService.updateProduct(productMap);
+				
+				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code;
+//				nextPage="/product1/product.do";
+				
+			}
+//			else if(action.equals("/addProduct2.do")){
+//				//기존 상품 작성 내용 불러와서 새상품으로 등록할때 사용
+//				System.out.println("controller if안으로 넘어옴");
+//				
+//				Map<String, Object> productMap = upload(request, response);
+//				
+//				String code = productMap.get("code").toString();
+//				String sub_code = productMap.get("subCode").toString();
+//				
+//				productService.insertProduct(productMap);
+//				
+//				System.out.println("Controller 됨");
+//				
+//				nextPage = "/product/blog.do?code="+code+"&sub_code="+sub_code; 
+////				nextPage="/product1/product.do";
+//				
+//			}
+			else if(action.equals("/deleteProduct.do")){
+				//상품 수정
+				Map<String, Object> productMap = upload(request, response);
+				
+				String code = productMap.get("code").toString();
+				String sub_code = productMap.get("subCode").toString();
+				
+				productService.deleteProduct(productMap);
 				
 				System.out.println("Controller 됨");
 				
-				//nextPage = "/product1/blog.do?code="+code+"sub_code="+sub_code; //페이지 이동 안됨 ㅠ
 				nextPage="/product1/product.do";
 				
 			}
+			
 			
 			RequestDispatcher dispatche = request.getRequestDispatcher(nextPage);
 			dispatche.forward(request, response);
@@ -219,24 +283,24 @@ public class ProductController extends HttpServlet {
 				}//while(imgfile.hasMoreElements())
 				productMap.put("image", fileList);
 			}
-			//업로드한 파일(사진)이 없을경우
-			else if(!imgfile.hasMoreElements()){
-				//기존상품수정/불러와서 쓰기일 경우 hidden으로 넘오온 업로드되어 있던 이미지를 등록
-				while(paramNames.hasMoreElements()){
-					String keyname = (String) paramNames.nextElement();
-					String[] values = multi.getParameterValues(keyname);
-					if(keyname.equals("old_image")){
-						if(values.length>1){
-							productMap.put("image", values);
-						}else {	
-							productMap.put("image", values[0]);
-						}
-					}
-				}//while
-				//새 상품 쓰기인데 사진이 없을 경우
-				//->?
-			}//else if
-//			System.out.println("TEST *** productMap : "+productMap);
+//			//업로드한 파일(사진)이 없을경우
+//			else if(!imgfile.hasMoreElements()){
+//				//기존상품수정/불러와서 쓰기일 경우 hidden으로 넘어온 업로드되어 있던 이미지를 등록
+//				while(paramNames.hasMoreElements()){
+//					String keyname = (String) paramNames.nextElement();
+//					String[] values = multi.getParameterValues(keyname);
+//					if(keyname.equals("old_image")){
+//						if(values.length>1){
+//							productMap.put("image", values);
+//						}else {	
+//							productMap.put("image", values[0]);
+//						}
+//					}
+//				}//while
+//				//새 상품 쓰기인데 사진이 없을 경우
+//				//->?
+//			}//else if
+			System.out.println("TEST *** productMap : "+productMap);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

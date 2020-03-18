@@ -1,6 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     isELIgnored="false" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%
+	request.setCharacterEncoding("UTF-8");
+%>
+    
 <html class="no-js" lang="zxx">
 
 
@@ -14,6 +20,8 @@
     <!-- <link rel="manifest" href="site.webmanifest"> -->
     <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
     <!-- Place favicon.ico in the root directory -->
+	
+	<script src='https://kit.fontawesome.com/a076d05399.js'></script>
 
     <!-- CSS here -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -258,162 +266,115 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-4 col-md-6">
-                    <div class="single_place">
-                        <div class="thumb">
-                            <img src="img/place/1.png" alt="">
-                            <a href="#" class="prise">$500</a>
-                        </div>
-                        <div class="place_info">
-                            <a href="destination_details.jsp"><h3>California</h3></a>
-                            <p>United State of America</p>
-                            <div class="rating_days d-flex justify-content-between">
-                                <span class="d-flex justify-content-center align-items-center">
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i>
-                                     <a href="#">(20 Review)</a>
-                                </span>
-                                <div class="days">
-                                    <i class="fa fa-clock-o"></i>
-                                    <a href="#">5 Days</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="single_place">
-                        <div class="thumb">
-                            <img src="img/place/2.png" alt="">
-                            <a href="#" class="prise">$500</a>
-                        </div>
-                        <div class="place_info">
-                            <a href="destination_details.jsp"><h3>Korola Megna</h3></a>
-                            <p>United State of America</p>
-                            <div class="rating_days d-flex justify-content-between">
-                                <span class="d-flex justify-content-center align-items-center">
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i>
-                                     <a href="#">(20 Review)</a>
-                                </span>
-                                <div class="days">
-                                    <i class="fa fa-clock-o"></i>
-                                    <a href="#">5 Days</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="single_place">
-                        <div class="thumb">
-                            <img src="img/place/3.png" alt="">
-                            <a href="#" class="prise">$500</a>
-                        </div>
-                        <div class="place_info">
-                            <a href="destination_details.jsp"><h3>London</h3></a>
-                            <p>United State of America</p>
-                            <div class="rating_days d-flex justify-content-between">
-                                <span class="d-flex justify-content-center align-items-center">
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i>
-                                     <a href="#">(20 Review)</a>
-                                </span>
-                                <div class="days">
-                                    <i class="fa fa-clock-o"></i>
-                                    <a href="#">5 Days</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="single_place">
-                        <div class="thumb">
-                            <img src="img/place/4.png" alt="">
-                            <a href="#" class="prise">$500</a>
-                        </div>
-                        <div class="place_info">
-                            <a href="destination_details.jsp"><h3>Miami Beach</h3></a>
-                            <p>United State of America</p>
-                            <div class="rating_days d-flex justify-content-between">
-                                <span class="d-flex justify-content-center align-items-center">
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i>
-                                     <a href="#">(20 Review)</a>
-                                </span>
-                                <div class="days">
-                                    <i class="fa fa-clock-o"></i>
-                                    <a href="#">5 Days</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="single_place">
-                        <div class="thumb">
-                            <img src="img/place/5.png" alt="">
-                            <a href="#" class="prise">$500</a>
-                        </div>
-                        <div class="place_info">
-                            <a href="destination_details.jsp"><h3>California</h3></a>
-                            <p>United State of America</p>
-                            <div class="rating_days d-flex justify-content-between">
-                                <span class="d-flex justify-content-center align-items-center">
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i>
-                                     <a href="#">(20 Review)</a>
-                                </span>
-                                <div class="days">
-                                    <i class="fa fa-clock-o"></i>
-                                    <a href="#">5 Days</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="single_place">
-                        <div class="thumb">
-                            <img src="img/place/6.png" alt="">
-                            <a href="#" class="prise">$500</a>
-                        </div>
-                        <div class="place_info">
-                            <a href="destination_details.jsp"><h3>Saintmartine Iceland</h3></a>
-                            <p>United State of America</p>
-                            <div class="rating_days d-flex justify-content-between">
-                                <span class="d-flex justify-content-center align-items-center">
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i> 
-                                     <i class="fa fa-star"></i>
-                                     <a href="#">(20 Review)</a>
-                                </span>
-                                <div class="days">
-                                    <i class="fa fa-clock-o"></i>
-                                    <a href="#">5 Days</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <c:choose>
+					<%--상품 없을때--%>
+					<c:when test="${requestScope.productList == null }">
+						<div class="col-lg-4 col-md-6">
+							<div class="single_place">
+								<div class="thumb">
+									<img src="../img/place/1.png" alt=""> 
+									<a href="productDetail.do" class="prise">$0</a>
+								</div>
+								<div class="place_info">
+									<%--여행지역,상품명 --%>
+									<a href="productDetail.do">
+										<h3>상품 없음</h3>
+									</a>
+									<p>상품 없어요ㅠㅠ</p>
+
+									<div class="rating_days d-flex justify-content-between">
+										<span
+											class="d-flex justify-content-center align-items-center">
+											<%-- 별점 --%> 
+											<i class="fa fa-star"></i> 
+											<i class="fa fa-star"></i> 
+											<i class="fa fa-star"></i> 
+											<i class="fa fa-star"></i> 
+											<i class="fa fa-star"></i> 
+											
+											<%-- 후기 개수 --%>
+											<a href="productDetail.do">(0 Review)</a>
+										</span>
+										<%-- 여행기간 --%>
+										<div class="days">
+											<i class="fa fa-clock-o"></i> <a href="productDetail.do">0 Days</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</c:when>
+					 
+					<%-- 상품 있을 때 : ↓상품 1개씩↓ --%>
+					<c:when test="${requestScope.productList != null }">
+						<c:forEach var="product" items="${productList}">
+							<div class="col-lg-4 col-md-6">
+								<div class="single_place" style="cursor:pointer;" 
+								onclick="location.href='blog.do?code=${product.code}&sub_code=${product.sub_code}'" >
+									<div class="thumb">
+										<c:forTokens items="${product.image}" delims="," var="images">
+											<img alt="${images}" src="product/upload/${images}" >
+										</c:forTokens>
+										<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}"	class="prise">
+											<fmt:formatNumber type="currency" value="${product.price}" currencySymbol="￦ "/>
+										</a>
+									</div>
+									<div class="place_info">
+
+										<%--여행지역,상품명 --%>
+										<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}">
+											<h3>${product.title}</h3>
+										</a>
+										<p>${product.code}-${product.sub_code} <br>
+										 ${product.comment} | start : ${product.start_date}</p>
+
+										<div class="rating_days d-flex justify-content-between">
+											<span
+												class="d-flex justify-content-center align-items-center">
+													
+												<c:if test="${product.rating != null}">
+													<fmt:parseNumber var="ratingNum" value="${product.rating}" integerOnly="true" />
+													<fmt:parseNumber var="ratingNum2" value="${product.rating}" />
+													
+													<c:forEach var="ratNum" begin="1" end="${(ratingNum*10)/10}">
+														<i class="fas fa-star"></i>
+													</c:forEach>
+													<c:if test="${ratingNum2-(ratingNum*10)/10 != 0}">
+														<i class="fas fa-star-half"></i>
+													</c:if>
+												</c:if>
+
+												
+												<%-- 후기 개수 --%>
+												<c:if test="${product.recnt != null}">
+													<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}">
+														(${product.recnt} Review)
+													</a>
+												</c:if>
+											</span>
+											<%-- 여행기간 --%>
+											<div class="days">
+												<i class="fa fa-clock-o"></i>
+												<a href="#">
+													${product.period} 일
+												</a>
+											</div>
+											<%-- 여행기간 --%>
+										</div>
+									</div>
+								</div>
+								
+							</div>
+						</c:forEach>
+
+						<%-- ↑상품 1개씩↑ --%>
+					</c:when>
+				</c:choose>
+                
+                
+                
+                
+                               
             </div>
             <div class="row">
                 <div class="col-lg-12">
