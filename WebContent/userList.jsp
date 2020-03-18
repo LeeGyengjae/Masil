@@ -39,6 +39,7 @@
     	}
     </style>
     
+    
    </head>
 
 <body>
@@ -52,10 +53,11 @@
 		<p class="cls1 mt-3 mb-3">회원정보</p>
 		<table class="container mt-3 mb-3">
 			<tr align="center" bgcolor="skyblue">
-				<td width="7%"><b>아이디</b></td>
-				<td width="7%"><b>비밀번호</b></td>
-				<td width="7%"><b>이름</b></td>
+				<td width="9%"><b>아이디</b></td>
+				<td width="9%"><b>비밀번호</b></td>
+				<td width="9%"><b>이름</b></td>
 				<td width="15%" colspan=3><b>주민번호</b></td>
+				<td width="9%"><b>삭제</b></td>
 			</tr>
 			
 			<c:choose>
@@ -67,16 +69,21 @@
 					</tr>
 				</c:when>
 				<c:when test="${userList != null }">
-					<c:forEach var="user" items="${userList }">	
-						<tr align="center">
-							<td>${user.id }</td>
-							<td>${user.pwd }</td>
-							<td>${user.name }</td>
-							<td>${user.jumin1 }</td>
-							<td>-</td>
-							<td>${user.jumin2 }</td>
-						</tr>
-					</c:forEach>	
+					<form method="post" action="${pageContext.request.contextPath}/user/deleteUser.do" name="fr">
+						<c:forEach var="user" items="${userList }">	
+							<tr align="center"  height="50px">
+								<td>${user.id }</td>
+								<td>${user.pwd }</td>
+								<td>${user.name }</td>
+								<td>${user.jumin1 }</td>
+								<td>-</td>
+								<td>${user.jumin2 }</td>
+								<td>
+									<a href="${contextPath}/masil/user/deleteUser.do?id=${user.id}"><b>삭제</b></a>
+								</td>
+							</tr>
+						</c:forEach>
+					</form>	
 				</c:when>
 			</c:choose>
 		</table>
