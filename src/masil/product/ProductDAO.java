@@ -371,11 +371,16 @@ public class ProductDAO {
 		    			
 		    			System.out.println("productMap.get(_delImgCk) : "+productMap.get(j+"_delImgCk"));
 		    			
-		    			if(productMap.get((j+1)+"_delImgCk")!=null){
-		    				System.out.println("이미지 지우기 요청");
-		    				pstmt.setString(6, null);
+//		    			if(productMap.get((j+1)+"_delImgCk")!=null){
+		    			if(productMap.get("delImg")!=null){
+		    				System.out.println("이미지 지우기 요청 : "+(j+1));
+		    				String[] delImg = (String[]) productMap.get("delImg");
+	    					if(delImg[j].equals("delImg")){
+	    						pstmt.setString(6, null);
+		    				}
 		    			} else {
 		    				//새로 올린 이미 없을때 -> 기존 이미지를 새 이미지인척
+		    				System.out.println("이미지 보존");
 			    			String[] old_image = (String[]) productMap.get("old_image");
 			    			pstmt.setString(6, old_image[j].toString());
 		    			}
