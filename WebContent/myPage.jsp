@@ -57,6 +57,13 @@
 		     				<td class="mt-3 mb-3"><button class="mt-1 mb-1 btn btn-primary" type="submit">리뷰관리</button></td>
 		     			</form>
 		     		</tr>
+		     		<tr>
+			     		<c:if test="${id == 'masiladmin' }">
+		 					<form method="post"  class="mt-3 mb-3" action="${contextPath }/masil/user/userList.do">
+		 						<td class="mt-3 mb-3"><button class="mt-1 mb-1 btn btn-primary" type="submit">회원관리</button></td>
+		 					</form>
+		 				</c:if>
+		     		</tr>
 		     	</table>
 		     </div>	
      	  </div>	

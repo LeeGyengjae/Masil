@@ -45,18 +45,18 @@
     <section class="container mt-3" style="max-width: 560px;">
     	<h1>1:1문의</h1>
 							<table border="1" >
-								<tr class="thead-dark">
+								<tr class="thead-dark" align="center">
 									<th width="100">No.</th>
 									<th width="400">Title</th>
 									<th width="200">Writer</th>
 									<th width="200">Date</th>
 								</tr>
-							<c:forEach var="List" items="${NoticeList }" >
+							<c:forEach var="List" items="${List }" >
 								<tr>
-									<td align="center">${List.notice_num }</td>
-									<td><a href="View.Notice?Notice_num=${List.notice_num }">${List.notice_title }</a></td>
-									<td align="center">${List.notice_count }</td>
-									<td>${List.notice_date }</td>
+									<td align="center">${List.idx }</td>
+									<td><a href="View.Notice?Notice_num=${List.idx }">${List.title }</a></td>
+									<td align="center">${List.id }</td>
+									<td>${List.write_date }</td>
 								</tr>
 							</c:forEach>
 							
@@ -64,34 +64,36 @@
 								<ul class="pagination">
 								  <!--  페이지 넘버가 0이 아닐때   ㅁㅁㅁ 중 가운데에 현페이지 넘버  -->
 								<c:choose>
-									<c:when test="${Notice_page == 0 }"><!-- 현재페이지가 0 번일때  -->
-										<li class="page-item active"><a class="page-link" href="Board.Notice?Notice_page=${Notice_page}">${Notice_page +1}</a></li>
+									<c:when test="${page == 0 }"><!-- 현재페이지가 0 번일때  -->
+										<li class="page-item active"><a class="page-link" href="Board.Notice?Notice_page=${page}">${page +1}</a></li>
 										<c:choose>
-											<c:when test="${NoticeAllCount > 10 && NoticeAllCount < 21 }">
-												<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${Notice_page + 1 }">${Notice_page +2}</a></li>	
+											<c:when test="${AllCount > 10 && AllCount < 21 }">
+												<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${page + 1 }">${page +2}</a></li>	
 											</c:when>
-											<c:when test="${NoticeAllCount > 20 }">
-												<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${Notice_page+ 1 }">${Notice_page +2}</a></li>
-												<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${Notice_page + 2 }">${Notice_page +3}</a></li>
+											<c:when test="${AllCount > 20 }">
+												<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${page+ 1 }">${page +2}</a></li>
+												<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${page + 2 }">${page +3}</a></li>
 											</c:when>
 										</c:choose>
 									</c:when>
 									<c:otherwise>
-										<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${Notice_page - 1}">${Notice_page }</a></li>
-								  		<li class="page-item active"><a class="page-link" href="Board.Notice?Notice_page=${Notice_page}">${Notice_page +1}</a></li>
+										<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${page - 1}">${page }</a></li>
+								  		<li class="page-item active"><a class="page-link" href="Board.Notice?Notice_page=${page}">${page +1}</a></li>
 								  		<c:choose>
-								  			<c:when test="${NoticeAllCount > (Notice_page+1)*10 }">
-								  				<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${Notice_page + 1 }">${Notice_page +2}</a></li>
+								  			<c:when test="${AllCount > (page+1)*10 }">
+								  				<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${page + 1 }">${page +2}</a></li>
 								  			</c:when>
 								  		</c:choose>
 									</c:otherwise>
 								</c:choose>
 								</ul>
 								
-								<c:if test="${user_id == 'masiladmin' }">
-									<a href="asdf" class="btn btn-dark float-right btn-sm"><i class="fas fa-pen-fancy"></i>글 쓰기</a>
+								<c:if test="${id!=null }">
+									<a href="${contextPath}/masil/customer/write.jsp" class="btn btn-dark float-right btn-sm">
+									<i class="fas fa-pen-fancy">글 쓰기</i></a>
 								</c:if>
-							
+								<br>
+								<br>
 							
 					
        

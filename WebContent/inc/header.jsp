@@ -39,7 +39,7 @@ request.setCharacterEncoding("UTF-8");
                                                 </ul>
                                             </li>
                                             <li><a href="contact.jsp">Contact</a></li>
-                                            <li><a href="customer/customer.jsp">Customer</a></li>
+                                            <li><a href="Customer/customer.do">Customer</a></li>
                                         </ul>
                                     </nav>
                                 </div>
@@ -56,9 +56,6 @@ request.setCharacterEncoding("UTF-8");
 		<c:if test="${id != null }">
 		 	<div id="Toplogin">
 	 			<a href="${contextPath }/user/myPage.do">${id }님</a> | 
-	 			<c:if test="${id == 'master' }">
-	 				<a href="${contextPath }/user/userList.do">회원관리</a> |
-	 			</c:if>
 	 			<a href="${contextPath }/user/logout.do">Logout</a>
 	 		</div>
 		</c:if>

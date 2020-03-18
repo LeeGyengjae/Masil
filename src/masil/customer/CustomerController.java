@@ -1,6 +1,8 @@
 package masil.customer;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,7 +35,6 @@ public class CustomerController extends HttpServlet {
 			throws ServletException, IOException {
 		
 		
-		String nextPage = null;
 		ActionForward forward = null;
 		String ContextPath = request.getContextPath();
 		Action action = null;
@@ -42,18 +43,41 @@ public class CustomerController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=utf-8");
 		
-		if(command.equals("/write.do")){
-			 
-			action=new CustomerWriteAction(); 
+		if(command.equals("/customer.do")){
+			action = new getListCustomer();
 			try {
-				forward=action.execute(request, response);
+				forward= action.execute(request, response);
 			} catch (Exception e) {
-				System.out.println("/write.do 에러 : "+e);;
+				System.out.println("/customer.do 에러 : "+e);
 			}
 			
 			
+		}else if(command.equals("/wirte.do")){
 			
+			action=new CustomerWriteAction();  
+			try {
+				forward=action.execute(request, response);
+			} catch (Exception e) {
+				System.out.println("/write.do 에러 : "+e);
+			}
 			
+		}else{
+			
+			forward=new ActionForward();
+			forward.setRedirect(true);
+			forward.setPath(ContextPath+"/index.jsp");
+			
+		}
+		
+		///////////////////////////////////////////////////////////
+		
+		if(forward != null){
+			if(forward.isRedirect()){
+				response.sendRedirect(forward.getPath());
+			}else {
+				RequestDispatcher dis = request.getRequestDispatcher(forward.getPath());
+				dis.forward(request, response);
+			}
 		}
 		
 		

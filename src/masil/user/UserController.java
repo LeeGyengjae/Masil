@@ -37,7 +37,6 @@ public class UserController extends HttpServlet {
 	protected void doHandle(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
-		String nextPage = null;
 		ActionForward forward = null;
 		String ContextPath = request.getContextPath();
 		Action action = null;

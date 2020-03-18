@@ -100,7 +100,6 @@ public class UserDAO {
 	
 	public UserVO getUser(String id) {
 		
-		
 		String sql="";
 		
 		UserVO userVO = null;
@@ -138,7 +137,6 @@ public class UserDAO {
 		
 		int result = 0;
 		
-		
 		try {
 			getConnection();
 			String sql = "select * from masil.user where id=?";
@@ -147,9 +145,9 @@ public class UserDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()){
-				result = 0;
+				result = 0; 
 			}else{
-				result = 1;
+				result = 1;  
 			}
 			
 		} catch (Exception e) {
@@ -217,7 +215,7 @@ public class UserDAO {
 		try{
 			getConnection();
 			
-			sql = "select * from masil.user where id != 'master'";
+			sql = "select * from masil.user where id != 'adminmasil'";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			

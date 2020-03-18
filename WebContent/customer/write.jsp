@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     isELIgnored="false" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
+
     
 <html class="no-js" lang="zxx">
 
@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- <link rel="manifest" href="site.webmanifest"> -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../img/favicon.png">
     <!-- Place favicon.ico in the root directory -->
 
     <!-- CSS here -->
@@ -32,83 +32,82 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css">
 
     <link rel="stylesheet" href="../css/style.css">
-    <style>
-    	.cls1 {
-    		font-size:40px;
-    		text-align:center;
-    	}
-    </style>
     
-    
+    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script type="text/javascript">
+	    function readURL(input) {
+		   console.debug(input); 
+	       console.debug(input.files); 
+		   if (input.files && input.files[0]) {
+			  $("#tdImg").html("<img  id='preview' src='#'   width=200 height=200/>");
+		      var reader = new FileReader();
+		      reader.readAsDataURL(input.files[0]);
+		      reader.onload = function (ProgressEvent) {
+	    		  console.debug(ProgressEvent);
+		      	 $('#preview').attr('src',ProgressEvent.target.result);
+		          }
+		      }  
+		} 
+	  function backToList(obj){
+	    obj.action="${contextPath}/Customer/customer.do";
+	    obj.submit();
+	  }
+  </script>
    </head>
-
 <body>
     <!-- header-start -->
     <header>
-    	<jsp:include page="/inc/header2.jsp"/>
+    	<jsp:include page="../inc/header2.jsp"/>
     </header>
     <!-- header-end -->
 
-	<section class="container mt-3 mb-3" style="max-width: 560px;">
-		<p class="cls1 mt-3 mb-3">회원정보</p>
-		<table class="container mt-3 mb-3">
-			<tr align="center" bgcolor="skyblue">
-				<td width="9%"><b>아이디</b></td>
-				<td width="9%"><b>비밀번호</b></td>
-				<td width="9%"><b>이름</b></td>
-				<td width="15%" colspan=3><b>주민번호</b></td>
-				<td width="9%"><b>삭제</b></td>
-			</tr>
-			
-			<c:choose>
-				<c:when test="${userList == null }">
-					<tr>
-						<td colspan=6>
-							<b>등록된 회원이 없습니다.</b>
-						</td>
-					</tr>
-				</c:when>
-				<c:when test="${userList != null }">
-					<form method="post" action="${pageContext.request.contextPath}/user/deleteUser.do" name="fr">
-						<c:forEach var="user" items="${userList }">	
-							<tr align="center"  height="50px">
-								<td>${user.id }</td>
-								<td>${user.pwd }</td>
-								<td>${user.name }</td>
-								<td>${user.jumin1 }</td>
-								<td>-</td>
-								<td>${user.jumin2 }</td>
-								<td>
-									<a href="${contextPath}/masil/user/deleteUser.do?id=${user.id}"><b>삭제</b></a>
-								</td>
-							</tr>
-						</c:forEach>
-					</form>	
-				</c:when>
-			</c:choose>
-		</table>
-	
-	</section>
+    <!-- bradcam_area  -->
+    <section class="container mt-3" style="max-width: 560px;">
+    	<h1>글쓰기</h1>
+	  <form name="customerForm" method="post"   
+	  						   action="${contextPath}/customer/writePro.do"   
+	  						   enctype="multipart/form-data">
+	    <table border=0 align="center">
+	     <tr >
+		   <td align="right" width="500px">글제목: </td>
+		   <td colspan="2"><input type="text" size="67"  maxlength="500" name="title" /></td>
+		 </tr>
+		 <tr>
+			<td align="right" valign="top"><br>글내용: </td>
+			<td colspan=2><textarea name="content" rows="10" cols="65" maxlength="4000"></textarea> </td>
+	     </tr>
+	     <tr>
+	        <td align="right">이미지파일 첨부:  </td>
+		     <td> <input type="file"  name="imageFileName"  onchange="readURL(this);" /></td>
+	         <td id="tdImg"></td>
+		 </tr>
+		 <tr>
+		    <td align="right"> </td>
+		    <td colspan="2">
+		       <input type="submit" value="글쓰기" />
+		       <input type=button value="목록보기"onClick="backToList(this.form)" />
+		    </td>
+	     </tr>
+	    </table>
+	  </form>
+							
+					
+       
+
+</section>
+
+    <!--/ bradcam_area  -->
+
     
 
 
 
     <footer class="footer">
-        <jsp:include page="/inc/footer2.jsp"/>
+        <jsp:include page="../inc/footer2.jsp"/>
     </footer>
 
 
-  <!-- Modal -->
-  <div class="modal fade custom_search_pop" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="serch_form">
-            <input type="text" placeholder="Search" >
-            <button type="submit">search</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  
     <!-- link that opens popup -->
 <!--     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
