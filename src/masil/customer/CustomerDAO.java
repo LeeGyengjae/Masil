@@ -10,6 +10,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 
+
 public class CustomerDAO {
 
 	Connection con = null;
@@ -142,6 +143,70 @@ public class CustomerDAO {
 		}
 		
 		return 0;
+	}
+
+	
+
+	public CustomerVO getBoard(int num) {
+		
+		CustomerVO result = new CustomerVO();
+		try {
+			getConnection();
+			String sql = "select * from masil.customer where idx = ?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				result.setContent(rs.getString("content"));
+				result.setWrite_date(rs.getDate("write_date"));
+				result.setIdx(rs.getInt("idx"));
+				result.setTitle(rs.getString("title"));
+				result.setId(rs.getString("id"));
+				result.setImg(rs.getString("img"));
+			}
+			
+		} catch (Exception e) {
+			System.out.println("getBoard() 오류 : "+e);
+		}finally {
+			allClose();
+		}
+		
+		return result;
+	}
+
+	public void modArticle(CustomerVO customerVO) {
+		System.out.println("modArticle() 실행");
+		/////////////////////////////////////////////////
+		int idx = customerVO.getIdx();
+		String title = customerVO.getTitle();
+		String content = customerVO.getContent();
+		String img = customerVO.getImg();
+		try {
+			getConnection();
+			String query = "update masil.customer  set title=?,content=?";
+			if (img != null && img.length() != 0) {
+				query += ",img=?";
+			}
+			query += " where idx=?";
+
+			System.out.println(query);
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, title);
+			pstmt.setString(2, content);
+			if (img != null && img.length() != 0) {
+				pstmt.setString(3, img);
+				pstmt.setInt(4, idx);
+			} else {
+				pstmt.setInt(3, idx);
+			}
+			pstmt.executeUpdate();
+			System.out.println(content);
+			
+		} catch (Exception e) {
+			System.out.println("modArticle() 에러 : "+e);
+		}
+		
 	}
 	
 	

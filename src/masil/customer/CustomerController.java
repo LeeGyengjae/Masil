@@ -59,6 +59,26 @@ public class CustomerController extends HttpServlet {
             System.out.println("/write.do 에러 : "+e);
          }
          
+      }else if(command.equals("/view.do")){
+    	  action = new CustomerViewAction();
+    	  try {
+			forward = action.execute(request, response);
+		} catch (Exception e) {
+			System.out.println("/view.do 에러 : "+e);
+		}
+    	  
+    	  
+      }else if(command.equals("/modcustomer.do")){
+    	  System.out.println("/modcustomer.do 실행");
+    	  action = new CustomerModAction();
+    	  try {
+			forward = action.execute(request, response);
+		} catch (Exception e) {
+			System.out.println("/modcustomer.do 에러 : ");
+			e.printStackTrace();
+		}
+    	  
+    	  
       }else{
          
          forward=new ActionForward();

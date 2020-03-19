@@ -11,7 +11,6 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -31,7 +30,6 @@ public class CustomerWriteAction implements Action {
       CustomerVO customervo = new CustomerVO();
       CustomerDAO customerdao = new CustomerDAO();
       ActionForward forward = new ActionForward();
-      HttpSession session=request.getSession();
       
       UserDAO userdao = new UserDAO();
       

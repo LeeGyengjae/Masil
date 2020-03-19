@@ -54,7 +54,7 @@
 							<c:forEach var="List" items="${List }" >
 								<tr>
 									<td align="center">${List.idx }</td>
-									<td><a href="View.Notice?Notice_num=${List.idx }">${List.title }</a></td>
+									<td><a href="/masil/Customer/view.do?idx=${List.idx }">${List.title }</a></td>
 									<td align="center">${List.id }</td>
 									<td>${List.write_date }</td>
 								</tr>
