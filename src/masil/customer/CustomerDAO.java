@@ -1,19 +1,13 @@
 package masil.customer;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
-
-
 
 
 public class CustomerDAO {
@@ -94,22 +88,29 @@ public class CustomerDAO {
 		return result;
 	}//CustomerAllCount() 끝
 
-	public boolean wirteCustomer(CustomerVO customervo) {
+	public boolean writeCustomer(CustomerVO customervo) {
+		int customerNO = getCustomerNO();
+		System.out.println("writeCustomer() 실행");
+		System.out.println("ID : "+customervo.getId());
+		System.out.println("Title : "+customervo.getTitle());
+		System.out.println("Content : "+customervo.getContent());
+		System.out.println("Img : "+customervo.getImg());
 		boolean result = false;
 		try {
 			getConnection();
-			String sql = "insert into masil.customer (id,write_date,title,content";
+			String sql = "insert into masil.customer (idx,id,write_date,title,content";
 			if(customervo.getImg()!=null){
-				sql += ",img) values(?,now(),?,?,?)";
+				sql += ",img) values(?,?,now(),?,?,?)";
 				pstmt = con.prepareStatement(sql);
-				pstmt.setString(4, customervo.getImg());
+				pstmt.setString(5, customervo.getImg());
 			}else{
-				sql += ") values(?,now(),?,?)";
+				sql += ") values(?,?,now(),?,?)";
 				pstmt = con.prepareStatement(sql);
 			}
-			pstmt.setString(1, customervo.getId());
-			pstmt.setString(2, customervo.getTitle());
-			pstmt.setString(3, customervo.getContent());
+			pstmt.setInt(1, customerNO);
+			pstmt.setString(2, customervo.getId());
+			pstmt.setString(3, customervo.getTitle());
+			pstmt.setString(4, customervo.getContent());
 			if(pstmt.executeUpdate()==1){
 				result = true;
 			}
@@ -122,6 +123,25 @@ public class CustomerDAO {
 		
 		return result;
 		
+	}// writeCustomer() 끝
+	
+	public int getCustomerNO(){
+		try{
+			getConnection();
+			String query = "select max(idx) from customer";
+			pstmt = con.prepareStatement(query);
+			rs = pstmt.executeQuery(query);
+			if(rs.next()){
+				return (rs.getInt(1)+1);
+			}
+			
+		} catch(Exception e){
+			System.out.println("getCustomerNO() 오류 : "+e);
+		}finally {
+			allClose();
+		}
+		
+		return 0;
 	}
 	
 	
