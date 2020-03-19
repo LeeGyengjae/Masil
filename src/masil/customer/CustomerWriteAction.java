@@ -28,8 +28,6 @@ public class CustomerWriteAction implements Action {
    public ActionForward execute(HttpServletRequest request, HttpServletResponse response) 
          throws Exception {
       request.setCharacterEncoding("UTF-8");
-      System.out.println("CustomerWriteAction 실행");
-      //////////////////////////
       CustomerVO customervo = new CustomerVO();
       CustomerDAO customerdao = new CustomerDAO();
       ActionForward forward = new ActionForward();
@@ -40,8 +38,6 @@ public class CustomerWriteAction implements Action {
       int check = userdao.searchingId((String)request.getSession().getAttribute("id"));
       
       if(check==1){
-         System.out.println("check값이 1임");
-         //////////////////////
          response.setContentType("text/html; charset=UTF-8");
          PrintWriter out=response.getWriter();
          out.println("<script>");
@@ -52,8 +48,6 @@ public class CustomerWriteAction implements Action {
          return null;
          
       }else{
-         System.out.println("check값이 0임");
-         ////////////////////////
          customervo.setId((String)request.getSession().getAttribute("id"));
          int customerNO = customerdao.getCustomerNO();
          Map<String, String> articleMap = upload(request, response);
@@ -72,23 +66,6 @@ public class CustomerWriteAction implements Action {
          
          boolean result = customerdao.writeCustomer(customervo);
          
-         
-         if(result){
-            response.setContentType("text/html; charset=UTF-8");
-            PrintWriter out=response.getWriter();
-            out.println("<script>");
-            out.println("alert('글 작성 성공.');");
-            out.println("</script>");
-            out.close();
-         }else{
-            response.setContentType("text/html; charset=UTF-8");
-            PrintWriter out=response.getWriter();
-            out.println("<script>");
-            out.println("alert('글 작성 실패.');");
-            out.println("history.back();");
-            out.println("</script>");
-            out.close();
-         }
          
          
       }
@@ -113,11 +90,8 @@ public class CustomerWriteAction implements Action {
 			for (int i = 0; i < items.size(); i++) {
 				FileItem fileItem = (FileItem) items.get(i);
 				if (fileItem.isFormField()) {
-					System.out.println(fileItem.getFieldName() + "=" + fileItem.getString(encoding));
 					articleMap.put(fileItem.getFieldName(), fileItem.getString(encoding));
 				} else {
-					System.out.println("파일경로인가:" + fileItem.getFieldName());
-					System.out.println("파일크기:" + fileItem.getSize() + "bytes");
 					if (fileItem.getSize() > 0) {
 						int idx = fileItem.getName().lastIndexOf("\\");
 						if (idx == -1) {
@@ -125,11 +99,9 @@ public class CustomerWriteAction implements Action {
 						}
 
 						String fileName = fileItem.getName().substring(idx + 1);
-						System.out.println("파일이름:" + fileName);
 						articleMap.put(fileItem.getFieldName(), fileName); 
 						File uploadFile = new File(currentDirPath + "\\temp\\" + fileName);
 						fileItem.write(uploadFile);
-						System.out.println("기본경로"+new File(".").getAbsolutePath());
 
 					} // end if
 				} // end if

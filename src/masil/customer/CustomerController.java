@@ -52,7 +52,6 @@ public class CustomerController extends HttpServlet {
          
          
       }else if(command.equals("/write.do")){
-         System.out.println("write.do 실행");
          action=new CustomerWriteAction();  
          try {
             forward=action.execute(request, response);
