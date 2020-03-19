@@ -2,7 +2,6 @@ package masil.product;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -36,49 +35,29 @@ public class ProductController extends HttpServlet {
 	public ProductController() {}
 	
 	@Override
-//	public void init() throws ServletException {
-	public void init() {
-		try {
-			productService = new ProductService();
-			reviewService = new ReviewService();
-		} catch (Exception e) {
-//			e.printStackTrace();
-		}
+	public void init() throws ServletException {
+		productService = new ProductService();
+		reviewService = new ReviewService();
 	}
     
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
-//			throws ServletException, IOException {
-    	{
-		try {
-			doHandle(request, response);
-		} catch (Exception e) {
-//			e.printStackTrace();
-		}
+			throws ServletException, IOException {
+		doHandle(request, response);
 	}
     
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
-//			throws ServletException, IOException {
-    	{
-		try {
-			doHandle(request, response);
-		} catch (Exception e) {
-//			e.printStackTrace();
-		}
+			throws ServletException, IOException {
+		doHandle(request, response);
 	}
 	
 	protected void doHandle(HttpServletRequest request, HttpServletResponse response) 
-//			throws ServletException, IOException {
-		 {
+			throws ServletException, IOException {
 		
 		String nextPage="";
 		
-		try {
-			request.setCharacterEncoding("UTF-8");
-		} catch (UnsupportedEncodingException e1) {
-//			e1.printStackTrace();
-		}
+		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=utf-8");
 		String action = request.getPathInfo();
 		System.out.println("action : " + action );
@@ -108,22 +87,17 @@ public class ProductController extends HttpServlet {
 			else if(action.equals("/blog.do")){
 				String code = request.getParameter("code");
 				String sub_code = request.getParameter("sub_code");
-				String id = request.getParameter("id");
-				
-				//후기 페이징 처리 위해 필요.
-//				int pageNum = Integer.parseInt(request.getParameter("pageNum"));
-//				System.out.println("Product Controller - pageNum : "+pageNum);
+				String id = (String) request.getSession().getAttribute("id");
 				
 				productDetail = productService.viewProduct(code, sub_code);
 				//상품 상세 페이지에서 리뷰도 같이 출력해야함.
 //				reviewList = reviewService.reviewList(code, pageNum);
 				reviewList = reviewService.reviewList(code, 0);
-//				UserVO userVO = userDAO.getUser("a"); //로그인 사용자 정보 가져와서 id로 검색하기
+				String reviewAuth = reviewService.insertReviewAuth(id, sub_code);
 				
 				request.setAttribute("productDetail", productDetail);
 				request.setAttribute("reviewList", reviewList);
-//				request.setAttribute("userVO", userVO);
-				
+				request.setAttribute("reviewAuth", reviewAuth);
 				
 				System.out.println("Product Contorller - reviewList : "+reviewList);
 				nextPage = "/product/blog.jsp";
@@ -183,9 +157,8 @@ public class ProductController extends HttpServlet {
 				
 //				int result = productService.updateProduct(productMap);
 //				PrintWriter out = response.getWriter();
-//				
 //				if(result==1){
-//					out.println("<script>alert('수정성공');</script>");
+//					out.println("<script>alert('수정완료');</script>");
 //					out.flush();
 //					nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code;
 //				}else {
@@ -194,7 +167,7 @@ public class ProductController extends HttpServlet {
 //					nextPage="/product1/product.do";
 //				}
 
-				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code; 
+				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code;
 //				nextPage="/product1/product.do";
 				
 			}
@@ -212,30 +185,24 @@ public class ProductController extends HttpServlet {
 //				System.out.println("Controller 됨");
 //				
 //				nextPage = "/product/blog.do?code="+code+"&sub_code="+sub_code; 
-////				nextPage="/product1/product.do";
+////			nextPage="/product1/product.do";
 //				
 //			}
 			else if(action.equals("/deleteProduct.do")){
-				//상품 수정
-				Map<String, Object> productMap = upload(request, response);
-				
-				String code = productMap.get("code").toString();
-				String sub_code = productMap.get("subCode").toString();
-				
-				productService.deleteProduct(productMap);
+				//상품 삭제
+				String code = request.getParameter("code");
+				String sub_code = request.getParameter("sub_code");
+				productService.deleteProduct(code, sub_code);
 				
 				System.out.println("Controller 됨");
-				
 				nextPage="/product1/product.do";
-				
 			}
-			
 			
 			RequestDispatcher dispatche = request.getRequestDispatcher(nextPage);
 			dispatche.forward(request, response);
 			
 		} catch (Exception e) {
-//			e.printStackTrace();
+			e.printStackTrace();
 		}
 		
 		
@@ -244,8 +211,7 @@ public class ProductController extends HttpServlet {
 
 	//파일 업로드 처리를 위한 upload메소드
 	private Map<String, Object> upload(HttpServletRequest request, HttpServletResponse response) 
-//			throws ServletException,IOException{
-		{
+			throws ServletException,IOException{
 		
 		Map<String, Object> productMap = new HashMap<String, Object>();
 		String encoding = "utf-8";
@@ -334,7 +300,7 @@ public class ProductController extends HttpServlet {
 			System.out.println("TEST *** productMap : "+productMap);
 			
 		} catch (Exception e) {
-//			e.printStackTrace();
+			e.printStackTrace();
 		}
 		return productMap; //HashMap리턴
 	}//upload()

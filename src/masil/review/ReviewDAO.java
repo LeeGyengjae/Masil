@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -83,27 +84,18 @@ public class ReviewDAO {
 		int re=0;
 		try {
 			conn=getConnection();
-			sql = "select a.id, a.code, b.end_date"
-					+" from res_table a join pro_write b"
-					+" on a.code=b.sub_code"
-					+" where a.id=? and a.code=?";
-				pstmt=conn.prepareStatement(sql);
-				pstmt.setString(1, reviewVO.getId());
-				pstmt.setString(2, reviewVO.getCode());
-				rs=pstmt.executeQuery();
-				if(rs.next()){	//다녀온 사람만 후기 작성할 수 있도록 함
-					sql = "insert into review (code, id, content, write_date, rating, end_date)"
-							+ " values (?,?,?,?,?,?)";
-					pstmt=conn.prepareStatement(sql);
-					pstmt.setString(1, reviewVO.getCode());
-					pstmt.setString(2, reviewVO.getId());
-					pstmt.setString(3, reviewVO.getContent());
-					pstmt.setString(4, reviewVO.getWrite_date());
-					pstmt.setInt(5, reviewVO.getRating());
-					pstmt.setString(6, reviewVO.getEnd_date());
-					re=pstmt.executeUpdate();
-				}
-				System.out.println("insertReview()성공!!");
+			sql = "insert into review (code, id, content, write_date, rating, end_date)"
+					+ " values (?,?,?,?,?,?)";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, reviewVO.getCode());
+			pstmt.setString(2, reviewVO.getId());
+			pstmt.setString(3, reviewVO.getContent());
+			pstmt.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
+			pstmt.setInt(5, reviewVO.getRating());
+			pstmt.setString(6, reviewVO.getEnd_date());
+			re=pstmt.executeUpdate();
+			System.out.println("insertReview()성공!!");
+			
 		} catch (Exception e) {
 			System.out.println("insertReveiw() 실패 "+e);
 		} finally { closeDB(); }
@@ -154,7 +146,7 @@ public class ReviewDAO {
 			pstmt.setString(2, reviewVO.getId());
 			rs = pstmt.executeQuery();
 			if(rs.next()){
-				if(reviewVO.getId().equals("masiladmin")){
+				if(reviewVO.getId().equals("master")){
 					sql="delete from review where code=? and id=? and end_date=?";
 					pstmt=conn.prepareStatement(sql);
 					pstmt.setString(1, reviewVO.getCode());
@@ -181,7 +173,27 @@ public class ReviewDAO {
 		return re;
 	}//deleteComment()
 	
-	
+	//후기 작성 권한 확인
+	public String insertReviewAuth(String id, String sub_code) {
+		String user_endDate = "";
+		try {
+			conn=getConnection();
+			sql = "select a.id, a.sub_code, b.end_date"
+				+" from res_table a join pro_write b"
+				+" on a.sub_code=b.sub_code"
+				+" where a.id=? and a.sub_code=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, sub_code);
+			rs=pstmt.executeQuery();
+			if(rs.next()){
+				user_endDate=rs.getDate("end_date").toString();
+			}
+		} catch (Exception e) {
+			System.out.println("insertReviewAuth() 실패 "+e);
+		} finally { closeDB(); }
+		return user_endDate;
+	}//insertReviewAuth()
 	
 	
 }//reviewDAO class

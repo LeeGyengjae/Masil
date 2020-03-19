@@ -32,6 +32,10 @@ public class ReviewService {
 		return re;
 	}
 	
+	public String insertReviewAuth(String id, String sub_code) {
+		String user_endDate = reviewDAO.insertReviewAuth(id, sub_code);
+		return user_endDate;
+	}
 	
 	
 	

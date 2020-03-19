@@ -272,7 +272,7 @@
 						<div class="col-lg-4 col-md-6">
 							<div class="single_place">
 								<div class="thumb">
-									<img src="../img/place/1.png" alt=""> 
+									<img src="img/place/1.png" alt=""> 
 									<a href="productDetail.do" class="prise">$0</a>
 								</div>
 								<div class="place_info">
@@ -308,16 +308,18 @@
 					<%-- 상품 있을 때 : ↓상품 1개씩↓ --%>
 					<c:when test="${requestScope.productList != null }">
 						<c:forEach var="product" items="${productList}">
-							<div class="col-lg-4 col-md-6">
+							<div class="col-lg-6 col-md-6">
 								<div class="single_place" style="cursor:pointer;" 
 								onclick="location.href='blog.do?code=${product.code}&sub_code=${product.sub_code}'" >
 									<div class="thumb">
-										<c:forTokens items="${product.image}" delims="," var="images">
-											<img alt="${images}" src="product/upload/${images}" >
-										</c:forTokens>
-										<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}"	class="prise">
-											<fmt:formatNumber type="currency" value="${product.price}" currencySymbol="￦ "/>
-										</a>
+										<c:if test="${product.image!=null}">
+											<c:forTokens items="${product.image}" delims="," var="images">
+												<img alt="${images}" src="product/upload/${images}" >
+											</c:forTokens>
+											<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}"	class="prise">
+												<fmt:formatNumber type="currency" value="${product.price}" currencySymbol="￦ "/>
+											</a>
+										</c:if>
 									</div>
 									<div class="place_info">
 
@@ -379,7 +381,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="more_place_btn text-center">
-                        <a class="boxed-btn4" href="#">More Places</a>
+                        <a class="boxed-btn4" href="${contextPath}/masil/product1/product.do">More Places</a>
                     </div>
                 </div>
             </div>

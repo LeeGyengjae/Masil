@@ -189,13 +189,15 @@ public class ProductDAO {
 			System.out.println("sql 1 성공 re : "+re);
 			
 			if(productMap.get("image") !=null || productMap.get("imgContent") != null){
+				System.out.println("이미지 있음");
 				sql = "insert into pro_detail (code, day, day_title, day_course, stay, meal, day_content, image, img_content)"
 						+ "values (?,?,?,?,?,?,?,?,?)";
 				pstmt=conn.prepareStatement(sql);
+			}else {
+				sql = "insert into pro_detail (code, day, day_title, day_course, stay, meal, day_content)"
+					+ "values (?,?,?,?,?,?,?)";
+				pstmt=conn.prepareStatement(sql);
 			}
-			sql = "insert into pro_detail (code, day, day_title, day_course, stay, meal, day_content)"
-				+ "values (?,?,?,?,?,?,?)";
-			pstmt=conn.prepareStatement(sql);
 			
 			if(Integer.parseInt(productMap.get("period").toString()) > 1){
 				for(int j=0;j<Integer.parseInt(productMap.get("period").toString()); j++){
@@ -213,22 +215,16 @@ public class ProductDAO {
 		    		pstmt.setString(4, day_course[j]);
 		    		pstmt.setString(5, stay[j]);
 		    		pstmt.setString(6, meal[j]);
+		    		pstmt.setString(7, day_content[j]);
 
-		    		if(productMap.get("image") != null || productMap.get("image_content") != null ){
+		    		if(productMap.get("image") != null || productMap.get("imgContent") != null ){
 		    			//새로 올린 이미지 있을때
 		    			String[] img_content = (String[]) productMap.get("imgContent");
 		    			
 		    			Map<String,String> imageMap = (HashMap<String,String>) productMap.get("image");
-						pstmt.setString(6, imageMap.get((j+1)+"_image").toString());
-						pstmt.setString(7, img_content[j]);
-						pstmt.setString(8, productMap.get("code").toString());
-			    		pstmt.setString(9, day[j]);
-		    			
-		    		}else {
-			    		pstmt.setString(6, productMap.get("code").toString());
-			    		pstmt.setString(7, day[j]);
+						pstmt.setString(8, imageMap.get(j+"_image").toString());
+						pstmt.setString(9, img_content[j]);
 		    		}
-					
 					re = pstmt.executeUpdate();
 		    		System.out.println("sql 2성공 re : "+re);
 					
@@ -243,19 +239,13 @@ public class ProductDAO {
 	    		pstmt.setString(6, productMap.get("meal").toString());
 	    		pstmt.setString(7, productMap.get("dayContent").toString());
 	    		
-	    		if(productMap.get("image") != null || productMap.get("image_content") != null ){
+	    		if(productMap.get("image") != null || productMap.get("imgContent") != null ){
 	    			//새로 올린 이미지 있을때
+	    			System.out.println("이미지 삽입");
 	    			Map<String,String> imageMap = (HashMap<String,String>) productMap.get("image");
-					pstmt.setString(6, imageMap.get(1+"_image").toString());
-					pstmt.setString(7, productMap.get("imgContent").toString());
-					pstmt.setString(8, productMap.get("code").toString());
-					pstmt.setString(9, productMap.get("day").toString());
-	    			
-	    		}else {
-		    		pstmt.setString(6, productMap.get("code").toString());
-		    		pstmt.setString(7, productMap.get("day").toString());
+					pstmt.setString(8, imageMap.get(1+"_image").toString());
+					pstmt.setString(9, productMap.get("imgContent").toString());
 	    		}
-
 				re = pstmt.executeUpdate();
 	    		System.out.println("sql 2성공 re : "+re);
 			}
@@ -334,8 +324,9 @@ public class ProductDAO {
 			pstmt=conn.prepareStatement(sql);
 			
 			if(Integer.parseInt(productMap.get("period").toString()) > 1){
+				System.out.println("productMap.get(period).toString() : "+productMap.get("period").toString());
+				
 				for(int j=0;j<Integer.parseInt(productMap.get("period").toString()); j++){
-			
 					System.out.println("for문 내부");
 					System.out.println("productMap.get(day) : "+productMap.get("day"));
 					
@@ -345,6 +336,8 @@ public class ProductDAO {
 			    	String[] stay = (String[]) productMap.get("stay");
 			    	String[] meal = (String[]) productMap.get("meal");
 			    	String[] day_content = (String[]) productMap.get("dayContent");
+			    	
+			    	System.out.println("day : "+day[j]);
 			    	
 		    		pstmt.setString(1, day_title[j]);
 		    		pstmt.setString(2, day_course[j]);
@@ -356,8 +349,7 @@ public class ProductDAO {
 		    			//기존 이미지 없고 새로 올린 이미지 없을때
 			    		pstmt.setString(6, productMap.get("code").toString());
 			    		pstmt.setString(7, day[j]);
-			    		
-			    		System.out.println("ㅎㅇ");
+//			    		System.out.println("기존 이미지 없고 새로 올린 이미지 없을때");
 			    		
 		    		}else{
 		    			//기존 이미지 있을때 혹은 새로 올린 이미지 있을때
@@ -369,22 +361,15 @@ public class ProductDAO {
 							pstmt.setString(6, imageMap.get((j+1)+"_image").toString());
 		    			}
 		    			
-		    			System.out.println("productMap.get(_delImgCk) : "+productMap.get(j+"_delImgCk"));
+	    				//새로 올린 이미 없을때 -> 기존 이미지를 새 이미지인척
+		    			System.out.println("productMap.get(old_image).getClass() : "+productMap.get("old_image").getClass());
 		    			
-//		    			if(productMap.get((j+1)+"_delImgCk")!=null){
-		    			if(productMap.get("delImg")!=null){
-		    				System.out.println("이미지 지우기 요청 : "+(j+1));
-		    				String[] delImg = (String[]) productMap.get("delImg");
-	    					if(delImg[j].equals("delImg")){
-	    						pstmt.setString(6, null);
-		    				}
-		    			} else {
-		    				//새로 올린 이미 없을때 -> 기존 이미지를 새 이미지인척
-		    				System.out.println("이미지 보존");
-			    			String[] old_image = (String[]) productMap.get("old_image");
-			    			pstmt.setString(6, old_image[j].toString());
+		    			if(!productMap.get("old_image").getClass().toString().equals("class java.lang.String")){
+		    				String[] old_image = (String[]) productMap.get("old_image");
+		    				pstmt.setString(6, old_image[j].toString());
+		    			}else{
+		    				pstmt.setString(6, productMap.get("old_image").toString());
 		    			}
-		    			
 						pstmt.setString(7, img_content[j]);
 						pstmt.setString(8, productMap.get("code").toString());
 			    		pstmt.setString(9, day[j]);
@@ -408,17 +393,11 @@ public class ProductDAO {
 	    				//새로 올린 이미지 있을때
 		    			Map<String,String> imageMap = (HashMap<String,String>) productMap.get("image");
 						pstmt.setString(6, imageMap.get(1+"_image").toString());
-	    			}
-	    			
-	    			
-	    			if(productMap.get(1+"_delImgCk")!=null){
-	    				System.out.println("이미지 지우기 요청");
-	    				pstmt.setString(6, null);
 	    			}else {
 	    				//새로 올린 이미 없을때 -> 기존 이미지를 새 이미지인척
+		    			System.out.println("기간1일, 이미지 확인 : "+productMap.get("old_image").toString());
 		    			pstmt.setString(6, productMap.get("old_image").toString());
 	    			}
-	    			
     				pstmt.setString(7, productMap.get("imgContent").toString());
 					pstmt.setString(8, productMap.get("code").toString());
 					pstmt.setString(9, productMap.get("day").toString());
@@ -471,9 +450,8 @@ public class ProductDAO {
 	}//updateProduct
 	
 	//상품 삭제 - 데이터 삭제가 아니라 관리차원으로 목록에서 숨기도록 함.
-	public int deleteProduct(Map<String, Object> productMap) {
+	public int deleteProduct(String code, String sub_code) {
 		System.out.println("deleteProduct시작");
-		System.out.println("DAO productMap : "+productMap);
 		int re=0;
 		try {
 			conn = getConnection();
@@ -486,18 +464,17 @@ public class ProductDAO {
 				+" on b.code=c.code"
 				+" where a.code=? and c.sub_code=?";
 			pstmt=conn.prepareStatement(sql);
-			pstmt.setString(1, productMap.get("code").toString());
-			pstmt.setString(2, productMap.get("subCode").toString());
+			pstmt.setString(1, code);
+			pstmt.setString(2, sub_code);
 			rs = pstmt.executeQuery();
 			if(rs.next()){
 				sql = "update pro_write set visible=?"
 					+ " where code=? and sub_code=?";
 				pstmt=conn.prepareStatement(sql);
 				pstmt.setString(1, "N");
-				pstmt.setString(2, productMap.get("code").toString());
-				pstmt.setString(3, productMap.get("subCode").toString());
+				pstmt.setString(2, code);
+				pstmt.setString(3, sub_code);
 				re = pstmt.executeUpdate();
-				conn.commit();    //트랜잭션 종료, commit하기
 				System.out.println("상품 삭제 성공 : "+re);
 			}
 		} catch (Exception e) {

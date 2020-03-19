@@ -56,8 +56,8 @@ public class ProductService {
 		return re;
 	}
 	
-	public int deleteProduct(Map<String, Object> productMap) {
-		int re = productDAO.deleteProduct(productMap);
+	public int deleteProduct(String code, String sub_code) {
+		int re = productDAO.deleteProduct(code, sub_code);
 		System.out.println("Service : ȣ�ⳡ");
 		return re;
 	}

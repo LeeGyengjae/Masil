@@ -1,6 +1,7 @@
 package masil.review;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,82 +19,109 @@ public class ReviewController extends HttpServlet {
 	public ReviewController() {}
     
     @Override
-	public void init() throws ServletException {
+//	public void init() throws ServletException {
+    	public void init()  {
 		reviewService = new ReviewService();
 	}
     
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
+//			throws ServletException, IOException {
+    	 {
 		doHandle(request, response);
 	}
     
     @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
+//			throws ServletException, IOException {
+    	{
+//		doHandle(request, response);
 		doHandle(request, response);
 	}
 	
 	protected void doHandle(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
+//			throws ServletException, IOException {
+		{
 		
 		String nextPage="";
 		
-		request.setCharacterEncoding("UTF-8");
+		try {
+			request.setCharacterEncoding("UTF-8");
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+		}
+		response.setContentType("text/html; charset=utf-8");
+		
+		String ContextPath = request.getContextPath();
+		System.out.println("ContextPath : "+ContextPath);
+		
 		String action = request.getPathInfo();
 		System.out.println("action : " + action );
 		
 		try {
 			
-			if(action.equals("insertReview.do")){
-				System.out.println("reviewController");
+			if(action.equals("/insertReview.do")){
+				System.out.println("reviewController page");
 				
 				String code = request.getParameter("code");
 				String sub_code = request.getParameter("sub_code");
-				String id = request.getParameter("id");
+				String id = (String) request.getSession().getAttribute("id");
 				String content = request.getParameter("content");
-				String write_date = request.getParameter("write_date");
 				int rating = Integer.parseInt(request.getParameter("rating"));
 				String end_date = request.getParameter("end_date");
-				reviewVO = new ReviewVO(code, id, content, write_date, rating, end_date);
-				reviewService.insertReview(reviewVO);
+				
+				reviewVO = new ReviewVO(code, id, content, rating, end_date);
 				System.out.println("reviewVO : "+reviewVO.toString());
 				
-				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code;
+				reviewService.insertReview(reviewVO);
 				
-			} else if (action.equals("updateReview.do")){
+				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code;
+//				nextPage = "/masil/NewFile.jsp";
+				
+			} else if (action.equals("/updateReview.do")){
 				String code = request.getParameter("code");
 				String sub_code = request.getParameter("sub_code");
-				String id = request.getParameter("id");
+				String id = (String) request.getSession().getAttribute("id");
 				String content = request.getParameter("content");
-				String write_date = request.getParameter("write_date");
 				int rating = Integer.parseInt(request.getParameter("rating"));
 				String end_date = request.getParameter("end_date");
-				reviewVO = new ReviewVO(code, id, content, write_date, rating, end_date);
+				
+				reviewVO = new ReviewVO(code, id, content, rating, end_date);
 				reviewService.updateReview(reviewVO);
+				
 				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code;
 				
-			} else if (action.equals("deleteReview.do")){
+			} else if (action.equals("/deleteReview.do")){
+
+				System.out.println("request.getParameter(code) : "+request.getParameter("code"));
+				System.out.println("request.getParameter(sub_code) : "+request.getParameter("sub_code"));
+				System.out.println("request.getParameter(id) : "+request.getSession().getAttribute("id"));
+				System.out.println("request.getParameter(end_date) : "+request.getParameter("end_date"));
+				
 				String code = request.getParameter("code");
 				String sub_code = request.getParameter("sub_code");
-				String id = request.getParameter("id");
-				String content = request.getParameter("content");
-				String write_date = request.getParameter("write_date");
-				int rating = Integer.parseInt(request.getParameter("rating"));
+				String id = (String) request.getSession().getAttribute("id");
+//				String content = request.getParameter("content");
+//				int rating = Integer.parseInt(request.getParameter("rating"));
 				String end_date = request.getParameter("end_date");
-				reviewVO = new ReviewVO(code, id, content, write_date, rating, end_date);
+				
+				reviewVO = new ReviewVO(code, id, end_date);
 				reviewService.deleteReview(reviewVO);
+				
 				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code;
 				
 			}
-			
-			
+			else {
+				nextPage = "/NewFile.jsp";
+				System.out.println("hi");
+			}
 			
 			RequestDispatcher dispatche = request.getRequestDispatcher(nextPage);
 			dispatche.forward(request, response);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 		
 		

@@ -252,9 +252,6 @@
 													<input type="hidden" name="old_image" value="${detail.day}_old${images}"> 
 												</c:forTokens>
 											</div>
-											<input type="checkbox" name="${detail.day}_delImgCk" id="${detail.day}delImgCk" value="delImg" 
-											onclick='delCk(${detail.day})' ><label for="delImg">이미지 지우기</label>
-											<input type="hidden" name="delImg" id="${detail.day}_delImg" value="Notdel">
 										</div>
 									</div>
 									<div class="col-12">

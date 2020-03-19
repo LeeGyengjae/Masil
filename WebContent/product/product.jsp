@@ -5,6 +5,7 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	String pageNum = request.getParameter("pageNum");
+	String id = (String)request.getSession().getAttribute("id");
 %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
@@ -91,7 +92,7 @@
 	<!-- header-end -->
 
 	<!-- bradcam_area  -->
-	<div class="bradcam_area bradcam_bg_2">
+	<div class="bradcam_area bradcam_bg_2" id="TOPHERE"> 
 		<div class="container">
 			<div class="row">
 				<div class="col-xl-12">
@@ -141,291 +142,149 @@
 	</div>
 	<!-- where_togo_area_end  -->
 
+	<c:if test="${id eq 'master'}">
+		<div class="where_togo_area">
+			<div class="container">
+				<div class="row align-items-center">
+					<div class="col-lg-3">
+						<div class="form_area">
+							<h3>관리자용 메뉴</h3>
+						</div>
+					</div>
+					<div class="col-lg-9">
+						<div class="search_wrap">
+							<div class="button-group-area mt-40">
+								<a href="${contextPath}/product/write.jsp" class="boxed-btn4">새상품업로드</a>
+								<a href="${contextPath}/product1/pre_write.do" class="boxed-btn4">상품 목록2</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</c:if>
+
 	
 	<div class="popular_places_area">
-		<div class="container">
-			<div class="row">
-			
-				<%--검색영역 - DB에 맞게 수정해야함 --%>
-				<div class="col-lg-4">
-					<div class="filter_result_wrap">
-						<h3>Filter Result</h3>
-						<div class="filter_bordered">
-							<div class="filter_inner">
-								<div class="row">
-									<div class="col-lg-12">
-										<div class="single_select">
-											<select>
-												<option data-display="Country">Country</option>
-												<option value="1">Africa</option>
-												<option value="2">canada</option>
-												<option value="3">USA</option>
-											</select>
-										</div>
-									</div>
-									<div class="col-lg-12">
-										<div class="single_select">
-											<select>
-												<option data-display="Travel type">Travel type</option>
-												<option value="1">advance</option>
-												<option value="2">advance</option>
-												<option value="3">premium</option>
-											</select>
-										</div>
-									</div>
-									<div class="col-lg-12">
-										<div class="range_slider_wrap">
-											<span class="range">Prise range</span>
-											<div id="slider-range"></div>
-											<p>
-												<input type="text" id="amount" readonly
-													style="border: 0; color: #7A838B; font-weight: 400;">
-											</p>
+        <div class="container">
+            
+            <div class="row">
+                <c:choose>
+					<%--상품 없을때--%>
+					<c:when test="${requestScope.productList == null }">
+						<div class="col-lg-4 col-md-6">
+							<div class="single_place">
+								<div class="thumb">
+									<img src="img/place/1.png" alt=""> 
+									<a href="productDetail.do" class="prise">$0</a>
+								</div>
+								<div class="place_info">
+									<%--여행지역,상품명 --%>
+									<a href="productDetail.do">
+										<h3>상품 없음</h3>
+									</a>
+									<p>상품 없어요ㅠㅠ</p>
+
+									<div class="rating_days d-flex justify-content-between">
+										<span
+											class="d-flex justify-content-center align-items-center">
+											<%-- 별점 --%> 
+											<i class="fa fa-star"></i> 
+											<i class="fa fa-star"></i> 
+											<i class="fa fa-star"></i> 
+											<i class="fa fa-star"></i> 
+											<i class="fa fa-star"></i> 
+											
+											<%-- 후기 개수 --%>
+											<a href="productDetail.do">(0 Review)</a>
+										</span>
+										<%-- 여행기간 --%>
+										<div class="days">
+											<i class="fa fa-clock-o"></i> <a href="productDetail.do">0 Days</a>
 										</div>
 									</div>
 								</div>
-
-							</div>
-
-							<div class="reset_btn">
-								<button class="boxed-btn4" type="submit">Reset</button>
 							</div>
 						</div>
-						
-						<%--새 상품 업로드 버튼 - 관리자일 경우에만 출력하도록 변경해야함 + 위치 수정 필요--%>
-						<div class="button-group-area mt-40">
-							<a href="${contextPath}/product/write.jsp" class="genric-btn success radius w-100">새상품업로드</a>
-							<a href="${contextPath}/product1/pre_write.do" class="genric-btn success radius w-100">상품 목록2</a>
-						</div>
-						
-					</div>
-				</div>
-				<%--검색영역끝 --%>
-
-				<%-- ↓상품 띄울 영역↓ --%>
-				<div class="col-lg-8">
-					<div class="row">
-						<c:choose>
-							<%--상품 없을때--%>
-							<c:when test="${requestScope.productList == null }">
+					</c:when>
+					 
+					<%-- 상품 있을 때 : ↓상품 1개씩↓ --%>
+					<c:when test="${requestScope.productList != null }">
+							<c:forEach var="product" items="${productList}">
 								<div class="col-lg-6 col-md-6">
-									<div class="single_place">
+									<div class="single_place" style="cursor:pointer;" 
+									onclick="location.href='blog.do?code=${product.code}&sub_code=${product.sub_code}'" >
 										<div class="thumb">
-											<img src="../img/place/1.png" alt=""> 
-											<a href="productDetail.do" class="prise">$0</a>
+											<c:if test="${product.image!=null}">
+												<c:forTokens items="${product.image}" delims="," var="images">
+													<img alt="${images}" src="${contextPath}/product/upload/${images}" >
+												</c:forTokens>
+											</c:if>
+											<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}"	class="prise">
+												<fmt:formatNumber type="currency" value="${product.price}" currencySymbol="￦ "/>	
+											</a>
 										</div>
 										<div class="place_info">
+
 											<%--여행지역,상품명 --%>
-											<a href="productDetail.do">
-												<h3>상품 없음</h3>
+											<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}">
+												<h3>${product.title}</h3>
 											</a>
-											<p>상품 없어요ㅠㅠ</p>
+											<p>${product.code}-${product.sub_code} <br>
+											 ${product.comment} | start : ${product.start_date}</p>
 
 											<div class="rating_days d-flex justify-content-between">
 												<span
 													class="d-flex justify-content-center align-items-center">
-													<%-- 별점 --%> 
-													<i class="fa fa-star"></i> 
-													<i class="fa fa-star"></i> 
-													<i class="fa fa-star"></i> 
-													<i class="fa fa-star"></i> 
-													<i class="fa fa-star"></i> 
+														
+													<c:if test="${product.rating != null}">
+														<fmt:parseNumber var="ratingNum" value="${product.rating}" integerOnly="true" />
+														<fmt:parseNumber var="ratingNum2" value="${product.rating}" />
+														
+														<c:forEach var="ratNum" begin="1" end="${(ratingNum*10)/10}">
+															<i class="fas fa-star"></i>
+														</c:forEach>
+														<c:if test="${ratingNum2-(ratingNum*10)/10 != 0}">
+															<i class="fas fa-star-half"></i>
+														</c:if>
+													</c:if>
+
 													
 													<%-- 후기 개수 --%>
-													<a href="productDetail.do">(0 Review)</a>
+													<c:if test="${product.recnt != null}">
+														<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}">
+															(${product.recnt} Review)
+														</a>
+													</c:if>
 												</span>
 												<%-- 여행기간 --%>
 												<div class="days">
-													<i class="fa fa-clock-o"></i> <a href="productDetail.do">0 Days</a>
+													<i class="fa fa-clock-o"></i>
+													<a href="#">
+														${product.period} 일
+													</a>
 												</div>
+												<%-- 여행기간 --%>
 											</div>
 										</div>
 									</div>
+									
 								</div>
-							</c:when>
-							 
-							<%-- 상품 있을 때 : ↓상품 1개씩↓ --%>
-							<c:when test="${requestScope.productList != null }">
-								<c:forEach var="product" items="${productList}">
-									<div class="col-lg-6 col-md-6">
-										<div class="single_place" style="cursor:pointer;" 
-										onclick="location.href='blog.do?code=${product.code}&sub_code=${product.sub_code}'" >
-											<div class="thumb">
-												<c:if test="${product.image!=null}">
-													<c:forTokens items="${product.image}" delims="," var="images">
-														<img alt="${images}" src="${contextPath}/product/upload/${images}" >
-													</c:forTokens>
-												</c:if>
-												<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}"	class="prise">
-													<fmt:formatNumber type="currency" value="${product.price}" currencySymbol="￦ "/>	
-												</a>
-											</div>
-											<div class="place_info">
-
-												<%--여행지역,상품명 --%>
-												<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}">
-													<h3>${product.title}</h3>
-												</a>
-												<p>${product.code}-${product.sub_code} <br>
-												 ${product.comment} | start : ${product.start_date}</p>
-
-												<div class="rating_days d-flex justify-content-between">
-													<span
-														class="d-flex justify-content-center align-items-center">
-															
-														<c:if test="${product.rating != null}">
-															<fmt:parseNumber var="ratingNum" value="${product.rating}" integerOnly="true" />
-															<fmt:parseNumber var="ratingNum2" value="${product.rating}" />
-															
-															<c:forEach var="ratNum" begin="1" end="${(ratingNum*10)/10}">
-																<i class="fas fa-star"></i>
-															</c:forEach>
-															<c:if test="${ratingNum2-(ratingNum*10)/10 != 0}">
-																<i class="fas fa-star-half"></i>
-															</c:if>
-														</c:if>
-
-														
-														<%-- 후기 개수 --%>
-														<c:if test="${product.recnt != null}">
-															<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}">
-																(${product.recnt} Review)
-															</a>
-														</c:if>
-													</span>
-													<%-- 여행기간 --%>
-													<div class="days">
-														<i class="fa fa-clock-o"></i>
-														<a href="#">
-															${product.period} 일
-														</a>
-													</div>
-													<%-- 여행기간 --%>
-												</div>
-											</div>
-										</div>
-										
-									</div>
-								</c:forEach>
-
-								<%-- ↑상품 1개씩↑ --%>
-							</c:when>
-						</c:choose>
-					</div>
-
-
-					<%-- 페이징 처리 대신 상품 더 보기 버튼 사용 : 더보기 버튼 눌러서 일정 개수 목록 출력 --%>
-					<div class="row">
-						<div class="col-lg-12">
-							<div class="more_place_btn text-center">
-								<a class="boxed-btn4" href="#" function="moreList()">상품 더보기</a>
-							</div>
-						</div>
-					</div>
-					<%-- 상품 더 보기 버튼 --%>
-
-				</div>
-				<%-- ↑상품 띄울 영역↑ --%>
-
-			</div>
-		</div>
-	</div>
-
-	<!-- newletter_area_start  -->
-	<div class="newletter_area overlay">
-		<div class="container">
-			<div class="row justify-content-center align-items-center">
-				<div class="col-lg-10">
-					<div class="row align-items-center">
-						<div class="col-lg-5">
-							<div class="newsletter_text">
-								<h4>Subscribe Our Newsletter</h4>
-								<p>Subscribe newsletter to get offers and about new places
-									to discover.</p>
-							</div>
-						</div>
-						<div class="col-lg-7">
-							<div class="mail_form">
-								<div class="row no-gutters">
-									<div class="col-lg-9 col-md-8">
-										<div class="newsletter_field">
-											<input type="email" placeholder="Your mail">
-										</div>
-									</div>
-									<div class="col-lg-3 col-md-4">
-										<div class="newsletter_btn">
-											<button class="boxed-btn4 " type="submit">Subscribe</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- newletter_area_end  -->
-	<div class="recent_trip_area">
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-lg-6">
-					<div class="section_title text-center mb_70">
-						<h3>Recent Trips</h3>
-					</div>
-				</div>
-			</div> 
-			<div class="row">
-				<div class="col-lg-4 col-md-6">
-					<div class="single_trip">
-						<div class="thumb">
-							<img src="../img/trip/1.png" alt="">
-						</div>
-						<div class="info">
-							<div class="date">
-								<span>Oct 12, 2019</span>
-							</div>
-							<a href="#">
-								<h3>Journeys Are Best Measured In New Friends</h3>
-							</a>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="single_trip">
-						<div class="thumb">
-							<img src="../img/trip/2.png" alt="">
-						</div>
-						<div class="info">
-							<div class="date">
-								<span>Oct 12, 2019</span>
-							</div>
-							<a href="#">
-								<h3>Journeys Are Best Measured In New Friends</h3>
-							</a>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4 col-md-6">
-					<div class="single_trip">
-						<div class="thumb">
-							<img src="../img/trip/3.png" alt="">
-						</div>
-						<div class="info">
-							<div class="date">
-								<span>Oct 12, 2019</span>
-							</div>
-							<a href="#">
-								<h3>Journeys Are Best Measured In New Friends</h3>
-							</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
+							</c:forEach>
+						<%-- ↑상품 1개씩↑ --%>
+					</c:when>
+				</c:choose>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="more_place_btn text-center">
+                        <a class="boxed-btn4" href="#TOPHERE">TOP</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 	<!-- footer -->
 	<jsp:include page="../inc/footer2.jsp"></jsp:include>

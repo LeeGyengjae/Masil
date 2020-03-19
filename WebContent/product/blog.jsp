@@ -9,6 +9,10 @@
 %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<c:forEach var="product" items="${productDetail}" begin="0" end="0" step="1">
+	<c:set var="code" value="${product.code}" />
+	<c:set var="sub_code" value="${product.sub_code}" />
+</c:forEach>
 
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
@@ -58,6 +62,21 @@
 			return false;
 		});
 	});
+	
+	function submit(){
+	   writeForm.submit(); 
+	}//notNull()
+	
+	function showInput(){
+		$('#replyUp').click(function(){
+			window.open("http://localhost:8090/masil/replyUp.jsp", "후기 수정", 
+					"width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );  
+
+			
+		});
+		
+	}
+		
 </script>
 
 <style type="text/css">
@@ -107,7 +126,7 @@
 	<!--================Blog Area =================-->
 	<section class="blog_area section-padding">
 		<div class="container">
-			<div class="row">
+			<div class="row align-items-center">
 				<div class="col-lg-8 mb-5 mb-lg-0">
 					<div class="blog_left_sidebar">
 					
@@ -232,11 +251,11 @@
 						</c:when>
 					</c:choose>
 
-				<%--후기 : 내용이 없으면 쪼그라드는거 가로 길이 가득 차도록 해야함 / 총 후기 갯수 출력 필요--%>
+				<%--후기 : 내용이 없으면 쪼그라드는거 가로 길이 가득 차도록 해야함--%>
 				<div class="comments-area">
 				<c:choose>
 					<c:when test="${fn:length(reviewList)==0}">
-						<h4>등록된 후기가 없습니다. 후기를 등록해주세요.</h4>
+						<h4>등록된 후기가 없습니다.</h4>
 					</c:when>
 					
 					<c:when test="${fn:length(reviewList)!=0}">
@@ -249,18 +268,34 @@
 										<div class="desc">
 											<div class="d-flex justify-content-between">
 								             	<div class="d-flex align-items-center">
-													<h5><a href="#">${review.id}</a></h5>
-													<p class="date">평점 : ${review.rating}</p>
+													<h5><a href="#">${review.id} 님</a></h5>
+													<p class="date">
+														<c:if test="${review.rating != null}">
+															<fmt:parseNumber var="ratingNum" value="${review.rating}" integerOnly="true" />
+															<fmt:parseNumber var="ratingNum2" value="${review.rating}" />
+																평점 : 
+															<c:forEach var="ratNum" begin="1" end="${(ratingNum*10)/10}">
+																<i class="fas fa-star"></i>
+															</c:forEach>
+															<c:if test="${ratingNum2-(ratingNum*10)/10 != 0}">
+																<i class="fas fa-star-half"></i>
+															</c:if>
+														</c:if>
+													</p>
 													<p class="date">작성일자 : ${review.write_date}</p>
+													<p class="date">여행 다녀온 날짜 : ${review.end_date}</p>
 												</div>
 												<%--후기작성자or관리자일경우에만 수정/삭제 띄우기 해야함 --%>
-												<div class="reply-btn">
-													<a href="${contextPath}/review1/updateReview.do" class="btn-reply text-uppercase">수정</a>
-													<a href="${contextPath}/review1/deleteReview.do" class="btn-reply text-uppercase">삭제</a>
-												</div>
+												<c:if test="${id eq review.id or id eq 'master'}">
+<%-- 													<a href="${contextPath}/review1/updateReview.do?code=${code}&sub_code=${sub_code}&id=${id}&end_date=${reviewAuth}"  --%>
+<!-- 														class="btn-reply text-uppercase">수정</a> -->
+													<button onclick="showInput();" id="replyUp">수정</button>
+													<a href="${contextPath}/review1/deleteReview.do?code=${code}&sub_code=${sub_code}&id=${id}&end_date=${reviewAuth}" 
+														class="btn-reply text-uppercase">삭제</a>
+												</c:if>
 											</div>
 											<p class="comment">${review.content}</p>
-											<p class="comment">여행 다녀온 날짜 : ${review.end_date}</p>
+											
 										</div>
 									</div>
 								</div>
@@ -271,71 +306,76 @@
 			<%--후기 --%>
 
 						<%-- 페이징 - 후기 최근5개만 출력하고 나머진 페이징 처리해야됨 --%>
-						<nav class="blog-pagination justify-content-center d-flex">
-							<ul class="pagination">
-								<li class="page-item">
-									<a href="#" class="page-link" aria-label="Previous">
-										<i class="ti-angle-left"></i>
-									</a>
-								</li>
-								<li class="page-item">
-									<a href="#" class="page-link">1</a>
-								</li>
-								<li class="page-item active">
-									<a href="#" class="page-link">2</a>
-								</li>
-								<li class="page-item">
-									<a href="#" class="page-link" aria-label="Next">
-										<i class="ti-angle-right"></i>
-									</a>
-								</li>
-							</ul>
-						</nav>
+<!-- 						<nav class="blog-pagination justify-content-center d-flex"> -->
+<!-- 							<ul class="pagination"> -->
+<!-- 								<li class="page-item"> -->
+<!-- 									<a href="#" class="page-link" aria-label="Previous"> -->
+<!-- 										<i class="ti-angle-left"></i> -->
+<!-- 									</a> -->
+<!-- 								</li> -->
+<!-- 								<li class="page-item"> -->
+<!-- 									<a href="#" class="page-link">1</a> -->
+<!-- 								</li> -->
+<!-- 								<li class="page-item active"> -->
+<!-- 									<a href="#" class="page-link">2</a> -->
+<!-- 								</li> -->
+<!-- 								<li class="page-item"> -->
+<!-- 									<a href="#" class="page-link" aria-label="Next"> -->
+<!-- 										<i class="ti-angle-right"></i> -->
+<!-- 									</a> -->
+<!-- 								</li> -->
+<!-- 							</ul> -->
+<!-- 						</nav> -->
 						<%--페이징 --%>
 						
 						<%--후기 입력칸 -> 로그인한 사람 중 다녀온 사람만 작성 할 수 있도록 해야함 / ajax로 페이지 이동없이 처리해야함 --%>
-						<div class="comment-form">
-		                  <h4>여행 후기</h4>
-		                  <form class="form-contact comment_form" action="${contextPath}/review1/insertReview.do" id="commentForm">
-		                   <div class="row">
-		                  	<input type="hidden" name="write_date" id="write_date" value="2020-03-15">
-							<input type="hidden" name="end_date" id="end_date" value="2020-03-15">
-							<input type="hidden" name="id" id="id" value="${userVO.id}">
-							
-							<c:forEach var="product" items="${productDetail}" begin="0" end="0" step="1">
-								<input type="hidden" name="code" id="code" value="${product.code}">
-								<input type="hidden" name="sub_code" id="sub_code" value="${product.sub_code}">
-							</c:forEach>
-		                  	
-		                        <%--별점 --%>
-		                        <div class="col-sm-6">
-									<div class="form-group starRev">
-										<p>${userVO.id} 님</p>
-										<span class="starR">별1</span>
-										<span class="starR">별2</span>
-										<span class="starR">별3</span>
-										<span class="starR">별4</span>
-										<span class="starR">별5</span>
-										<input type="hidden" name="rating" id="rating">
+						<c:if test="${id != null and fn:length(reviewAuth)!=0}">
+							<div class="comment-form">
+			                  <h4>여행 후기</h4>
+			                  <form class="form-contact comment_form" method="post" 
+			                  		action="${contextPath}/review1/insertReview.do" id="commentForm">
+				                  
+				                   <div class="row">
+										<input type="hidden" name="end_date" id="end_date" value="${reviewAuth}">
+										<input type="hidden" name="id" id="id" value="${id}">
+										
+										<c:forEach var="product" items="${productDetail}" begin="0" end="0" step="1">
+											<input type="hidden" name="code" id="code" value="${product.code}">
+											<input type="hidden" name="sub_code" id="sub_code" value="${product.sub_code}">
+										</c:forEach>
+			                  	
+			                        <%--별점 --%>
+			                        <div class="col-sm-6">
+										<div class="form-group starRev">
+											<p>${id} 님</p>
+											<span class="starR">별1</span>
+											<span class="starR">별2</span>
+											<span class="starR">별3</span>
+											<span class="starR">별4</span>
+											<span class="starR">별5</span>
+											<input type="hidden" name="rating" id="rating">
+										</div>
 									</div>
-								</div>
-								
-								<div class="col-sm-6">
-			                        <div class="form-group">
-			                        	<button type="submit" class="genric-btn success radius">후기 등록</button>
+									
+									<div class="col-sm-6">
+				                        <div class="form-group">
+				                        	<button type="submit" class="genric-btn success radius"  onclick='submit()'>후기 등록</button>
+				                     	</div>
 			                     	</div>
-		                     	</div>
-								
-		                    	<div class="col-12">
-	                    	       <div class="form-group">
-		                               <textarea class="form-control w-100" name="comment" id="comment" cols="30" rows="9"
-		                               	onfocus="this.placeholder = ''" onblur="this.placeholder = '후기를 입력해주세요.'" 
-		                               	placeholder="후기를 입력해주세요."></textarea>
-		                           </div>
-		                        </div>
-		                      </div>  
-		                  </form>
-		               </div>
+									
+			                    	<div class="col-12">
+		                    	       <div class="form-group">
+			                               <textarea class="form-control w-100" name="content" id="content" cols="30" rows="9"
+			                               	onfocus="this.placeholder = ''" onblur="this.placeholder = '후기를 입력해주세요.'" 
+			                               	placeholder="후기를 입력해주세요."></textarea>
+			                           </div>
+			                        </div>
+			                        
+			                      </div>  
+			                      
+			                  </form>
+			               </div>
+			             </c:if>
 		               <%--후기 입력칸 --%>
 		               
 					</div>
@@ -344,190 +384,25 @@
 			<%-- 상품상세페이지 왼쪽 영역 --%>
 			
 			<%--오른쪽 사이드바 --%>
-				<div class="col-lg-4">
-                    <div class="blog_right_sidebar">
-                    
-                    <aside class="single_sidebar_widget">
-                    	<h4 class="widget_title">관리자용</h4>
-	                    <div class="button-group-area mt-10">
+			<div class="col-lg-4">
+                   <div class="blog_right_sidebar">
+                    <aside class="single_sidebar_widget post_category_widget">
+                    	<h4 class="widget_title">Category</h4>
+	                    <div class="button-group-area mt-10 media post_item">
 							<input type="button" value="상 품 목 록" class="genric-btn success radius w-100" onclick="location.href='${contextPath}/product1/product.do'">
-							<c:forEach var="product" items="${productDetail}" begin="0" end="0" step="1">
-								<input type="button" value="상 품 수 정" class="genric-btn success radius w-100" 
-									onclick="location.href='${contextPath}/product1/updateProduct.do?code=${product.code}&sub_code=${product.sub_code}'">
-								<input type="button" value="상 품 삭 제" class="genric-btn success radius w-100" 
-									onclick="location.href='${contextPath}/product1/delete.do?code=${product.code}&sub_code=${product.sub_code}'">
-							</c:forEach>
+							<c:if test="${id eq 'master'}">
+								<c:forEach var="product" items="${productDetail}" begin="0" end="0" step="1">
+									<input type="button" value="상 품 수 정" class="genric-btn success radius w-100" 
+										onclick="location.href='${contextPath}/product1/updateProduct.do?code=${product.code}&sub_code=${product.sub_code}'">
+									<input type="button" value="상 품 삭 제" class="genric-btn success radius w-100" 
+										onclick="location.href='${contextPath}/product1/deleteProduct.do?code=${product.code}&sub_code=${product.sub_code}'">
+								</c:forEach>
+							</c:if>
 						</div>
 					</aside>
-						
-						
-                        <aside class="single_sidebar_widget search_widget">
-                            <form action="#">
-                                <div class="form-group">
-                                    <div class="input-group mb-3">
-                                        <input type="text" class="form-control" placeholder='Search Keyword'
-                                            onfocus="this.placeholder = ''"
-                                            onblur="this.placeholder = 'Search Keyword'">
-                                        <div class="input-group-append">
-                                            <button class="btn" type="button"><i class="ti-search"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button class="genric-btn success radius w-100"
-                                    type="submit">Search</button>
-                            </form>
-                        </aside>
-
-                        <aside class="single_sidebar_widget post_category_widget">
-                            <h4 class="widget_title">Category</h4>
-                            <ul class="list cat-list">
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Resaurant food</p>
-                                        <p>(37)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Travel news</p>
-                                        <p>(10)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Modern technology</p>
-                                        <p>(03)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Product</p>
-                                        <p>(11)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Inspiration</p>
-                                        <p>21</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex">
-                                        <p>Health Care (21)</p>
-                                        <p>09</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </aside>
-
-                        <aside class="single_sidebar_widget popular_post_widget">
-                            <h3 class="widget_title">Recent Post</h3>
-                            <div class="media post_item">
-                                <img src="../img/post/post_1.png" alt="post">
-                                <div class="media-body">
-                                    <a href="single-blog.jsp">
-                                        <h3>From life was you fish...</h3>
-                                    </a>
-                                    <p>January 12, 2019</p>
-                                </div>
-                            </div>
-                            <div class="media post_item">
-                                <img src="../img/post/post_2.png" alt="post">
-                                <div class="media-body">
-                                    <a href="single-blog.jsp">
-                                        <h3>The Amazing Hubble</h3>
-                                    </a>
-                                    <p>02 Hours ago</p>
-                                </div>
-                            </div>
-                            <div class="media post_item">
-                                <img src="../img/post/post_3.png" alt="post">
-                                <div class="media-body">
-                                    <a href="single-blog.jsp">
-                                        <h3>Astronomy Or Astrology</h3>
-                                    </a>
-                                    <p>03 Hours ago</p>
-                                </div>
-                            </div>
-                            <div class="media post_item">
-                                <img src="../img/post/post_4.png" alt="post">
-                                <div class="media-body">
-                                    <a href="single-blog.jsp">
-                                        <h3>Asteroids telescope</h3>
-                                    </a>
-                                    <p>01 Hours ago</p>
-                                </div>
-                            </div>
-                        </aside>
-                        <aside class="single_sidebar_widget tag_cloud_widget">
-                            <h4 class="widget_title">Tag Clouds</h4>
-                            <ul class="list">
-                                <li>
-                                    <a href="#">project</a>
-                                </li>
-                                <li>
-                                    <a href="#">love</a>
-                                </li>
-                                <li>
-                                    <a href="#">technology</a>
-                                </li>
-                                <li>
-                                    <a href="#">travel</a>
-                                </li>
-                                <li>
-                                    <a href="#">restaurant</a>
-                                </li>
-                                <li>
-                                    <a href="#">life style</a>
-                                </li>
-                                <li>
-                                    <a href="#">design</a>
-                                </li>
-                                <li>
-                                    <a href="#">illustration</a>
-                                </li>
-                            </ul>
-                        </aside>
-
-
-                        <aside class="single_sidebar_widget instagram_feeds">
-                            <h4 class="widget_title">Instagram Feeds</h4>
-                            <ul class="instagram_row flex-wrap">
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="../img/post/post_5.png" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="../img/post/post_6.png" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="../img/post/post_7.png" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="../img/post/post_8.png" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="../img/post/post_9.png" alt="">
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img class="img-fluid" src="../img/post/post_10.png" alt="">
-                                    </a>
-                                </li>
-                            </ul>
-                        </aside>
-                    </div>
-                </div>
-				<%--오른쪽 사이드바 --%>
+                   </div>
+               </div>
+			<%--오른쪽 사이드바 --%>
 			
 		</div>
 	</section>
