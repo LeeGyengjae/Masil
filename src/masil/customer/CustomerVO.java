@@ -6,7 +6,6 @@ public class CustomerVO {
 	
 	private int idx;
 	private int level;
-	private int articleNO;
 	private int parentNO;
 	private String id;
 	private Date write_date;
@@ -16,12 +15,11 @@ public class CustomerVO {
 	
 	public CustomerVO() {}
 	
-	public CustomerVO(int idx, int level, int articleNO, int parentNO, String id, Date write_date, String title,
+	public CustomerVO(int idx, int level, int parentNO, String id, Date write_date, String title,
 			String content, String img) {
 		super();
 		this.idx = idx;
 		this.level = level;
-		this.articleNO = articleNO;
 		this.parentNO = parentNO;
 		this.id = id;
 		this.write_date = write_date;
@@ -48,13 +46,6 @@ public class CustomerVO {
 		this.level = level;
 	}
 
-	public int getArticleNO() {
-		return articleNO;
-	}
-
-	public void setArticleNO(int articleNO) {
-		this.articleNO = articleNO;
-	}
 
 	public int getParentNO() {
 		return parentNO;
