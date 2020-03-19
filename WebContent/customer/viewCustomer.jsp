@@ -60,6 +60,16 @@
 		 obj.submit();
 	 }
    
+   function readURL(input) {
+	     if (input.files && input.files[0]) {
+	         var reader = new FileReader();
+	         reader.onload = function (e) {
+	             $('#preview').attr('src', e.target.result);
+	         }
+	         reader.readAsDataURL(input.files[0]);
+	     }
+	 }
+   
    
    ///////////////////////////////////
     //답글 쓰기 버튼을 클릭 했을때 호출 되는 함수 
@@ -79,32 +89,24 @@
 	}
 	 
 	 
-	 function fn_remove_article(url,articleNO){
-		 var form = document.createElement("form");
-		 form.setAttribute("method", "post");
-		 form.setAttribute("action", url);		   
-	     var articleNOInput = document.createElement("input");
-	     articleNOInput.setAttribute("type","hidden");
-	     articleNOInput.setAttribute("name","articleNO");
-	     articleNOInput.setAttribute("value", articleNO);
+// 	 function fn_remove_article(url,articleNO){
+// 		 var form = document.createElement("form");
+// 		 form.setAttribute("method", "post");
+// 		 form.setAttribute("action", url);		   
+// 	     var articleNOInput = document.createElement("input");
+// 	     articleNOInput.setAttribute("type","hidden");
+// 	     articleNOInput.setAttribute("name","articleNO");
+// 	     articleNOInput.setAttribute("value", articleNO);
 	      
-	     form.appendChild(articleNOInput);
+// 	     form.appendChild(articleNOInput);
 
-	     document.body.appendChild(form);
+// 	     document.body.appendChild(form);
 	
-		 form.submit();
+// 		 form.submit();
 	 
-	 }
+// 	 }
 	 
-	 function readURL(input) {
-	     if (input.files && input.files[0]) {
-	         var reader = new FileReader();
-	         reader.onload = function (e) {
-	             $('#preview').attr('src', e.target.result);
-	         }
-	         reader.readAsDataURL(input.files[0]);
-	     }
-	 }  
+	
  </script>
    </head>
 <body>
@@ -141,7 +143,7 @@
 			   </td>  
 		  </tr>
 	 
-	<c:if test="${not empty customervo.img && customervo.img !='null' }">  
+	<c:if test="${not empty customervo.img && customervo.img !='null' }">
 		<tr>
 		   <td width="150" align="center" bgcolor="#FF9933" rowspan="2">이미지</td>
 		   <td>
@@ -172,7 +174,7 @@
 		  <tr id="tr_btn">
 		   <td colspan=2 align="center">
 			    <input type="button" value="수정하기" onClick="fn_enable(this.form)">
-			    <input type="button" value="삭제하기" onClick="fn_remove_article('${contextPath}/board/removeArticle.do', ${customervo.idx})">
+<%-- 			    <input type="button" value="삭제하기" onClick="fn_remove_article('${contextPath}/board/removeArticle.do', ${customervo.idx})"> --%>
 			    <input type="button" value="리스트로 돌아가기"  onClick="backToList(this.form)">
 			    <!-- 답글쓰기를 클릭하면 fn_reply_form()함술를 호출 하면서 
 			                글번호와 답글 요청 주소를 함께전달함 -->
