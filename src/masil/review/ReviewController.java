@@ -83,9 +83,15 @@ public class ReviewController extends HttpServlet {
 			} else if (action.equals("/updateReview.do")){
 				System.out.println("updateReview.do ����");
 				
+				System.out.println("request.getParameter(code) : "+request.getParameter("code"));
+				System.out.println("request.getParameter(sub_code) : "+request.getParameter("sub_code"));
+				System.out.println("request.getParameter(id) : "+request.getSession().getAttribute("id"));
+				System.out.println("request.getParameter(idx) : "+request.getParameter("idx"));
+				
 				String code = request.getParameter("code");
 				String sub_code = request.getParameter("sub_code");
 				String id = (String) request.getSession().getAttribute("id");
+				
 				String content = request.getParameter("content");
 				int rating = Integer.parseInt(request.getParameter("rating"));
 				String end_date = request.getParameter("end_date");

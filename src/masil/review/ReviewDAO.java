@@ -200,22 +200,22 @@ public class ReviewDAO {
 	}//insertReviewAuth()
 	
 	//자신이 쓴 후기 조회
-	public List<ReviewVO> selReview(String id, String code){
+	public List<ReviewVO> selReview(String id){
 		List<ReviewVO> revList = new ArrayList<ReviewVO>();
 		ReviewVO reVO = null;
 		try {
 			conn=getConnection();
-			sql = "select * from review where id=? and code=?";
+			sql = "select * from review where id=?";
 			pstmt=conn.prepareStatement(sql);
 			pstmt.setString(1, id);
-			pstmt.setString(2, code);
 			rs=pstmt.executeQuery();
-			if(rs.next()){
+			while(rs.next()){
 				String content = rs.getString("content");
 				String write_date = rs.getString("write_date");
 				int rating = rs.getInt("rating");
 				String end_date = rs.getString("end_date");
 				int idx = rs.getInt("idx");
+				String code= rs.getString("code");
 				reVO = new ReviewVO(idx, code, id, content, write_date, rating, end_date);
 				revList.add(reVO);
 				System.out.println("후기 조회 성공");
