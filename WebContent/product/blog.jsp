@@ -135,7 +135,7 @@
 	<!--================Blog Area =================-->
 	<section class="blog_area section-padding" id="blogsection">
 		<div class="container">
-			<div class="row align-items-center">
+			<div class="row">
 				<div class="col-lg-8 mb-5 mb-lg-0">
 					<div class="blog_left_sidebar">
 					
@@ -399,7 +399,7 @@
 			<%-- 상품상세페이지 왼쪽 영역 --%>
 			
 			<%--오른쪽 사이드바 --%>
-			<div class="col-lg-4" id="sidebar">
+			<div class="col-lg-4 mb-5 mb-lg-0" id="sidebar">
                    <div class="blog_right_sidebar">
                     <aside class="single_sidebar_widget post_category_widget">
                     	<h4 class="widget_title">Category</h4>
