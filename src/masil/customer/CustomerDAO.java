@@ -176,8 +176,7 @@ public class CustomerDAO {
 	}
 
 	public void modArticle(CustomerVO customerVO) {
-		System.out.println("modArticle() 실행");
-		/////////////////////////////////////////////////
+		
 		int idx = customerVO.getIdx();
 		String title = customerVO.getTitle();
 		String content = customerVO.getContent();
@@ -201,7 +200,6 @@ public class CustomerDAO {
 				pstmt.setInt(3, idx);
 			}
 			pstmt.executeUpdate();
-			System.out.println(content);
 			
 		} catch (Exception e) {
 			System.out.println("modArticle() 에러 : "+e);

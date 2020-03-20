@@ -38,7 +38,7 @@ public class ReviewService {
 	}
 	
 	public List<ReviewVO> selReview(String id, String code){
-		List<ReviewVO> revList = reviewDAO.selReview(id, code);
+		List<ReviewVO> revList = reviewDAO.selReview(id);
 		return revList;
 	}
 	

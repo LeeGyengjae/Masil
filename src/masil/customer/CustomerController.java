@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import masil.user.Action;
 import masil.user.ActionForward;
@@ -30,7 +31,8 @@ public class CustomerController extends HttpServlet {
       doHandle(request, response);
    }
    
-   protected void doHandle(HttpServletRequest request, HttpServletResponse response) 
+   @SuppressWarnings("null")
+protected void doHandle(HttpServletRequest request, HttpServletResponse response) 
          throws ServletException, IOException {
       
       
@@ -69,6 +71,7 @@ public class CustomerController extends HttpServlet {
     	  
     	  
       }else if(command.equals("/modcustomer.do")){
+    	  
     	  System.out.println("/modcustomer.do 실행");
     	  action = new CustomerModAction();
     	  try {
@@ -76,6 +79,29 @@ public class CustomerController extends HttpServlet {
 		} catch (Exception e) {
 			System.out.println("/modcustomer.do 에러 : ");
 			e.printStackTrace();
+		}
+    	  
+    	  
+      }else if(command.equals("/replyForm.do")){
+
+		
+    	  try {
+    		int parentNO = Integer.parseInt(request.getParameter("parentNO"));
+	  		HttpSession session = request.getSession();
+	  		session.setAttribute("parentNO", parentNO); 
+	  		action = new Action() {
+				@Override
+				public ActionForward execute(HttpServletRequest request, HttpServletResponse response) 
+						throws Exception {
+					ActionForward forward = new ActionForward();
+					forward.setRedirect(false);
+					forward.setPath("/customer/addReply.jsp"); 
+					return forward;
+				}
+			};
+			forward = action.execute(request, response);
+		} catch (Exception e) {
+			System.out.println("/replyForm.do 에러 : "+e);
 		}
     	  
     	  

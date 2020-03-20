@@ -34,6 +34,7 @@ public class UpdateUserAction implements Action{
 			return null;
 		}
 		
+		System.out.println("request.getContextPath() : "+request.getContextPath());
 		
 		ActionForward forward=new ActionForward();
 		forward.setRedirect(true);

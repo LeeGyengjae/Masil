@@ -20,6 +20,7 @@ public class UpdateUserPageAction implements Action{
 		request.setAttribute("userVO",userVO );
 		
 		ActionForward forward = null;
+		
 			
 		forward=new ActionForward();
 		forward.setRedirect(false);

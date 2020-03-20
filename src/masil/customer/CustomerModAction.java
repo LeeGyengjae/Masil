@@ -22,36 +22,27 @@ public class CustomerModAction implements Action {
 
 	
 	String ARTICLE_IMAGE_REPO = "C:\\masil\\image";
-	CustomerVO customerVO;
 	CustomerDAO customerDAO;
 	
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		request.setCharacterEncoding("UTF-8");
-	    response.setContentType("text/html; charset=UTF-8");
-        
         
 		String id = (String)request.getSession().getAttribute("id");
-		/////////////////////////////////////////////////////////////////////////
-		System.out.println("customermodAction 실행");
-		/////////////////////////////////////////////////////////////////////////
 		
 		Map<String, String> articleMap = upload(request, response);
+
+		CustomerVO customerVO = new CustomerVO();
+		
 		int idx = Integer.parseInt(articleMap.get("idx"));
 		
-		String title = articleMap.get("title");
-		String content = articleMap.get("content");
-		String img = articleMap.get("img");
-		
 		customerVO.setIdx(idx);
-		System.out.println("idx : "+idx);
-		customerVO.setTitle(title);
-		System.out.println("title : "+title);
-		customerVO.setContent(content);
-		System.out.println("content : "+content);
+		customerVO.setTitle(articleMap.get("title"));
+		customerVO.setContent(articleMap.get("content"));
 		
-		if (img != null && img.length() != 0) {
+		if (articleMap.get("img") != null && articleMap.get("img").length() != 0) {
+			String img = articleMap.get("img");
 			String originalFileName = articleMap.get("originalFileName");
 			File srcFile = new File(ARTICLE_IMAGE_REPO + "\\" + "temp" + "\\" + img);
 			File destDir = new File(ARTICLE_IMAGE_REPO + "\\" + idx);
@@ -64,17 +55,17 @@ public class CustomerModAction implements Action {
 			System.out.println("img : "+img);
 		}
 		
-		System.out.println("modArticle()들어가기 전!");
 		customerDAO.modArticle(customerVO);
 		
 //		PrintWriter pw = response.getWriter();
 //		pw.print("<script>" + "  alert('글을 수정했습니다.');" + " location.href='" + request.getContextPath()
 //				+ "/board/viewArticle.do?articleNO=" + idx + "';" + "</script>");
 		
+		
 		ActionForward forward = new ActionForward();
 		forward.setRedirect(false);
 	    forward.setPath("/Customer/customer.do");
-	    System.out.println(forward.getPath());
+	    System.out.println("forwardgetPath"+forward.getPath());
 	      
 		return forward;
 	}
