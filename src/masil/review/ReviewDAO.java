@@ -52,7 +52,7 @@ public class ReviewDAO {
 		List<Map<String,String>> reviewList = new ArrayList<Map<String,String>>();
 		try {
 			conn=getConnection();
-			sql = "select a.code, a.id, a.content, a.write_date, a.rating, a.end_date, b.reviewCnt"
+			sql = "select a.code, a.id, a.content, a.write_date, a.rating, a.end_date, a.idx, b.reviewCnt"
 				+ " from review a join (select count(code) reviewCnt, code from review where code=?) b"
 				+ " on a.code=b.code"
 				+ " where a.code=?";
@@ -70,6 +70,7 @@ public class ReviewDAO {
 				reviewMap.put("rating", Integer.toString(rs.getInt("rating")));
 				reviewMap.put("end_date", rs.getDate("end_date").toString());
 				reviewMap.put("reviewCnt", rs.getString("reviewCnt"));
+				reviewMap.put("idx", rs.getString("idx"));
 				reviewList.add(reviewMap);
 			}
 			System.out.println("selectReview성공!!");
@@ -112,21 +113,23 @@ public class ReviewDAO {
 			rs=pstmt.executeQuery();
 			if(rs.next()){
 				if(reviewVO.getId().equals("master")){	//문제성 후기 작성시 관리자가 수정 버튼 클릭하여 내용 가릴 수 있도록함
-					sql="update review set content=? where code=? and id=?";
+					sql="update review set content=? where code=? and id=? and idx=?";
 					pstmt = conn.prepareStatement(sql);
 					pstmt.setString(1, "관리자에 의해 가려진 후기입니다");
 					pstmt.setString(2, reviewVO.getCode());
 					pstmt.setString(3, reviewVO.getId());
+					pstmt.setInt(4, reviewVO.getIdx());
 					re=pstmt.executeUpdate();
-					System.out.println("관리자 권한 후기 수정 작업 완료");
+					if(re==1)	System.out.println("관리자 권한 후기 수정 작업 완료");
 				}else if(reviewVO.getId().equals(rs.getString("id"))){	//후기 쓴 회원이 수정 버튼 클릭시
-					sql="update review set content=? where code=? and id=?";
+					sql="update review set content=? where code=? and id=? and idx=?";
 					pstmt = conn.prepareStatement(sql);
 					pstmt.setString(1, reviewVO.getContent());
 					pstmt.setString(2, reviewVO.getCode());
 					pstmt.setString(3, reviewVO.getId());
+					pstmt.setInt(4, reviewVO.getIdx());
 					re=pstmt.executeUpdate();
-					System.out.println("후기 수정 작업 완료");
+					if(re==1)	System.out.println("후기 수정 작업 완료");
 				}
 			} else { re=0; }
 		} catch (Exception e) {
@@ -147,21 +150,22 @@ public class ReviewDAO {
 			rs = pstmt.executeQuery();
 			if(rs.next()){
 				if(reviewVO.getId().equals("master")){
-					sql="delete from review where code=? and id=? and end_date=?";
+					sql="delete from review where code=? and id=? and idx=?";
 					pstmt=conn.prepareStatement(sql);
 					pstmt.setString(1, reviewVO.getCode());
 					pstmt.setString(2, reviewVO.getId());
-					pstmt.setString(3, reviewVO.getEnd_date());
+					pstmt.setInt(3, reviewVO.getIdx());
 					re=pstmt.executeUpdate();
 				}else if(reviewVO.getId().equals(rs.getString("id"))){
-					sql="delete from review where code=? and id=? and end_date=?";
+					sql="delete from review where code=? and id=? and idx=?";
 					pstmt=conn.prepareStatement(sql);
 					pstmt.setString(1, reviewVO.getCode());	
 					pstmt.setString(2, reviewVO.getId());
-					pstmt.setString(3, reviewVO.getEnd_date());
+					pstmt.setInt(3, reviewVO.getIdx());
 					re=pstmt.executeUpdate();
 				}
-				System.out.println("후기 삭제 성공!!");
+				if(re==1)	System.out.println("후기 삭제 성공!!");
+				else System.out.println("후기 삭제 실패");
 			}else{
 				re=0;
 			}
@@ -194,6 +198,33 @@ public class ReviewDAO {
 		} finally { closeDB(); }
 		return user_endDate;
 	}//insertReviewAuth()
+	
+	//자신이 쓴 후기 조회
+	public List<ReviewVO> selReview(String id, String code){
+		List<ReviewVO> revList = new ArrayList<ReviewVO>();
+		ReviewVO reVO = null;
+		try {
+			conn=getConnection();
+			sql = "select * from review where id=? and code=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setString(2, code);
+			rs=pstmt.executeQuery();
+			if(rs.next()){
+				String content = rs.getString("content");
+				String write_date = rs.getString("write_date");
+				int rating = rs.getInt("rating");
+				String end_date = rs.getString("end_date");
+				int idx = rs.getInt("idx");
+				reVO = new ReviewVO(idx, code, id, content, write_date, rating, end_date);
+				revList.add(reVO);
+				System.out.println("후기 조회 성공");
+			}
+		} catch (Exception e) {
+			System.out.println("selReview() 실패 "+e);
+		} finally { closeDB(); }
+		return revList;
+	}//selReview()
 	
 	
 }//reviewDAO class

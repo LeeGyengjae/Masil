@@ -36,10 +36,24 @@ public class ReviewVO {
 	//생성자 오버로딩
 	
 	//생성자 오버로딩
-	public ReviewVO(String code, String id, String end_date) {
+	public ReviewVO(String code, String id, int idx) {
 		super();
 		this.code = code;
 		this.id = id;
+		this.idx = idx;
+	}
+	//생성자 오버로딩
+
+	
+	//생성자 오버로딩
+	public ReviewVO(int idx, String code, String id, String content, String write_date, int rating, String end_date) {
+		super();
+		this.idx = idx;
+		this.code = code;
+		this.id = id;
+		this.content = content;
+		this.write_date = write_date;
+		this.rating = rating;
 		this.end_date = end_date;
 	}
 	//생성자 오버로딩

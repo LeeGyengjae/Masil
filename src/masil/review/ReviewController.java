@@ -2,6 +2,7 @@ package masil.review;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -48,7 +49,6 @@ public class ReviewController extends HttpServlet {
 		try {
 			request.setCharacterEncoding("UTF-8");
 		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
 //			e1.printStackTrace();
 		}
 		response.setContentType("text/html; charset=utf-8");
@@ -60,6 +60,7 @@ public class ReviewController extends HttpServlet {
 		System.out.println("action : " + action );
 		
 		try {
+			List<ReviewVO> revList;
 			
 			if(action.equals("/insertReview.do")){
 				System.out.println("reviewController page");
@@ -80,6 +81,8 @@ public class ReviewController extends HttpServlet {
 //				nextPage = "/masil/NewFile.jsp";
 				
 			} else if (action.equals("/updateReview.do")){
+				System.out.println("updateReview.do 내부");
+				
 				String code = request.getParameter("code");
 				String sub_code = request.getParameter("sub_code");
 				String id = (String) request.getSession().getAttribute("id");
@@ -88,7 +91,11 @@ public class ReviewController extends HttpServlet {
 				String end_date = request.getParameter("end_date");
 				
 				reviewVO = new ReviewVO(code, id, content, rating, end_date);
-				reviewService.updateReview(reviewVO);
+				int result = reviewService.updateReview(reviewVO);
+				if(result == 1)
+					System.out.println("후기 수정 성공!!!!");
+				else
+					System.out.println("ㅎㅇ");
 				
 				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code;
 				
@@ -97,24 +104,36 @@ public class ReviewController extends HttpServlet {
 				System.out.println("request.getParameter(code) : "+request.getParameter("code"));
 				System.out.println("request.getParameter(sub_code) : "+request.getParameter("sub_code"));
 				System.out.println("request.getParameter(id) : "+request.getSession().getAttribute("id"));
-				System.out.println("request.getParameter(end_date) : "+request.getParameter("end_date"));
+				System.out.println("request.getParameter(idx) : "+request.getParameter("idx"));
 				
 				String code = request.getParameter("code");
 				String sub_code = request.getParameter("sub_code");
 				String id = (String) request.getSession().getAttribute("id");
 //				String content = request.getParameter("content");
 //				int rating = Integer.parseInt(request.getParameter("rating"));
-				String end_date = request.getParameter("end_date");
+//				String end_date = request.getParameter("end_date");
+				int idx = Integer.parseInt(request.getParameter("idx"));
 				
-				reviewVO = new ReviewVO(code, id, end_date);
+				reviewVO = new ReviewVO(code, id, idx);
 				reviewService.deleteReview(reviewVO);
 				
 				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code;
 				
-			}
-			else {
-				nextPage = "/NewFile.jsp";
-				System.out.println("hi");
+			} else if(action.equals("/sdfsf.do")){
+				System.out.println("request.getParameter(code) : "+request.getParameter("code"));
+				System.out.println("request.getParameter(sub_code) : "+request.getParameter("sub_code"));
+				System.out.println("request.getParameter(id) : "+request.getSession().getAttribute("id"));
+				System.out.println("request.getParameter(idx) : "+request.getParameter("idx"));
+				
+				String code = request.getParameter("code");
+				String sub_code = request.getParameter("sub_code");
+				String id = (String) request.getSession().getAttribute("id");
+				int idx = Integer.parseInt(request.getParameter("idx"));
+				
+				revList = reviewService.selReview(id, sub_code);
+				request.setAttribute("revList", revList);
+				
+				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code;
 			}
 			
 			RequestDispatcher dispatche = request.getRequestDispatcher(nextPage);

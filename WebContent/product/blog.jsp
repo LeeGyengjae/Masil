@@ -65,17 +65,21 @@
 	
 	function submit(){
 	   writeForm.submit(); 
-	}//notNull()
+	}//submit()
 	
-	function showInput(){
-		$('#replyUp').click(function(){
-			window.open("http://localhost:8090/masil/replyUp.jsp", "후기 수정", 
-					"width=800, height=700, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );  
-
-			
-		});
+	function showInput(rnum){
+		var id= $('#id').val();
+		var code=$('#code').val();
+		var idx = $('#idx_'+rnum).val();
 		
+// 		$('#replyUp').click(function(){
+// 			window.open("http://localhost:8090/masil/review1/replyUp.do?id="+id+"&code="+code+"&idx="+idx, "후기 수정", 
+// 					"width=900, height=600, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );  
+// 		});
+		
+
 	}
+		
 		
 </script>
 
@@ -261,15 +265,17 @@
 					<c:when test="${fn:length(reviewList)!=0}">
 						<h4>${reviewList[0].reviewCnt} Reviews</h4>
 						
-						<c:forEach var="review" items="${reviewList}">
+						<c:forEach var="review" items="${reviewList}" varStatus="revNum">
 							<div class="comment-list">
 								<div class="single-comment justify-content-between d-flex">
 									<div class="user justify-content-between d-flex">
 										<div class="desc">
 											<div class="d-flex justify-content-between">
 								             	<div class="d-flex align-items-center">
-													<h5><a href="#">${review.id} 님</a></h5>
-													<p class="date">
+													<h5><span id="id_${revNum}">${review.id} 님</span></h5>
+													<input type="hidden" id="idx_${revNum}" value="${review.idx}">
+													
+													<p class="date" id="rating_${revNum}">
 														<c:if test="${review.rating != null}">
 															<fmt:parseNumber var="ratingNum" value="${review.rating}" integerOnly="true" />
 															<fmt:parseNumber var="ratingNum2" value="${review.rating}" />
@@ -277,24 +283,22 @@
 															<c:forEach var="ratNum" begin="1" end="${(ratingNum*10)/10}">
 																<i class="fas fa-star"></i>
 															</c:forEach>
-															<c:if test="${ratingNum2-(ratingNum*10)/10 != 0}">
-																<i class="fas fa-star-half"></i>
-															</c:if>
 														</c:if>
 													</p>
-													<p class="date">작성일자 : ${review.write_date}</p>
-													<p class="date">여행 다녀온 날짜 : ${review.end_date}</p>
+													<p class="date" id="reviewWrite_${revNum}">작성일자 : ${review.write_date}</p>
+													<p class="date" id="end_date_${revNum}">여행 다녀온 날짜 : ${review.end_date}</p>
 												</div>
 												<%--후기작성자or관리자일경우에만 수정/삭제 띄우기 해야함 --%>
 												<c:if test="${id eq review.id or id eq 'master'}">
-<%-- 													<a href="${contextPath}/review1/updateReview.do?code=${code}&sub_code=${sub_code}&id=${id}&end_date=${reviewAuth}"  --%>
-<!-- 														class="btn-reply text-uppercase">수정</a> -->
-													<button onclick="showInput();" id="replyUp">수정</button>
-													<a href="${contextPath}/review1/deleteReview.do?code=${code}&sub_code=${sub_code}&id=${id}&end_date=${reviewAuth}" 
+													<a href="${contextPath}/review1/deleteReview.do?code=${code}&sub_code=${sub_code}&id=${id}&idx=${review.idx}" 
 														class="btn-reply text-uppercase">삭제</a>
 												</c:if>
+												<c:if test="${id eq 'master'}">
+													<a href="${contextPath}/review1/updateReview.do?code=${code}&sub_code=${sub_code}&id=${id}&idx=${review.idx}" 
+														class="btn-reply text-uppercase" id="replyUp">가려져라ㅜㅜ</a>
+												</c:if>
 											</div>
-											<p class="comment">${review.content}</p>
+											<p class="comment" id="revCon_${revNum}">${review.content}</p>
 											
 										</div>
 									</div>
