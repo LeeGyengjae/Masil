@@ -81,7 +81,7 @@ public class ReviewController extends HttpServlet {
 //				nextPage = "/masil/NewFile.jsp";
 				
 			} else if (action.equals("/updateReview.do")){
-				System.out.println("updateReview.do ³»ºÎ");
+				System.out.println("updateReview.do ï¿½ï¿½ï¿½ï¿½");
 				
 				String code = request.getParameter("code");
 				String sub_code = request.getParameter("sub_code");
@@ -93,9 +93,9 @@ public class ReviewController extends HttpServlet {
 				reviewVO = new ReviewVO(code, id, content, rating, end_date);
 				int result = reviewService.updateReview(reviewVO);
 				if(result == 1)
-					System.out.println("ÈÄ±â ¼öÁ¤ ¼º°ø!!!!");
+					System.out.println("ï¿½Ä±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!!!!");
 				else
-					System.out.println("¤¾¤·");
+					System.out.println("ï¿½ï¿½ï¿½ï¿½");
 				
 				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code;
 				
@@ -119,7 +119,7 @@ public class ReviewController extends HttpServlet {
 				
 				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code;
 				
-			} else if(action.equals("/sdfsf.do")){
+			} else if(action.equals("/reviewPageAction.do")){
 				System.out.println("request.getParameter(code) : "+request.getParameter("code"));
 				System.out.println("request.getParameter(sub_code) : "+request.getParameter("sub_code"));
 				System.out.println("request.getParameter(id) : "+request.getSession().getAttribute("id"));

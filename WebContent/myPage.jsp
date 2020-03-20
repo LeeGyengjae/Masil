@@ -53,7 +53,7 @@
 		     			</form>
 		     		</tr>
 		     		<tr class="mt-3 mb-3">
-		     			<form method="post"  class="mt-3 mb-3" action="${contextPath}/masil/user/reviewPageAction.do">
+		     			<form method="post"  class="mt-3 mb-3" action="${contextPath}/masil/review1/reviewPageAction.do">
 		     				<td class="mt-3 mb-3"><button class="mt-1 mb-1 btn btn-primary" type="submit">리뷰관리</button></td>
 		     			</form>
 		     		</tr>

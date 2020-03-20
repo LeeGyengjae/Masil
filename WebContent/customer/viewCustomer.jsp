@@ -117,6 +117,7 @@
     <!-- header-end -->
 
     <!-- bradcam_area  -->
+<section>
     <form name="frmArticle" method="post" action="${contextPath}/masil/Customer/modcustomer.do"  enctype="multipart/form-data">
 	  <table  border="0"  align="center">
 		  <tr>
