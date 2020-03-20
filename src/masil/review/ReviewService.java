@@ -41,6 +41,11 @@ public class ReviewService {
 		List<ReviewVO> revList = reviewDAO.selReview(id);
 		return revList;
 	}
+
+	public List<ReviewVO> selReview(ReviewVO reviewVO) {
+		List<ReviewVO> revList = reviewDAO.selReview2(reviewVO);
+		return revList;
+	}
 	
 	
 	

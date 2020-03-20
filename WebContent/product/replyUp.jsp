@@ -63,10 +63,12 @@
 			return false;
 		});
 	});
-
+	
 	function submit() {
 		writeForm.submit();
 	}//notNull()
+	
+	
 </script>
 
 <style type="text/css">
@@ -90,26 +92,45 @@
 	<section class="blog_area section-padding align-items-center">
 		<div class="container">
 			<div class="row align-items-center">
-
+				
+				<c:choose>
+				<c:when test="${fn:length(reviewVO) == 0}">
+					ㅜㅜㅜ
+				</c:when>
+				<c:when test="${fn:length(reviewVO) != 0}">
+				
+				<c:forEach var="review" items="${reviewVO}" varStatus="revNum">
 				<form class="form-contact comment_form" method="post"
 					action="${contextPath}/review1/updateReview.do" id="commentForm">
 
 					<div class="row">
-						<input type="hidden" name="end_date" id="end_date" value="${reviewVO.end_date}"> 
-						<input type="hidden" name="id" id="id" value="${reviewVO.id}">
-						<input type="hidden" name="code" id="code" value="${code}">
+						<input type="hidden" name="end_date" id="end_date" value="${review.end_date}"> 
+						<input type="hidden" name="id" id="id" value="${review.id}">
+						<input type="hidden" name="code" id="code" value="${review.code}">
 						<input type="hidden" name="sub_code" id="sub_code" value="${sub_code}">
+						<input type="hidden" name="idx" id="idx" value="${review.idx}">
 
 						<%--별점 --%>
 						<div class="col-sm-6">
 							<div class="form-group starRev">
-								<p>${reviewVO.id}님</p>
-								<span class="starR">별1</span> <span class="starR">별2</span> <span
-									class="starR">별3</span> <span class="starR">별4</span> <span
-									class="starR">별5</span> <input type="hidden" name="rating"
-									id="rating">
-									<p>여행 다녀온 날짜 : ${reviewVO.end_date}</p>
-									<p>test : ${reviewVO.code}</p>
+								<p>${review.id}님</p>
+								
+								<p class="date">
+									<c:if test="${review.rating != null}">
+										<fmt:parseNumber var="ratingNum" value="${review.rating}" integerOnly="true" />
+										<fmt:parseNumber var="ratingNum2" value="${review.rating}" />
+											평점 : 
+										<c:forEach var="ratNum" begin="1" end="${(ratingNum*10)/10}">
+											<span class="starR on ratings">별1</span> 
+										</c:forEach>
+										<c:forEach var="ratNum" begin="1" end="${5.0-(ratingNum*10)/10}">
+											<span class="starR">별1</span> 
+										</c:forEach>
+									</c:if>
+								</p>
+								
+								<input type="hidden" name="rating" id="rating">
+								<p>여행 다녀온 날짜 : ${review.end_date}</p>
 							</div>
 						</div>
 
@@ -125,13 +146,20 @@
 								<textarea class="form-control" name="content" id="content"
 									cols="30" rows="9" onfocus="this.placeholder = ''"
 									onblur="this.placeholder = '후기를 입력해주세요.'"
-									placeholder="후기를 입력해주세요.">${reviewVO.content}</textarea>
+									placeholder="후기를 입력해주세요.">${review.content}</textarea>
 							</div>
 						</div>
 
 					</div>
 
 				</form>
+				
+				</c:forEach>
+				</c:when>
+				
+				</c:choose>
+				
+				
 			</div>
 		</div>
 	</section>

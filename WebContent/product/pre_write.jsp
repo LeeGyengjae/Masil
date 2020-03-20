@@ -112,7 +112,7 @@
 											<td><fmt:formatNumber type="currency" value="${product.price}" currencySymbol="￦ "/></td>
 											<td>${product.comment}</td>								
 											<td>
-												<a href="callwrite.do?code=${product.code}&sub_code=${product.sub_code}" class="genric-btn primary-border small">사용</a>
+												<a href="updateProduct2.do?code=${product.code}&sub_code=${product.sub_code}" class="genric-btn primary-border small">사용</a>
 												<a href="updateProduct.do?code=${product.code}&sub_code=${product.sub_code}" class="genric-btn primary-border small">수정</a>
 											</td>								
 										</tr>

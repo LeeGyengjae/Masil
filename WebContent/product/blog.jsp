@@ -72,15 +72,20 @@
 		var code=$('#code').val();
 		var idx = $('#idx_'+rnum).val();
 		
-// 		$('#replyUp').click(function(){
-// 			window.open("http://localhost:8090/masil/review1/replyUp.do?id="+id+"&code="+code+"&idx="+idx, "후기 수정", 
-// 					"width=900, height=600, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );  
-// 		});
-		
-
+		$('#replyUp').click(function(){
+			window.open("http://localhost:8090/masil/review1/replyUp.do?id="+id+"&code="+code+"&idx="+idx, "후기 수정", 
+					"width=900, height=600, toolbar=no, menubar=no, scrollbars=no, resizable=yes" );  
+		});
 	}
-		
-		
+	
+// 	$(function(){
+// 		var defaultTop = parseInt($("#sidebar").css("top"));
+// 		$(window).on("scroll",function(){
+// 			var scv = $(window).scrollTop();
+// 			$("#sidebar").stop().animate({top:scv+defaultTop+"px"},500);
+// 		});
+// 	});
+	
 </script>
 
 <style type="text/css">
@@ -128,7 +133,7 @@
 
 
 	<!--================Blog Area =================-->
-	<section class="blog_area section-padding">
+	<section class="blog_area section-padding" id="blogsection">
 		<div class="container">
 			<div class="row align-items-center">
 				<div class="col-lg-8 mb-5 mb-lg-0">
@@ -289,13 +294,19 @@
 													<p class="date" id="end_date_${revNum}">여행 다녀온 날짜 : ${review.end_date}</p>
 												</div>
 												<%--후기작성자or관리자일경우에만 수정/삭제 띄우기 해야함 --%>
-												<c:if test="${id eq review.id or id eq 'master'}">
+												<c:if test="${id eq review.id}">
+													<a href="${contextPath}/review1/replyUp.do?code=${code}&sub_code=${sub_code}&id=${id}&idx=${review.idx}" 
+														class="btn-reply text-uppercase" id="replyUp">수정</a>
 													<a href="${contextPath}/review1/deleteReview.do?code=${code}&sub_code=${sub_code}&id=${id}&idx=${review.idx}" 
 														class="btn-reply text-uppercase">삭제</a>
 												</c:if>
 												<c:if test="${id eq 'master'}">
 													<a href="${contextPath}/review1/updateMaster.do?code=${code}&sub_code=${sub_code}&id=${id}&idx=${review.idx}" 
-														class="btn-reply text-uppercase" id="replyUp">가려져라ㅜㅜ</a>
+														class="btn-reply text-uppercase" 
+														onclick="showInput(${revNum})"
+														id="replyUp">수정</a>
+													<a href="${contextPath}/review1/deleteReview.do?code=${code}&sub_code=${sub_code}&id=${id}&idx=${review.idx}" 
+														class="btn-reply text-uppercase">삭제</a>
 												</c:if>
 											</div>
 											<p class="comment" id="revCon_${revNum}">${review.content}</p>
@@ -388,26 +399,52 @@
 			<%-- 상품상세페이지 왼쪽 영역 --%>
 			
 			<%--오른쪽 사이드바 --%>
-			<div class="col-lg-4">
+			<div class="col-lg-4" id="sidebar">
                    <div class="blog_right_sidebar">
                     <aside class="single_sidebar_widget post_category_widget">
                     	<h4 class="widget_title">Category</h4>
-	                    <div class="button-group-area mt-10 media post_item">
-							<input type="button" value="상 품 목 록" class="genric-btn success radius w-100" onclick="location.href='${contextPath}/product1/product.do'">
-							<c:if test="${id eq 'master'}">
+                    	<ul class="list cat-list">
+                    		<li>
+                    			<a href="${contextPath}/product1/product.do">
+                    				<p>상품목록</p>
+                    			</a>
+                    		</li>
+                    		<c:if test="${id eq 'master'}">
+	                    		<li>
+	                    			<a href="${contextPath}/product1/pre_write.do">
+	                    				<p>상품목록-표</p>
+	                    			</a>
+	                    		</li>
+	                    		<li>
+		                    		<a href="${contextPath}/product1/updateProduct.do?code=${product.code}&sub_code=${product.sub_code}">
+		                    			<p>상품수정</p>
+		                    		</a>
+	                    		</li>
+	                    		<li>
+		                    		<a href="${contextPath}/product1/deleteProduct.do?code=${product.code}&sub_code=${product.sub_code}">
+		                    			<p>상품삭제</p>
+		                    		</a>
+	                    		</li>
+                    		</c:if>
+                    	</ul>
+                    	
+	                    <div class="button-group-area mt-10 media">
+							<c:if test="${id != null}">
 								<c:forEach var="product" items="${productDetail}" begin="0" end="0" step="1">
-									<input type="button" value="상 품 수 정" class="genric-btn success radius w-100" 
-										onclick="location.href='${contextPath}/product1/updateProduct.do?code=${product.code}&sub_code=${product.sub_code}'">
-									<input type="button" value="상 품 삭 제" class="genric-btn success radius w-100" 
-										onclick="location.href='${contextPath}/product1/deleteProduct.do?code=${product.code}&sub_code=${product.sub_code}'">
+									<input type="button" value="장바구니" class="genric-btn success radius w-100">
+									<input type="button" value="예약하기" class="genric-btn success radius w-100">
 								</c:forEach>
 							</c:if>
+							
 						</div>
+						
 					</aside>
+					
                    </div>
                </div>
 			<%--오른쪽 사이드바 --%>
 			
+		</div>
 		</div>
 	</section>
 	<!--================Blog Area =================-->

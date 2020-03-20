@@ -40,7 +40,19 @@ public class ProductService {
 		int re = productDAO.insertProduct(productMap);
 		System.out.println("Service : 호출끝");
 		return re;
-		
+	}//insertProduct
+	
+	public int insertProduct2(Map<String, Object> productMap) {
+		System.out.println("service 시작");
+//		Iterator<String> keys = productMap.keySet().iterator();
+//		for ( int i=0; i<productMap.size(); i++ ) {
+//		    String key = keys.next();
+//		    System.out.print("key : "+key);
+//		    System.out.println("\t\tproductMap.get(key) : "+productMap.get(key));
+//	    }//for
+		int re = productDAO.insertProduct2(productMap);
+		System.out.println("Service : 호출끝");
+		return re;
 	}//insertProduct
 	
 	public List<Map<String,String>> reviewList(String code, int pageNum) {
