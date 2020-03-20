@@ -129,14 +129,12 @@ public class ReviewController extends HttpServlet {
 				System.out.println("request.getParameter(code) : "+request.getParameter("code"));
 				System.out.println("request.getParameter(sub_code) : "+request.getParameter("sub_code"));
 				System.out.println("request.getParameter(id) : "+request.getSession().getAttribute("id"));
-				System.out.println("request.getParameter(idx) : "+request.getParameter("idx"));
 				
 				String code = request.getParameter("code");
 				String sub_code = request.getParameter("sub_code");
 				String id = (String) request.getSession().getAttribute("id");
-				int idx = Integer.parseInt(request.getParameter("idx"));
 				
-				revList = reviewService.selReview(id, sub_code);
+				revList = reviewService.selReview(id);
 				request.setAttribute("revList", revList);
 				
 				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code;

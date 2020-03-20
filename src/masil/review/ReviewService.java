@@ -37,8 +37,8 @@ public class ReviewService {
 		return user_endDate;
 	}
 	
-	public List<ReviewVO> selReview(String id, String code){
-		List<ReviewVO> revList = reviewDAO.selReview(id, code);
+	public List<ReviewVO> selReview(String id){
+		List<ReviewVO> revList = reviewDAO.selReview(id);
 		return revList;
 	}
 	

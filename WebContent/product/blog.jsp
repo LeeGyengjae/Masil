@@ -294,7 +294,7 @@
 														class="btn-reply text-uppercase">삭제</a>
 												</c:if>
 												<c:if test="${id eq 'master'}">
-													<a href="${contextPath}/review1/updateReview.do?code=${code}&sub_code=${sub_code}&id=${id}&idx=${review.idx}" 
+													<a href="${contextPath}/review1/updateMaster.do?code=${code}&sub_code=${sub_code}&id=${id}&idx=${review.idx}" 
 														class="btn-reply text-uppercase" id="replyUp">가려져라ㅜㅜ</a>
 												</c:if>
 											</div>
