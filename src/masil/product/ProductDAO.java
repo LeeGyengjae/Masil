@@ -284,6 +284,32 @@ public class ProductDAO {
 		return re;
 	}//insertProduct
 	
+	//기존 상품에서 출발/도착 등 날짜만 바꿔서 새 상품으로 등록할 때 사용
+	public int insertProduct2(Map<String, Object> productMap) {
+		System.out.println("insertProduct2시작");
+		System.out.println("DAO productMap : "+productMap);
+		int re=0;
+		try {
+			conn = getConnection();
+			sql = "insert into pro_write (code, sub_code, title, start_date, end_date, max_num, price)"
+				+ "values (?,?,?,?,?,?,?)";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, productMap.get("code").toString());
+			pstmt.setString(2, productMap.get("subCode").toString());
+			pstmt.setString(3, productMap.get("title").toString());
+			pstmt.setString(4, productMap.get("startDate").toString());
+			pstmt.setString(5, productMap.get("endDate").toString());
+			pstmt.setString(6, productMap.get("maxNum").toString());
+			pstmt.setString(7, productMap.get("price").toString());
+			re = pstmt.executeUpdate();
+			if(re==1) System.out.println("sql 3성공 re : "+re);
+			else System.out.println("등록 실패");
+			
+		} catch (Exception e) {
+			System.out.println("insertProduct() 오류 "+e);
+		} finally { closeDB(); }
+		return re;
+	}//insertProduct2
 	
 	//상품수정
 	public int updateProduct(Map<String, Object> productMap) {

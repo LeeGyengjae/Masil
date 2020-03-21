@@ -58,6 +58,17 @@ public class ReviewVO {
 	}
 	//생성자 오버로딩
 	
+	//생성자 오버로딩
+	public ReviewVO(int idx, String code, String id, String content,int rating) {
+		super();
+		this.idx = idx;
+		this.code = code;
+		this.id = id;
+		this.content = content;
+		this.rating = rating;
+	}
+	//생성자 오버로딩
+	
 	//toString() Override
 	@Override
 	public String toString() {

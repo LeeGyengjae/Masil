@@ -32,9 +32,14 @@ public class ReviewDAO {
 	//DB연결 메소드 getConnecion()
 	private Connection getConnection() throws Exception{
 		conn =null;
-		init = new InitialContext();
-		ds = (DataSource) init.lookup("java:comp/env/jdbc/masil");
-		conn=ds.getConnection();
+		try {
+			init = new InitialContext();
+			ds = (DataSource) init.lookup("java:comp/env/jdbc/masil");
+			conn=ds.getConnection();
+			System.out.println("DB연결 성공~!!");
+		} catch (Exception e) {
+			System.out.println("DB연결 실패 "+e);
+		}
 		return conn;
 	}//getConnection()
 	
@@ -44,7 +49,10 @@ public class ReviewDAO {
 			if(rs!=null) rs.close(); 
 			if(pstmt!=null) pstmt.close(); 
 			if(conn!=null) conn.close();
-		} catch (Exception e) { e.printStackTrace(); }
+			System.out.println("DB연결 해제 성공~!!");
+		} catch (Exception e) {
+			System.out.println("DB연결 해제 실패 "+e);
+		}
 	}//closeDB
 
 	//상품 상세페이지에서 후기 출력하기
@@ -105,31 +113,36 @@ public class ReviewDAO {
 	
 	//후기 수정
 	public int updateReivew(ReviewVO reviewVO){
+		System.out.println("reviewVO.getId() : "+reviewVO.getId());
 		int re=0;
 		try {
 			conn=getConnection();
-			sql="select id from review where code=?";
+			sql="select * from review where code=? and idx=?";
 			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, reviewVO.getCode());
+			pstmt.setInt(2, reviewVO.getIdx());
 			rs=pstmt.executeQuery();
 			if(rs.next()){
 				if(reviewVO.getId().equals("master")){	//문제성 후기 작성시 관리자가 수정 버튼 클릭하여 내용 가릴 수 있도록함
-					sql="update review set content=? where code=? and id=? and idx=?";
+					sql="update review set content=? where code=? and idx=?";
 					pstmt = conn.prepareStatement(sql);
 					pstmt.setString(1, "관리자에 의해 가려진 후기입니다");
 					pstmt.setString(2, reviewVO.getCode());
-					pstmt.setString(3, reviewVO.getId());
-					pstmt.setInt(4, reviewVO.getIdx());
+					pstmt.setInt(3, reviewVO.getIdx());
 					re=pstmt.executeUpdate();
 					if(re==1)	System.out.println("관리자 권한 후기 수정 작업 완료");
+					else System.out.println("관리자 권한 후기 수정 실패ㅜㅜㅜ");
 				}else if(reviewVO.getId().equals(rs.getString("id"))){	//후기 쓴 회원이 수정 버튼 클릭시
-					sql="update review set content=? where code=? and id=? and idx=?";
+					sql="update review set content=?, rating=? where code=? and id=? and idx=?";
 					pstmt = conn.prepareStatement(sql);
 					pstmt.setString(1, reviewVO.getContent());
-					pstmt.setString(2, reviewVO.getCode());
-					pstmt.setString(3, reviewVO.getId());
-					pstmt.setInt(4, reviewVO.getIdx());
+					pstmt.setInt(2, reviewVO.getRating());
+					pstmt.setString(3, reviewVO.getCode());
+					pstmt.setString(4, reviewVO.getId());
+					pstmt.setInt(5, reviewVO.getIdx());
 					re=pstmt.executeUpdate();
 					if(re==1)	System.out.println("후기 수정 작업 완료");
+					else System.out.println("후기 수정 실패 ㅜㅜ");
 				}
 			} else { re=0; }
 		} catch (Exception e) {
@@ -171,9 +184,7 @@ public class ReviewDAO {
 			}
 		} catch (Exception e) {
 			System.out.println("deleteReview()오류"+e);
-		} finally {
-			closeDB();
-		}//try catch finally
+		} finally { closeDB(); }
 		return re;
 	}//deleteComment()
 	
@@ -225,6 +236,36 @@ public class ReviewDAO {
 		} finally { closeDB(); }
 		return revList;
 	}//selReview()
+
+	//후기 조회
+	public List<ReviewVO> selReview2(ReviewVO reviewVO) {
+		List<ReviewVO> revList = new ArrayList<ReviewVO>();
+		ReviewVO reVO = null;
+		try {
+			conn=getConnection();
+			sql = "select * from review where id=? and idx=?";
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, reviewVO.getId());
+			pstmt.setInt(2, reviewVO.getIdx());
+			rs=pstmt.executeQuery();
+			while(rs.next()){
+				String content = rs.getString("content");
+				String write_date = rs.getString("write_date");
+				int rating = rs.getInt("rating");
+				String end_date = rs.getString("end_date");
+				int idx = rs.getInt("idx");
+				String code= rs.getString("code");
+				String id= rs.getString("id");
+				reVO = new ReviewVO(idx, code, id, content, write_date, rating, end_date);
+				System.out.println("reVO : "+reVO.toString());
+				revList.add(reVO);
+				System.out.println("후기 조회 성공");
+			}
+		} catch (Exception e) {
+			System.out.println("selReview() 실패 "+e);
+		} finally { closeDB(); }
+		return revList;
+	}//selReview2()
 	
 	
 }//reviewDAO class

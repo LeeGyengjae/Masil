@@ -77,6 +77,7 @@
 					<div class="section-top-border">
 				<h3 class="mb-30">상품 등록</h3>
 				<a href="${contextPath}/product/write.jsp" class="genric-btn success-border radius">새 상품 등록하기</a>
+				<a href="${contextPath}/product1/product.do" class="genric-btn success-border radius">상품 목록</a>
 				<div class="progress-table-wrap">
 					<div class="progress-table">
 						<table>
@@ -112,7 +113,7 @@
 											<td><fmt:formatNumber type="currency" value="${product.price}" currencySymbol="￦ "/></td>
 											<td>${product.comment}</td>								
 											<td>
-												<a href="callwrite.do?code=${product.code}&sub_code=${product.sub_code}" class="genric-btn primary-border small">사용</a>
+												<a href="updateProduct2.do?code=${product.code}&sub_code=${product.sub_code}" class="genric-btn primary-border small">사용</a>
 												<a href="updateProduct.do?code=${product.code}&sub_code=${product.sub_code}" class="genric-btn primary-border small">수정</a>
 											</td>								
 										</tr>
@@ -120,9 +121,10 @@
 								</c:when>
 							</c:choose>
 						</table>
-						<a href="${contextPath}/product/write.jsp" class="genric-btn success-border radius">새 상품 등록하기</a>
 					</div>
 				</div>
+				<a href="${contextPath}/product/write.jsp" class="genric-btn success-border radius">새 상품 등록하기</a>
+				<a href="${contextPath}/product1/product.do" class="genric-btn success-border radius">상품 목록</a>
 			</div>
 				</div>
 			</div>

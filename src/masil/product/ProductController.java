@@ -124,25 +124,30 @@ public class ProductController extends HttpServlet {
 				request.setAttribute("productList", productList);
 				nextPage = "/product/pre_write.jsp";
 			}
-			else if(action.equals("/callwrite.do")){
-				//이미 등록된 상품의 출발/도착 날짜만 바꿔서 등록하고 싶을때
-				//저장된 내용 불러와서 날짜만 바꿀 수 있도록 하는 페이지
-				//-미완성
-				String code = request.getParameter("code");
-				String sub_code = request.getParameter("sub_code");
-				productDetail = productService.viewProduct(code, sub_code);
-				request.setAttribute("productDetail", productDetail);
-
-				nextPage = "/product/callwrite.jsp";
-			}
-			else if(action.equals("/updateProduct.do")){
-				//상품 수정 하기 위해 기존 내용 뿌려줌
+//			else if(action.equals("/callwrite.do")){
+//				//이미 등록된 상품의 출발/도착 날짜만 바꿔서 등록하고 싶을때
+//				//저장된 내용 불러와서 날짜만 바꿀 수 있도록 하는 페이지
+//				//-미완성
+//				String code = request.getParameter("code");
+//				String sub_code = request.getParameter("sub_code");
+//				productDetail = productService.viewProduct(code, sub_code);
+//				request.setAttribute("productDetail", productDetail);
+//
+//				nextPage = "/product/update2.jsp";
+//			}
+			else if(action.equals("/updateProduct.do") || action.equals("/updateProduct2.do")){
+				//기존 내용 뿌려줌
+				//기존 내용 가져와서 출발/도착 등만 바꿔서 새 상품으로 업로드 할 때 -> updateProduct2.do
 				String code = request.getParameter("code");
 				String sub_code = request.getParameter("sub_code");
 				productDetail = productService.viewProduct(code, sub_code);
 				request.setAttribute("productDetail", productDetail);
 				
-				nextPage = "/product/update.jsp"; 
+				if(action.equals("/updateProduct.do"))
+					nextPage = "/product/update.jsp";
+				else if(action.equals("/updateProduct2.do"))	
+					nextPage = "/product/update2.jsp";
+				
 //				nextPage="/product1/product.do";
 				
 			}
@@ -154,40 +159,28 @@ public class ProductController extends HttpServlet {
 				String sub_code = productMap.get("subCode").toString();
 				
 				productService.updateProduct(productMap);
-				
-//				int result = productService.updateProduct(productMap);
-//				PrintWriter out = response.getWriter();
-//				if(result==1){
-//					out.println("<script>alert('수정완료');</script>");
-//					out.flush();
-//					nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code;
-//				}else {
-//					out.println("<script>alert('수정실패\n목록화면으로 이동'); </script>");
-//					out.flush();
-//					nextPage="/product1/product.do";
-//				}
 
 				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code;
 //				nextPage="/product1/product.do";
 				
 			}
-//			else if(action.equals("/addProduct2.do")){
-//				//기존 상품 작성 내용 불러와서 새상품으로 등록할때 사용
-//				System.out.println("controller if안으로 넘어옴");
-//				
-//				Map<String, Object> productMap = upload(request, response);
-//				
-//				String code = productMap.get("code").toString();
-//				String sub_code = productMap.get("subCode").toString();
-//				
-//				productService.insertProduct(productMap);
-//				
-//				System.out.println("Controller 됨");
-//				
-//				nextPage = "/product/blog.do?code="+code+"&sub_code="+sub_code; 
-////			nextPage="/product1/product.do";
-//				
-//			}
+			else if(action.equals("/addProduct2.do")){
+				//기존 상품 작성 내용 불러와서 새상품으로 등록할때 사용
+				System.out.println("controller if안으로 넘어옴");
+				
+				Map<String, Object> productMap = upload(request, response);
+				
+				String code = productMap.get("code").toString();
+				String sub_code = productMap.get("subCode").toString();
+				
+				productService.insertProduct2(productMap);
+				
+				System.out.println("Controller 됨");
+				
+				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code; 
+//				nextPage="/product1/product.do";
+				
+			}
 			else if(action.equals("/deleteProduct.do")){
 				//상품 삭제
 				String code = request.getParameter("code");
