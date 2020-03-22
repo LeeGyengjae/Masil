@@ -62,7 +62,7 @@ public class CustomerWriteAction implements Action {
 				FileUtils.moveFileToDirectory(srcFile, destDir, true);
 			}
          
-         boolean result = customerdao.writeCustomer(customervo);
+         customerdao.writeCustomer(customervo);
          
          
          

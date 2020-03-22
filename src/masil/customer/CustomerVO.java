@@ -51,9 +51,10 @@ public class CustomerVO {
 		return parentNO;
 	}
 
-	public void setParentNO(int parentNO) {
-		this.parentNO = parentNO;
+	public void setParentNO(int parentNO2) {
+		this.parentNO = parentNO2;
 	}
+	
 	
 	public int getIdx() {
 		return idx;

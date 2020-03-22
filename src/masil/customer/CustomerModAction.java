@@ -22,7 +22,6 @@ public class CustomerModAction implements Action {
 
 	
 	String ARTICLE_IMAGE_REPO = "C:\\masil\\image";
-	CustomerDAO customerDAO;
 	
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -33,12 +32,14 @@ public class CustomerModAction implements Action {
 		
 		Map<String, String> articleMap = upload(request, response);
 
+		CustomerDAO customerDAO = new CustomerDAO();
 		CustomerVO customerVO = new CustomerVO();
+		ActionForward forward = new ActionForward();
 		
 		int idx = Integer.parseInt(articleMap.get("idx"));
 		
 		customerVO.setIdx(idx);
-		customerVO.setTitle(articleMap.get("title"));
+		customerVO.setTitle(articleMap.get("i_title"));
 		customerVO.setContent(articleMap.get("content"));
 		
 		if (articleMap.get("img") != null && articleMap.get("img").length() != 0) {
@@ -52,7 +53,6 @@ public class CustomerModAction implements Action {
 			oldFile.delete();
 
 			customerVO.setImg(img);
-			System.out.println("img : "+img);
 		}
 		
 		customerDAO.modArticle(customerVO);
@@ -62,10 +62,8 @@ public class CustomerModAction implements Action {
 //				+ "/board/viewArticle.do?articleNO=" + idx + "';" + "</script>");
 		
 		
-		ActionForward forward = new ActionForward();
 		forward.setRedirect(false);
 	    forward.setPath("/Customer/customer.do");
-	    System.out.println("forwardgetPath"+forward.getPath());
 	      
 		return forward;
 	}

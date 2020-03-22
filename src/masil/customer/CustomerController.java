@@ -1,5 +1,7 @@
 package masil.customer;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.servlet.RequestDispatcher;
@@ -31,8 +33,8 @@ public class CustomerController extends HttpServlet {
       doHandle(request, response);
    }
    
-   @SuppressWarnings("null")
-protected void doHandle(HttpServletRequest request, HttpServletResponse response) 
+    
+    protected void doHandle(HttpServletRequest request, HttpServletResponse response) 
          throws ServletException, IOException {
       
       
@@ -57,9 +59,13 @@ protected void doHandle(HttpServletRequest request, HttpServletResponse response
          action=new CustomerWriteAction();  
          try {
             forward=action.execute(request, response);
-         } catch (Exception e) {
+         }catch (FileNotFoundException e) {
+        	 System.out.println("/write.do 에러 : "+e);
+        	 File destDir = new File("C:\\masil\\image" + "\\" + "temp");
+			destDir.mkdirs();
+		} catch (Exception e) {
             System.out.println("/write.do 에러 : "+e);
-         }
+         } 
          
       }else if(command.equals("/view.do")){
     	  action = new CustomerViewAction();
@@ -70,15 +76,23 @@ protected void doHandle(HttpServletRequest request, HttpServletResponse response
 		}
     	  
     	  
+      }else if(command.equals("/addReply.do")){
+    	  System.out.println("/addReply.do 실행");
+    	  action = new AddReplyCutomerAction();
+    	  try {
+			forward = action.execute(request, response);
+		} catch (Exception e) {
+			System.out.println("/addReply.do 에러 : "+e);
+		}
+    	  
+    	  
       }else if(command.equals("/modcustomer.do")){
     	  
-    	  System.out.println("/modcustomer.do 실행");
     	  action = new CustomerModAction();
     	  try {
 			forward = action.execute(request, response);
 		} catch (Exception e) {
-			System.out.println("/modcustomer.do 에러 : ");
-			e.printStackTrace();
+			System.out.println("/modcustomer.do 에러 : "+e);
 		}
     	  
     	  
@@ -86,9 +100,11 @@ protected void doHandle(HttpServletRequest request, HttpServletResponse response
 
 		
     	  try {
-    		int parentNO = Integer.parseInt(request.getParameter("parentNO"));
+    		String parentNO = request.getParameter("parentNO");
+	  		String title = "[답변] "+request.getParameter("title");
 	  		HttpSession session = request.getSession();
-	  		session.setAttribute("parentNO", parentNO); 
+	  		session.setAttribute("parentNO", parentNO);
+	  		session.setAttribute("title", title);
 	  		action = new Action() {
 				@Override
 				public ActionForward execute(HttpServletRequest request, HttpServletResponse response) 

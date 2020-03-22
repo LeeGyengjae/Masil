@@ -2,7 +2,10 @@
     pageEncoding="UTF-8"
     isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>    
-
+<%
+	request.setCharacterEncoding("UTF-8");
+	response.setContentType("text/html; charset=UTF-8");
+%>
     
 <html class="no-js" lang="zxx">
 
@@ -74,7 +77,7 @@
    
    ///////////////////////////////////
     //답글 쓰기 버튼을 클릭 했을때 호출 되는 함수 
-   	function fn_reply_form(url, parentNO) {
+   	function fn_reply_form(url, parentNO, title) {
    		
     	var form = document.createElement("form");
     	form.setAttribute("method", "post");
@@ -84,7 +87,13 @@
     	parentNOInput.setAttribute("name", "parentNO");
     	parentNOInput.setAttribute("value", parentNO);
     	
+    	var TitleInput = document.createElement("input");
+    	TitleInput.setAttribute("type", "hidden");
+    	TitleInput.setAttribute("name", "title");
+    	TitleInput.setAttribute("value", title);
+    	
     	form.appendChild(parentNOInput);
+    	form.appendChild(TitleInput);
     	document.body.appendChild(form);
     	form.submit();
 	}
@@ -131,12 +140,14 @@
 		  <tr>
 			  <td width="150" align="center" bgcolor="#FF9933"> 작성자 아이디</td>
 			  <td>
-			  	<input type=text value="${customervo.id }" name="writer"  disabled />
+			  	<input type="text" value="${customervo.id }" name="writer"  disabled />
 			  </td>
 		  </tr>
 		  <tr>
 			  <td width="150" align="center" bgcolor="#FF9933">제목</td>
-			  <td><input type="text" value="${customervo.title }"  name="title"  id="i_title" disabled /></td>   
+			  <td><input type="text" value="${customervo.title }" id="i_title" name="i_title" disabled />
+			  <input type="hidden" name="title" value="${customervo.title}"  />
+			  </td>
 		  </tr>
 		  <tr>
 			   <td width="150" align="center" bgcolor="#FF9933">내용</td>
@@ -180,7 +191,7 @@
 			    <input type="button" value="리스트로 돌아가기"  onClick="backToList(this.form)">
 			    <!-- 답글쓰기를 클릭하면 fn_reply_form()함술를 호출 하면서 
 			                글번호와 답글 요청 주소를 함께전달함 -->
-   				<input type="button" value="답글쓰기" onClick="fn_reply_form('${contextPath}/masil/Customer/replyForm.do', ${customervo.idx})">
+   				<input type="button" value="답글쓰기" onClick="fn_reply_form('${contextPath}/masil/Customer/replyForm.do', ${customervo.idx}, '${customervo.title }')">
 		   </td>
 		  </tr>
 	 </table>
