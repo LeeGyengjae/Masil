@@ -111,8 +111,8 @@ public class ProductController extends HttpServlet {
 				
 				productService.insertProduct(productMap);
 				
+				//상품 업로드 후 업로드한 상품 페이지로 이동
 				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code; 
-//				nextPage="/product1/product.do";
 				
 			}
 			else if(action.equals("/pre_write.do")){
@@ -124,19 +124,8 @@ public class ProductController extends HttpServlet {
 				request.setAttribute("productList", productList);
 				nextPage = "/product/pre_write.jsp";
 			}
-//			else if(action.equals("/callwrite.do")){
-//				//이미 등록된 상품의 출발/도착 날짜만 바꿔서 등록하고 싶을때
-//				//저장된 내용 불러와서 날짜만 바꿀 수 있도록 하는 페이지
-//				//-미완성
-//				String code = request.getParameter("code");
-//				String sub_code = request.getParameter("sub_code");
-//				productDetail = productService.viewProduct(code, sub_code);
-//				request.setAttribute("productDetail", productDetail);
-//
-//				nextPage = "/product/update2.jsp";
-//			}
 			else if(action.equals("/updateProduct.do") || action.equals("/updateProduct2.do")){
-				//기존 내용 뿌려줌
+				//상품 수정 / 기존 내용 가져와서 새 상품으로 업로드시 기존 내용 뿌려주도록 요청
 				//기존 내용 가져와서 출발/도착 등만 바꿔서 새 상품으로 업로드 할 때 -> updateProduct2.do
 				String code = request.getParameter("code");
 				String sub_code = request.getParameter("sub_code");
@@ -148,10 +137,9 @@ public class ProductController extends HttpServlet {
 				else if(action.equals("/updateProduct2.do"))	
 					nextPage = "/product/update2.jsp";
 				
-//				nextPage="/product1/product.do";
-				
 			}
 			else if(action.equals("/update.do")){
+				//상품 수정
 				System.out.println("update.do진입");
 				Map<String, Object> productMap = upload(request, response);
 				
@@ -161,7 +149,6 @@ public class ProductController extends HttpServlet {
 				productService.updateProduct(productMap);
 
 				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code;
-//				nextPage="/product1/product.do";
 				
 			}
 			else if(action.equals("/addProduct2.do")){
@@ -178,7 +165,6 @@ public class ProductController extends HttpServlet {
 				System.out.println("Controller 됨");
 				
 				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code; 
-//				nextPage="/product1/product.do";
 				
 			}
 			else if(action.equals("/deleteProduct.do")){
@@ -198,8 +184,6 @@ public class ProductController extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		
-		
 	}//doHandle()
 
 	//파일 업로드 처리를 위한 upload메소드
@@ -215,6 +199,7 @@ public class ProductController extends HttpServlet {
 		//String realPath = request.getServletContext().getInitParameter("/product/upload");
 		String realPath = request.getServletContext().getRealPath("/product/upload");
 		System.out.println("realPath : "+realPath);
+		//업로드가 학원에서는 되는게 집에서는 안됨?ㅜㅜ
 		String filename="";
 		int maxSize = 1024 * 1024 * 10;
 		

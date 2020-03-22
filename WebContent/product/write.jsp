@@ -77,86 +77,78 @@
 		var div = $("#periodAdd");
 		var msg = "";
 		
-		//기간 입력 후 태그, 버튼 비활성화
-		$("#period").prop("readonly", true);
-		$("#addBtn").addClass('disable');
-		$("#addBtn").removeClass('primary-border');
+		if($("#period").val()==null || $("#period").val()==""){
+			alert('기간을 입력해주세요');
+		}else{
 		
-		for (i = 1; i < (Number(period)+1); i++) {
+			//기간 입력 후 태그, 버튼 비활성화
+			$("#period").prop("readonly", true);
+			$("#addBtn").addClass('disable');
+			$("#addBtn").removeClass('primary-border');
 			
-			msg += "<div class='col-sm-12'>"
-			+ "<div class='form-group'>" 
-			+ "<h4 class='mb-30'>"+i+" 일자</h4>"
-			+ "</div>"
-			+ "</div>"
-			+ "<input type='hidden' name='day' value='"+i+"' >"
-			+ "<div class='col-sm-12'>"
-			+ "<div class='form-group'>"
-			+ "<span>일정제목</span>" 
-			+ "<input class='form-control' name='dayTitle' id='"+i+"dayTitle' type='text' placeholder='일정제목'>"
-			+ "</div>"
-			+ "</div>"
-			+ "<div class='col-sm-12'>"
-			+ "<div class='form-group'>"
-			+ "<span>"+i+" 일자 코스</span>" 
-			+ "<input class='form-control' name='dayCourse' id='"+i+"dayCourse' type='text' placeholder='일정별 코스'>"
-			+ "</div>"
-			+ "</div>"
-			+ "<div class='col-sm-6'>"
-			+ "<div class='form-group'>"
-			+ "<span>숙박</span>"
-			+ "<input class='form-control valid' name='stay' id='"+i+"stay' type='text' placeholder='숙박'>"
-			+ "</div>"
-			+ "</div>"
-			+ "<div class='col-sm-6'>"
-			+ "<div class='form-group'>"
-			+ "<span>식사</span>"
-			+ "<input class='form-control valid' name='meal' id='"+i+"meal' type='text' placeholder='식사'>"
-			+ "</div>"
-			+ "</div>"
-			+ "<div class='col-sm-12'>"
-			+ "<div class='form-group'>"
-			+ "<span>일정내용</span>"
-			+ "<textarea class='form-control w-100' name='dayContent' id='"+i+"dayContent' cols='30' rows='9' placeholder='일정내용'></textarea>"
-			+ "</div>"
-			+ "</div>"
-			+ "<div class='col-sm-12'>"
-			+ "<div class='form-group'>"
-			+ "<span>이미지 설명</span>"
-			+ "<textarea class='form-control w-100' name='imgContent' id='"+i+"imgContent' cols='30' rows='9' placeholder='이미지 설명'></textarea>"
-			+ "</div>"
-			+ "</div>"
-			+ "<div class='col-sm-12'>"
-			+ "<div class='form-group'>"
-			+ "<span>이미지</span>"
-			+ "<input type='text' value='' id='addImgCnt"+i+"' class='addImgCnt"+i+" form-control' placeholder='등록할 이미지 파일 개수 입력'>"
-			+ "<input type='button' value='추가' id='addBtn' onclick='addImgfile(addImgCnt"+i+".value, $(this).next())' class='genric-btn primary-border small'>"
-			+ "<div id='addImgHere"+i+"' class='addImgHere"+i+"'>"
-			+ "</div>"
-			+ "</div>"
-			+ "</div>";
+			for (i = 1; i < (Number(period)+1); i++) {
+				
+				msg += "<div class='col-sm-12'>"
+				+ "<div class='form-group'>" 
+				+ "<h4 class='mb-30'>"+i+" 일자</h4>"
+				+ "</div>"
+				+ "</div>"
+				+ "<input type='hidden' name='day' value='"+i+"' >"
+				+ "<div class='col-sm-12'>"
+				+ "<div class='form-group'>"
+				+ "<span>일정제목</span>" 
+				+ "<input class='form-control' name='dayTitle' id='"+i+"dayTitle' type='text' placeholder='일정제목'>"
+				+ "</div>"
+				+ "</div>"
+				+ "<div class='col-sm-12'>"
+				+ "<div class='form-group'>"
+				+ "<span>"+i+" 일자 코스</span>" 
+				+ "<input class='form-control' name='dayCourse' id='"+i+"dayCourse' type='text' placeholder='일정별 코스'>"
+				+ "</div>"
+				+ "</div>"
+				+ "<div class='col-sm-6'>"
+				+ "<div class='form-group'>"
+				+ "<span>숙박</span>"
+				+ "<input class='form-control valid' name='stay' id='"+i+"stay' type='text' placeholder='숙박'>"
+				+ "</div>"
+				+ "</div>"
+				+ "<div class='col-sm-6'>"
+				+ "<div class='form-group'>"
+				+ "<span>식사</span>"
+				+ "<input class='form-control valid' name='meal' id='"+i+"meal' type='text' placeholder='식사'>"
+				+ "</div>"
+				+ "</div>"
+				+ "<div class='col-sm-12'>"
+				+ "<div class='form-group'>"
+				+ "<span>일정내용</span>"
+				+ "<textarea class='form-control w-100' name='dayContent' id='"+i+"dayContent' cols='30' rows='9' placeholder='일정내용'></textarea>"
+				+ "</div>"
+				+ "</div>"
+				+ "<div class='col-sm-12'>"
+				+ "<div class='form-group'>"
+				+ "<span>이미지 설명</span>"
+				+ "<textarea class='form-control w-100' name='imgContent' id='"+i+"imgContent' cols='30' rows='9' placeholder='이미지 설명'></textarea>"
+				+ "</div>"
+				+ "</div>"
+				+ "<div class='col-sm-12'>"
+				+ "<div class='form-group'>"
+				+ "<span>이미지</span>"
+				+ "<input type='text' value='' id='addImgCnt"+i+"' class='addImgCnt"+i+" form-control' placeholder='등록할 이미지 파일 개수 입력'>"
+				+ "<input type='button' value='추가' id='addBtn' onclick='addImgfile(addImgCnt"+i+".value, $(this).next())' class='genric-btn primary-border small'>"
+				+ "<div id='addImgHere"+i+"' class='addImgHere"+i+"'>"
+				+ "</div>"
+				+ "</div>"
+				+ "</div>";
+			}
+			div.after(msg);
 		}
-		div.after(msg);
 	}//periodSet()
 	
 	function submit(){
 	   writeForm.submit(); 
-	}//notNull()
+	}//submit()
 	
 	
-	//업로드 파일 검사 - 수정 필요 
-	//input type='file' 태그 value값 가져온 후 .을 기준으로 뒷글자 잘라서 검사
-// 	function fileCheck(){
-// 		var imgID = $("[id^='image']").val();
-// 		var fileExt = imgID.substring(file.lastIndexOf('.')+1); 
-// 		if(!imgID){
-// 			writeForm.submit();
-// 		}else if(!(fileExt.toUpperCase()=="TXT"||fileExt.toUpperCase()=="PNG"||fileExt.toUpperCase()=="JPG" ) ){
-// 			alert("TXT, JPG, PNG 파일만 업로드 가능");
-// 	        return false;     
-// 		}
-// 		 frm.submit();
-// 	}//업로드 파일 검사
 
 </script>
 </head>
@@ -297,6 +289,7 @@
                                 <button type="submit" class="button button-contactForm boxed-btn" onclick='submit()'>상품등록</button>
                                 <input type="reset" value="다시쓰기" class="button button-contactForm boxed-btn">
                                 <input type="button" value="상품목록" class="button button-contactForm boxed-btn" onclick="location.href='${contextPath}/product1/product.do'">
+                                <button onclick="fileCheck();">test</button>
                             </div>
                         </form>
 					</div>
