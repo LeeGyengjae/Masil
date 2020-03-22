@@ -101,22 +101,22 @@
 	}
 	 
 	 
-// 	 function fn_remove_article(url,articleNO){
-// 		 var form = document.createElement("form");
-// 		 form.setAttribute("method", "post");
-// 		 form.setAttribute("action", url);		   
-// 	     var articleNOInput = document.createElement("input");
-// 	     articleNOInput.setAttribute("type","hidden");
-// 	     articleNOInput.setAttribute("name","articleNO");
-// 	     articleNOInput.setAttribute("value", articleNO);
+	 function fn_remove_article(url,articleNO){
+		 var form = document.createElement("form");
+		 form.setAttribute("method", "post");
+		 form.setAttribute("action", url);		   
+	     var idxInput = document.createElement("input");
+	     idxInput.setAttribute("type","hidden");
+	     idxInput.setAttribute("name","idx");
+	     idxInput.setAttribute("value", idx);
 	      
-// 	     form.appendChild(articleNOInput);
+	     form.appendChild(idxInput);
 
-// 	     document.body.appendChild(form);
+	     document.body.appendChild(form);
 	
-// 		 form.submit();
+		 form.submit();
 	 
-// 	 }
+	 }
 	 
 	
  </script>
@@ -190,7 +190,7 @@
 		   <td colspan="2" align="center">
 				<c:if test="${id==customervo.id }">
 					<input type="button" value="수정하기" onClick="fn_enable(this.form)">
-<%-- 			    <input type="button" value="삭제하기" onClick="fn_remove_article('${contextPath}/board/removeArticle.do', ${customervo.idx})"> --%>
+			    <input type="button" value="삭제하기" onClick="fn_remove_article('${contextPath}/masil/Customer/removeCustomer.do', ${customervo.idx})">
 				</c:if>
 			    
 

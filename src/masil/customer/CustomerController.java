@@ -3,6 +3,8 @@ package masil.customer;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.io.FileUtils;
 
 import masil.user.Action;
 import masil.user.ActionForward;
@@ -77,8 +81,16 @@ public class CustomerController extends HttpServlet {
     	  
     	  
     	  
-      }else if(command.equals("/addReply.do")){
-    	  System.out.println("/addReply.do 실행");
+      }else if (command.equals("/removeCustomer.do")) {
+    	  action = new CustomerRemoveAction();
+    	  try {
+			forward = action.execute(request, response);
+		} catch (Exception e) {
+			System.out.println("/view.do 에러 : "+e);
+		}
+			
+
+		}else if(command.equals("/addReply.do")){
     	  action = new AddReplyCutomerAction();
     	  try {
 			forward = action.execute(request, response);

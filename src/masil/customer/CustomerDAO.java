@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -239,6 +240,49 @@ public class CustomerDAO {
 		
 		
 	}// replyCustomer() 끝
+
+	public List<Integer> removeCustomer(int articleNO) {
+		List<Integer> articleNOList = new ArrayList<Integer>();
+		try {
+			getConnection();
+			String query = "SELECT idx FROM  masil.customer  ";
+			query += " START WITH idx = ?";
+			query += " CONNECT BY PRIOR  idx = parentNO";
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, articleNO);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				articleNO = rs.getInt("articleNO");
+				articleNOList.add(articleNO);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			allClose();
+		}
+		
+		
+		return articleNOList;
+	}
+	
+	public void deleteCustomer(int articleNO) {
+		try {
+			getConnection();
+			String query = "DELETE FROM customer ";
+			query += " WHERE idx in (";
+			query += "  SELECT idx FROM  customer ";
+			query += " START WITH idx = ?";
+			query += " CONNECT BY PRIOR  idx = parentNO )";
+			System.out.println(query);
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, articleNO);
+			pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			allClose();
+		}
+	}
 
 	
 	
