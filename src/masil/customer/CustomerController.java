@@ -76,6 +76,7 @@ public class CustomerController extends HttpServlet {
 		}
     	  
     	  
+    	  
       }else if(command.equals("/addReply.do")){
     	  System.out.println("/addReply.do 실행");
     	  action = new AddReplyCutomerAction();

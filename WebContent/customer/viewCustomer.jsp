@@ -51,12 +51,14 @@
      }
    
    function fn_enable(obj){
-		 document.getElementById("i_title").disabled=false;
-		 document.getElementById("i_content").disabled=false;
-		 if(document.getElementById("i_imageFileName") !=null){
-		 document.getElementById("i_imageFileName").disabled=false;}
-		 document.getElementById("tr_btn_modify").style.display="block";
-		 document.getElementById("tr_btn").style.display="none";
+	   
+			document.getElementById("i_title").disabled=false;
+			document.getElementById("i_content").disabled=false;
+			if(document.getElementById("i_imageFileName") !=null){
+			document.getElementById("i_imageFileName").disabled=false;}
+			document.getElementById("tr_btn_modify").style.display="block";
+			document.getElementById("tr_btn").style.display="none";
+	   
 	 }
    
    function fn_modify_article(obj){
@@ -186,12 +188,19 @@
 		  </tr>  
 		  <tr id="tr_btn">
 		   <td colspan="2" align="center">
-			    <input type="button" value="수정하기" onClick="fn_enable(this.form)">
+				<c:if test="${id==customervo.id }">
+					<input type="button" value="수정하기" onClick="fn_enable(this.form)">
 <%-- 			    <input type="button" value="삭제하기" onClick="fn_remove_article('${contextPath}/board/removeArticle.do', ${customervo.idx})"> --%>
+				</c:if>
+			    
+
 			    <input type="button" value="리스트로 돌아가기"  onClick="backToList(this.form)">
 			    <!-- 답글쓰기를 클릭하면 fn_reply_form()함술를 호출 하면서 
 			                글번호와 답글 요청 주소를 함께전달함 -->
-   				<input type="button" value="답글쓰기" onClick="fn_reply_form('${contextPath}/masil/Customer/replyForm.do', ${customervo.idx}, '${customervo.title }')">
+				<c:if test="${id=='master' }">
+					<input type="button" value="답글쓰기" onClick="fn_reply_form('${contextPath}/masil/Customer/replyForm.do', ${customervo.idx}, '${customervo.title }')">
+				</c:if>
+
 		   </td>
 		  </tr>
 	 </table>

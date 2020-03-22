@@ -34,7 +34,7 @@ public class AddReplyCutomerAction implements Action {
 
 	      UserDAO userdao = new UserDAO();
 	      
-	      int check = userdao.searchingId("masiladmin");
+	      int check = userdao.searchingId("master");
 	      
 	      if(check==1){
 	         response.setContentType("text/html; charset=UTF-8");
@@ -47,7 +47,7 @@ public class AddReplyCutomerAction implements Action {
 	         return null;
 	         
 	      }else{
-	         customervo.setId("masiladmin");
+	         customervo.setId("master");
 	         int customerNO = customerdao.getCustomerNO();
 	         Map<String, String> articleMap = upload(request, response);
 			String title = articleMap.get("title");

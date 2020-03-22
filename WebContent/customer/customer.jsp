@@ -65,23 +65,23 @@
 								  <!--  페이지 넘버가 0이 아닐때   ㅁㅁㅁ 중 가운데에 현페이지 넘버  -->
 								<c:choose>
 									<c:when test="${page == 0 }"><!-- 현재페이지가 0 번일때  -->
-										<li class="page-item active"><a class="page-link" href="Board.Notice?Notice_page=${page}">${page +1}</a></li>
+										<li class="page-item active"><a class="page-link" href="/masil/Customer/customer.do?page=${page}">${page +1}</a></li>
 										<c:choose>
 											<c:when test="${AllCount > 10 && AllCount < 21 }">
-												<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${page + 1 }">${page +2}</a></li>	
+												<li class="page-item"><a class="page-link" href="/masil/Customer/customer.do?page=${page + 1 }">${page +2}</a></li>	
 											</c:when>
 											<c:when test="${AllCount > 20 }">
-												<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${page+ 1 }">${page +2}</a></li>
-												<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${page + 2 }">${page +3}</a></li>
+												<li class="page-item"><a class="page-link" href="/masil/Customer/customer.do?page=${page+ 1 }">${page +2}</a></li>
+												<li class="page-item"><a class="page-link" href="/masil/Customer/customer.do?page=${page + 2 }">${page +3}</a></li>
 											</c:when>
 										</c:choose>
 									</c:when>
 									<c:otherwise>
-										<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${page - 1}">${page }</a></li>
-								  		<li class="page-item active"><a class="page-link" href="Board.Notice?Notice_page=${page}">${page +1}</a></li>
+										<li class="page-item"><a class="page-link" href="/masil/Customer/customer.do?page=${page - 1}">${page }</a></li>
+								  		<li class="page-item active"><a class="page-link" href="/masil/Customer/customer.do?page=${page}">${page +1}</a></li>
 								  		<c:choose>
 								  			<c:when test="${AllCount > (page+1)*10 }">
-								  				<li class="page-item"><a class="page-link" href="Board.Notice?Notice_page=${page + 1 }">${page +2}</a></li>
+								  				<li class="page-item"><a class="page-link" href="/masil/Customer/customer.do?page=${page + 1 }">${page +2}</a></li>
 								  			</c:when>
 								  		</c:choose>
 									</c:otherwise>
