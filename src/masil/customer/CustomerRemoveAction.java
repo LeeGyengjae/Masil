@@ -22,17 +22,15 @@ public class CustomerRemoveAction implements Action {
 	    CustomerDAO customerdao = new CustomerDAO();
 	      
 		int idx = Integer.parseInt(request.getParameter("idx"));
-		List<Integer> articleNOList = customerdao.removeCustomer(idx);
-		for (int articleNO : articleNOList) {
-			File imgDir = new File(ARTICLE_IMAGE_REPO + "\\" + articleNO);
-			if (imgDir.exists()) {
+		File imgDir = new File(ARTICLE_IMAGE_REPO + "\\" + idx );
+		if (imgDir.exists()) {
 				FileUtils.deleteDirectory(imgDir);
-			}
 		}
 			customerdao.deleteCustomer(idx);
 		
 				forward.setRedirect(false);
 				forward.setPath("/Customer/customer.do");
+				request.setAttribute("idx", idx);
 				
 				return forward;
 	}

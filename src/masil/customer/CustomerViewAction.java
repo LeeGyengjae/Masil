@@ -13,6 +13,7 @@ public class CustomerViewAction implements Action {
 		ActionForward forward = new ActionForward();
 		
 		int num = Integer.parseInt(request.getParameter("idx"));
+		request.getAttribute("idx");
 		CustomerVO result = new CustomerDAO().getBoard(num);
 		
 		request.setAttribute("customervo", result);

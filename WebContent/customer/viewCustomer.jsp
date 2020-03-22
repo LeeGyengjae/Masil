@@ -101,7 +101,7 @@
 	}
 	 
 	 
-	 function fn_remove_article(url,articleNO){
+	 function fn_remove_article(url,idx){
 		 var form = document.createElement("form");
 		 form.setAttribute("method", "post");
 		 form.setAttribute("action", url);		   
@@ -115,6 +115,7 @@
 	     document.body.appendChild(form);
 	
 		 form.submit();
+		alert("delete 누름");
 	 
 	 }
 	 
