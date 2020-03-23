@@ -65,6 +65,7 @@ public class ApiExplorer extends HttpServlet {
 				depAirportId = request.getParameter("depAirportId");
 				arrAirportId = request.getParameter("arrAirportId");
 				depPlandTime = request.getParameter("depPlandTime");
+	
 				System.out.println("2: "+depAirportId+" "+ arrAirportId + " " +depPlandTime);
 
 				// StringBuilder urlBuilder = new
@@ -73,11 +74,11 @@ public class ApiExplorer extends HttpServlet {
 				StringBuilder urlBuilder = new StringBuilder("http://openapi.tago.go.kr/openapi/service/DmstcFlightNvgInfoService/getFlightOpratInfoList");// URL
 				urlBuilder.append("?" + URLEncoder.encode("ServiceKey", "UTF-8") + "=zCLZWIHNolxGTsYDcB7TXNgRT%2F%2F49r4ojZsQ%2BZeF9Y6y4M40m82CFg1nvbyK%2BvG3PCioT42YRMRJnQqZCSi9og%3D%3D"); // Service
 																																	// Key
-				urlBuilder.append("&" + URLEncoder.encode("depAirportId", "UTF-8") + "=" + URLEncoder.encode(depAirportId, "UTF-8")); //출발공항
-				urlBuilder.append("&" + URLEncoder.encode("arrAirportId", "UTF-8") + "=" + URLEncoder.encode(arrAirportId, "UTF-8"));// 도착공항
-				urlBuilder.append("&" + URLEncoder.encode("depPlandTime", "UTF-8") + "=" + URLEncoder.encode(depPlandTime, "UTF-8")); // 출발일
+				urlBuilder.append("&" + URLEncoder.encode("depAirportId", "UTF-8") + "=" + URLEncoder.encode(depAirportId, "UTF-8")); //��߰���
+				urlBuilder.append("&" + URLEncoder.encode("arrAirportId", "UTF-8") + "=" + URLEncoder.encode(arrAirportId, "UTF-8"));// ��������
+				urlBuilder.append("&" + URLEncoder.encode("depPlandTime", "UTF-8") + "=" + URLEncoder.encode(depPlandTime, "UTF-8")); // �����
 				
-				urlBuilder.append("&" + URLEncoder.encode("_type", "UTF-8") + "="+ URLEncoder.encode("json", "UTF-8")); //json형식으로 받기
+				urlBuilder.append("&" + URLEncoder.encode("_type", "UTF-8") + "="+ URLEncoder.encode("json", "UTF-8")); //json�������� �ޱ�
 				URL url = new URL(urlBuilder.toString());
 				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 				conn.setRequestMethod("GET");

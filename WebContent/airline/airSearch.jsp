@@ -79,59 +79,51 @@
 			<div class="section-top-border">
 				<div class="row">
 					<div class="col-12">
-                        <h2 class="contact-title">항공권조회</h2>
+                        <h2 class="contact-title">항공권 조회</h2>
                     </div>
                     <div class="col-lg-12">
                         <form class="form-contact contact_form" action="${contextPath}/board/airline.do" method="get" id="airForm">
                             <div class="row">
                             	<div class="col-sm-4">
                                     <div class="form-group">
-                                    	<span>출발공항</span> &nbsp;
+                                    	<span>출발지</span> &nbsp;
                                         <input type="text" list="choices1" class="form-control" name="depAirportId" id="depAirportId" width="400px"
-                                         onfocus="this.placeholder = ''" onblur="this.placeholder = '출발공항을 입력하세요'"
+                                         onfocus="this.placeholder = ''" onblur="this.placeholder = '어디서?'"
                                         placeholder="출발공항">
+                                        
                                         <datalist id="choices1">
-	                                        <option value="NAARKJB" label="무안"></option>
-	                                        <option value="NAARKJJ" label="광주"></option>
-	                                        <option value="NAARKJK" label="군산"> </option>
-	                                        <option value="NAARKJY" label="여수"></option>
-	                                        <option value="NAARKNW" label="원주"> </option>
-	                                        <option value="NAARKNY" label="양양"></option>
-	                                        <option value="NAARKPC" label="제주"></option>
-	                                        <option value="NAARKPK" label="김해"></option>
-	                                        <option value="NAARKPS" label="사천"></option>
-	                                        <option value="NAARKPU" label="울산"></option>
-	                                        <option value="NAARKSI" label="인천"></option>
-	                                        <option value="NAARKSS" label="김포"></option>
-	                                        <option value="NAARKTH" label="포항"></option>
-	                                        <option value="NAARKTN" label="대구"></option>
-	                                        <option value="NAARKTU" label="청주"></option>
+	                                    
+	                                        <option value="NAARKNY" label="양양국제(YYA)"></option>
+	                                        <option value="NAARKPC" label="제주국제(JEJ)"></option>
+	                                        <option value="NAARKPK" label="김해국제(GMP)"></option>
+	                                       
+	                                        <option value="NAARKPU" label="울산(ULS)"></option>
+	                                        <option value="NAARKSI" label="인천국제(ICN)"></option>
+	                                        <option value="NAARKSS" label="김포국제(GMP)"></option>
+	                                        
+	                                        <option value="NAARKTN" label="대구국제(DGU)"></option>
+	                                        <option value="NAARKTU" label="청주국제(CJC)"></option>
                                         </datalist>
-                                       
+                             
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
-                                    	<span>도착공항</span><br>
+                                    	<span>목적지</span><br>
                                         <input type="text" list="choices2" class="form-control" name="arrAirportId" id="arrAirportId" 
-                                        onfocus="this.placeholder = ''" onblur="this.placeholder = '도착공항을 입력하세요'" 
+                                        onfocus="this.placeholder = ''" onblur="this.placeholder = '어디로?''" 
                                         placeholder="도착공항">
 	                                        <datalist id="choices2">
-	                                        <option value="NAARKJB" label="무안"></option>
-	                                        <option value="NAARKJJ" label="광주"></option>
-	                                        <option value="NAARKJK" label="군산"> </option>
-	                                        <option value="NAARKJY" label="여수"></option>
-	                                        <option value="NAARKNW" label="원주"> </option>
-	                                        <option value="NAARKNY" label="양양"></option>
-	                                        <option value="NAARKPC" label="제주"></option>
-	                                        <option value="NAARKPK" label="김해"></option>
-	                                        <option value="NAARKPS" label="사천"></option>
-	                                        <option value="NAARKPU" label="울산"></option>
-	                                        <option value="NAARKSI" label="인천"></option>
-	                                        <option value="NAARKSS" label="김포"></option>
-	                                        <option value="NAARKTH" label="포항"></option>
-	                                        <option value="NAARKTN" label="대구"></option>
-	                                        <option value="NAARKTU" label="청주"></option>
+	                                   		 <option value="NAARKNY" label="양양국제(YYA)"></option>
+	                                        <option value="NAARKPC" label="제주국제(JEJ)"></option>
+	                                        <option value="NAARKPK" label="김해국제(GMP)"></option>
+	                                       
+	                                        <option value="NAARKPU" label="울산(ULS)"></option>
+	                                        <option value="NAARKSI" label="인천국제(ICN)"></option>
+	                                        <option value="NAARKSS" label="김포국제(GMP)"></option>
+	                                        
+	                                        <option value="NAARKTN" label="대구국제(DGU)"></option>
+	                                        <option value="NAARKTU" label="청주국제(CJC)"></option>
                                         </datalist>
                                     </div>
                                 </div>
@@ -145,7 +137,8 @@
                                 </div>
                                 
                             <div class="form-group mt-3">
-                                <button type="submit" class="button button-contactForm boxed-btn">항공조회</button>
+                                <button type="submit" class="button button-contactForm boxed-btn">조회</button>
+                                 <button type="reset" class="button button-contactForm boxed-btn">재설정</button>
                             </div>
                             </div>
                         </form>
