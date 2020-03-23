@@ -6,6 +6,7 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 %>
+<c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
     
 <html class="no-js" lang="zxx">
 
@@ -310,13 +311,13 @@
 						<c:forEach var="product" items="${productList}">
 							<div class="col-lg-6 col-md-6">
 								<div class="single_place" style="cursor:pointer;" 
-								onclick="location.href='blog.do?code=${product.code}&sub_code=${product.sub_code}'" >
+								onclick="location.href='${contextPaht}product1/blog.do?code=${product.code}&sub_code=${product.sub_code}'" >
 									<div class="thumb">
 										<c:if test="${product.image!=null}">
 											<c:forTokens items="${product.image}" delims="," var="images">
 												<img alt="${images}" src="product/upload/${images}" >
 											</c:forTokens>
-											<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}"	class="prise">
+											<a href="${contextPaht}product1/blog.do?code=${product.code}&sub_code=${product.sub_code}"	class="prise">
 												<fmt:formatNumber type="currency" value="${product.price}" currencySymbol="￦ "/>
 											</a>
 										</c:if>
@@ -324,7 +325,7 @@
 									<div class="place_info">
 
 										<%--여행지역,상품명 --%>
-										<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}">
+										<a href="${contextPath}product1/blog.do?code=${product.code}&sub_code=${product.sub_code}">
 											<h3>${product.title}</h3>
 										</a>
 										<p>${product.code}-${product.sub_code} <br>
@@ -349,7 +350,7 @@
 												
 												<%-- 후기 개수 --%>
 												<c:if test="${product.recnt != null}">
-													<a href="blog.do?code=${product.code}&sub_code=${product.sub_code}">
+													<a href="${contextPath}product1/blog.do?code=${product.code}&sub_code=${product.sub_code}">
 														(${product.recnt} Review)
 													</a>
 												</c:if>
@@ -381,7 +382,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="more_place_btn text-center">
-                        <a class="boxed-btn4" href="${contextPath}/masil/product1/product.do">More Places</a>
+                        <a class="boxed-btn4" href="${contextPath}/product1/product.do">More Places</a>
                     </div>
                 </div>
             </div>

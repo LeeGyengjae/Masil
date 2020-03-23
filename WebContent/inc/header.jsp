@@ -14,7 +14,7 @@ request.setCharacterEncoding("UTF-8");
                         <div class="row align-items-center">
                             <div class="col-xl-2 col-lg-2">
                                 <div class="logo">
-                                    <a href="index.jsp">
+                                    <a href="main.do">
                                         <img src="img/logo.png" alt="">
                                     </a>
                                 </div>
@@ -23,23 +23,10 @@ request.setCharacterEncoding("UTF-8");
                                 <div class="main-menu  d-none d-lg-block">
                                     <nav>
                                         <ul id="navigation">
-                                            <li><a class="active" href="index.jsp">home</a></li>
-                                            <li><a href="about.jsp">About</a></li>
-                                            <li><a class="" href="product/product.jsp">Product</a></l/li>
-                                            <li><a href="#">pages <i class="ti-angle-down"></i></a>
-                                                <ul class="submenu">
-                                                        <li><a href="destination_details.jsp">Destinations details</a></li>
-                                                        <li><a href="elements.jsp">elements</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="#">blog <i class="ti-angle-down"></i></a>
-                                                <ul class="submenu">
-                                                    <li><a href="product/blog.jsp">blog</a></li>
-                                                    <li><a href="single-blog.jsp">single-blog</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="contact.jsp">Contact</a></li>
-                                            <li><a href="Customer/customer.do">Customer</a></li>
+                                            <li><a class="active" href="main.do">메인</a></li>
+                                            <li><a class=""  href="product1/product.do">상품</a></li>
+                                            <li><a class=""  href="ticketonly.jsp">항공권</a></li>
+                                            <li><a href="Customer/customer.do">고객센터</a></li>
                                         </ul>
                                     </nav>
                                 </div>
