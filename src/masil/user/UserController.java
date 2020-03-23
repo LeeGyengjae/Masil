@@ -137,7 +137,7 @@ public class UserController extends HttpServlet {
 			forward.setRedirect(true);
 
 
-			forward.setPath(ContextPath+"/index.jsp");
+			forward.setPath(ContextPath+"/main.do");
 			
 		}
 		////////////////////////////////////////////////////

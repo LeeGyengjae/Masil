@@ -20,7 +20,7 @@ public class UserLogoutAction implements Action{
 		PrintWriter out=response.getWriter();
 		out.println("<script>");
 		out.println("alert('로그아웃 하셨습니다');");
-		out.println("location.href='./Main.do';");
+		out.println("location.href='./main.do';");
 		out.println("</script>");
 		out.close();
 		return null;

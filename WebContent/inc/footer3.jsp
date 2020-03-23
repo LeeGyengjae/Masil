@@ -37,10 +37,10 @@
 					<div class="footer_widget">
 						<h3 class="footer_title">Company</h3>
 						<ul class="links">
-							<li><a class="active" href="main.do">메인</a></li>
-                            <li><a class=""  href="product1/product.do">상품</a></li>
-                            <li><a class=""  href="ticketonly.jsp">항공권</a></li>
-                            <li><a href="Customer/customer.do">고객센터</a></li>
+							<li><a class="active" href="../main.do">메인</a></li>
+                            <li><a class="" href="../product1/product.do">상품</a></li>
+                            <li><a class="" href="../ticketonly.jsp">항공권</a></li>
+                            <li><a href="../Customer/customer.do">고객센터</a></li>
 						</ul>
 					</div>
 				</div>
@@ -64,27 +64,27 @@
 						<h3 class="footer_title">Instagram</h3>
 						<div class="instagram_feed">
 							<div class="single_insta">
-								<a href="#"> <img src="img/instagram/1.png" alt="">
+								<a href="#"> <img src="../img/instagram/1.png" alt="">
 								</a>
 							</div>
 							<div class="single_insta">
-								<a href="#"> <img src="img/instagram/2.png" alt="">
+								<a href="#"> <img src="../img/instagram/2.png" alt="">
 								</a>
 							</div>
 							<div class="single_insta">
-								<a href="#"> <img src="img/instagram/3.png" alt="">
+								<a href="#"> <img src="../img/instagram/3.png" alt="">
 								</a>
 							</div>
 							<div class="single_insta">
-								<a href="#"> <img src="img/instagram/4.png" alt="">
+								<a href="#"> <img src="../img/instagram/4.png" alt="">
 								</a>
 							</div>
 							<div class="single_insta">
-								<a href="#"> <img src="img/instagram/5.png" alt="">
+								<a href="#"> <img src="../img/instagram/5.png" alt="">
 								</a>
 							</div>
 							<div class="single_insta">
-								<a href="#"> <img src="img/instagram/6.png" alt="">
+								<a href="#"> <img src="../img/instagram/6.png" alt="">
 								</a>
 							</div>
 						</div>

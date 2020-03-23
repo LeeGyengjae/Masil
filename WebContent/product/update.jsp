@@ -287,7 +287,7 @@
 
 	<!-- footer start -->
 	<footer class="footer">
-		<jsp:include page="../inc/footer2.jsp" />
+		<jsp:include page="../inc/footer3.jsp" />
 	</footer>
 	<!-- footer end  -->
 

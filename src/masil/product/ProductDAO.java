@@ -16,10 +16,10 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-//DBÀÛ¾÷
+//DBï¿½Û¾ï¿½
 public class ProductDAO {
 
-	//DB¿¬°á °ü·Ã º¯¼ö ¸ðÀ½
+	//DBï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	private Connection conn;
 	private Context init;
 	private PreparedStatement pstmt;
@@ -27,35 +27,35 @@ public class ProductDAO {
 	private ResultSet rs;
 	private String sql;
 	
-	//±âº» »ý¼ºÀÚ
+	//ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public ProductDAO() {
 		
-	}//±âº» »ý¼ºÀÚ
+	}//ï¿½âº» ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	
-	//DB¿¬°á ¸Þ¼Òµå getConnecion()
+	//DBï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼Òµï¿½ getConnecion()
 	private Connection getConnection() {
 		conn =null;
 		try {
 			init = new InitialContext();
 			ds = (DataSource) init.lookup("java:comp/env/jdbc/masil");
 			conn=ds.getConnection();
-			System.out.println("DB¿¬°á ¼º°ø~!!");
+			System.out.println("DBï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½~!!");
 		} catch (Exception e) {
-			System.out.println("DB¿¬°á ½ÇÆÐ "+e);
+			System.out.println("DBï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ "+e);
 		}
 		return conn;
 	}//getConnection()
 	
-	//DB¿¬°á ÇØÁ¦
+	//DBï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	private void closeDB(){
-		try {//ÃÖÃÊ»ç¿ëµÇ¾ú´ø ¼ø¼­ ¿ª¼øÀ¸·Î ´ÝÀ½
+		try {//ï¿½ï¿½ï¿½Ê»ï¿½ï¿½Ç¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 			if(rs!=null) rs.close(); 
 			if(pstmt!=null) pstmt.close(); 
 			if(conn!=null) conn.close();
 		} catch (Exception e) { e.printStackTrace(); }
 	}//closeDB
 
-	//»óÇ° ÀüÃ¼ ¸ñ·Ï(¸®½ºÆ®)
+	//ï¿½ï¿½Ç° ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½Æ®)
 	public List<Map<String,String>> selectAllProducts() {
 		List<Map<String,String>> productList = new ArrayList<Map<String,String>>();
 		try {
@@ -75,7 +75,7 @@ public class ProductDAO {
 //			pstmt.setInt(1, pageNum);
 			rs=pstmt.executeQuery();
 			while(rs.next()){
-				//Map¿¡ ´ã±â
+				//Mapï¿½ï¿½ ï¿½ï¿½ï¿½
 				Map<String, String> proJoinRe = new HashMap<String,String>();
 				proJoinRe.put("code", rs.getString("code"));			
 				proJoinRe.put("sub_code", rs.getString("sub_code"));
@@ -93,14 +93,14 @@ public class ProductDAO {
 				
 				productList.add(proJoinRe);
 			}
-			System.out.println("selectAllProducts()¼º°ø!!");
+			System.out.println("selectAllProducts() success !!");
 		} catch (Exception e) {
-			System.out.println("selectAllProducts()¿À·ù : "+e);
+			System.out.println("selectAllProducts() fail : "+e);
 		} finally { closeDB(); }
 		return productList;
 	}//selectAllProducts()
 	
-	//°Ô½ÃµÈ »óÇ°¼ö Ãâ·Â
+	//ï¿½Ô½Ãµï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ ï¿½ï¿½ï¿½
 	public int countProduct(){
 		int count=0;
 		try {
@@ -111,12 +111,12 @@ public class ProductDAO {
 			if(rs.next()) count=Integer.parseInt(rs.getString(1));
 			else count=0;
 		} catch (Exception e) {
-			System.out.println("countProduct()¿À·ù : "+e);
+			System.out.println("countProduct() fail : "+e);
 		} finally { closeDB(); }
 		return count;
 	}
 
-	//»óÇ° »ó¼¼ÆäÀÌÁö·Î Ãâ·Â - »óÇ° ÇÑ°³¾¿ °¡Á®¿À±â
+	//ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ - ï¿½ï¿½Ç° ï¿½Ñ°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public List<Map<String,String>> selectProduct(String code, String sub_code) {
 		List<Map<String,String>> productDetail = new ArrayList<Map<String,String>>();
 		try {
@@ -136,7 +136,7 @@ public class ProductDAO {
 			pstmt.setString(2, sub_code);
 			rs=pstmt.executeQuery();
 			while(rs.next()){
-				//°á°ú Map¿¡ ´ã¾Æ¼­ Service·Î º¸³»±â
+				//ï¿½ï¿½ï¿½ Mapï¿½ï¿½ ï¿½ï¿½Æ¼ï¿½ Serviceï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				Map<String, String> sub_product = new HashMap<String,String>();
 				sub_product.put("code", rs.getString("code"));
 				sub_product.put("sub_code", rs.getString("sub_code"));
@@ -162,21 +162,21 @@ public class ProductDAO {
 				sub_product.put("rating", rs.getString("rating")); 
 				productDetail.add(sub_product);
 			}
-			System.out.println("selectProduct()¼º°ø!!");
+			System.out.println("selectProduct() success !!");
 		} catch (Exception e) {
-			System.out.println("selectProduct() ¿À·ù "+e);
+			System.out.println("selectProduct() fail  "+e);
 		} finally { closeDB(); }
 		return productDetail;
 	}//selectProduct()
 
-	//»õ »óÇ° ¾÷·Îµå
+	//ï¿½ï¿½ ï¿½ï¿½Ç° ï¿½ï¿½ï¿½Îµï¿½
 	public int insertProduct(Map<String, Object> productMap) {
-		System.out.println("insertProduct½ÃÀÛ");
+		System.out.println("insertProductï¿½ï¿½ï¿½ï¿½");
 		System.out.println("DAO productMap : "+productMap);
 		int re=0;
 		try {
 			conn = getConnection();
-			conn.setAutoCommit(false); //Æ®·£Àè¼Ç Ã³¸® À§ÇØ auto commit off
+			conn.setAutoCommit(false); //Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ auto commit off
 			sql ="insert into product (code, continent, period, course, comment)"
 				+ " values (?,?,?,?,?)";
 			pstmt=conn.prepareStatement(sql);
@@ -186,10 +186,10 @@ public class ProductDAO {
 			pstmt.setString(4, productMap.get("course").toString());
 			pstmt.setString(5, productMap.get("comment").toString());
 			re = pstmt.executeUpdate();
-			System.out.println("sql 1 ¼º°ø re : "+re);
+			System.out.println("sql 1  success : "+re);
 			
 			if(productMap.get("image") !=null || productMap.get("imgContent") != null){
-				System.out.println("ÀÌ¹ÌÁö ÀÖÀ½");
+				System.out.println("image test if");
 				sql = "insert into pro_detail (code, day, day_title, day_course, stay, meal, day_content, image, img_content)"
 						+ "values (?,?,?,?,?,?,?,?,?)";
 				pstmt=conn.prepareStatement(sql);
@@ -218,7 +218,7 @@ public class ProductDAO {
 		    		pstmt.setString(7, day_content[j]);
 
 		    		if(productMap.get("image") != null || productMap.get("imgContent") != null ){
-		    			//»õ·Î ¿Ã¸° ÀÌ¹ÌÁö ÀÖÀ»¶§
+		    			//ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		    			String[] img_content = (String[]) productMap.get("imgContent");
 		    			
 		    			Map<String,String> imageMap = (HashMap<String,String>) productMap.get("image");
@@ -226,7 +226,7 @@ public class ProductDAO {
 						pstmt.setString(9, img_content[j]);
 		    		}
 					re = pstmt.executeUpdate();
-		    		System.out.println("sql 2¼º°ø re : "+re);
+		    		System.out.println("sql 2 success re : "+re);
 					
 				}//for
 				
@@ -240,14 +240,14 @@ public class ProductDAO {
 	    		pstmt.setString(7, productMap.get("dayContent").toString());
 	    		
 	    		if(productMap.get("image") != null || productMap.get("imgContent") != null ){
-	    			//»õ·Î ¿Ã¸° ÀÌ¹ÌÁö ÀÖÀ»¶§
-	    			System.out.println("ÀÌ¹ÌÁö »ðÀÔ");
+	    			//ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	    			System.out.println("image not null test");
 	    			Map<String,String> imageMap = (HashMap<String,String>) productMap.get("image");
 					pstmt.setString(8, imageMap.get(1+"_image").toString());
 					pstmt.setString(9, productMap.get("imgContent").toString());
 	    		}
 				re = pstmt.executeUpdate();
-	    		System.out.println("sql 2¼º°ø re : "+re);
+	    		System.out.println("sql 2 success  : "+re);
 			}
 			
 			sql = "insert into pro_write (code, sub_code, title, start_date, end_date, max_num, price)"
@@ -261,32 +261,32 @@ public class ProductDAO {
 			pstmt.setString(6, productMap.get("maxNum").toString());
 			pstmt.setString(7, productMap.get("price").toString());
 			re = pstmt.executeUpdate();
-			System.out.println("sql 3¼º°ø re : "+re);
-			conn.commit();    //Æ®·£Àè¼Ç Á¾·á, commitÇÏ±â
+			System.out.println("sql 3 success  : "+re);
+			conn.commit();    //Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, commitï¿½Ï±ï¿½
 			
 		} catch (Exception e) {
-			if(conn!=null) { //¿¹¿Ü ¹ß»ý½Ã ·Ñ¹é Ã³¸®
+			if(conn!=null) { //ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½ï¿½ ï¿½Ñ¹ï¿½ Ã³ï¿½ï¿½
 				try {
 					conn.rollback();
 				} catch (Exception e2) {
-					System.out.println("conn.rollback() ½ÇÆÐ"+e2);
+					System.out.println("conn.rollback() fail "+e2);
 				}
 			}
-			System.out.println("insertProduct() ¿À·ù "+e);
+			System.out.println("insertProduct()  fail "+e);
 		} finally { 
 			try {
-				conn.setAutoCommit(true);	//´Ù½Ã auto Commit on
+				conn.setAutoCommit(true);	//ï¿½Ù½ï¿½ auto Commit on
 			} catch (SQLException e) {
-				System.out.println("conn.setAutoCommit(true) ½ÇÆÐ "+e);
+				System.out.println("conn.setAutoCommit(true)  fail  "+e);
 			}    
 			closeDB(); 
 		}
 		return re;
 	}//insertProduct
 	
-	//±âÁ¸ »óÇ°¿¡¼­ Ãâ¹ß/µµÂø µî ³¯Â¥¸¸ ¹Ù²ã¼­ »õ »óÇ°À¸·Î µî·ÏÇÒ ¶§ »ç¿ë
+	//ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½/ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Â¥ï¿½ï¿½ ï¿½Ù²ã¼­ ï¿½ï¿½ ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
 	public int insertProduct2(Map<String, Object> productMap) {
-		System.out.println("insertProduct2½ÃÀÛ");
+		System.out.println("insertProduct2 in ");
 		System.out.println("DAO productMap : "+productMap);
 		int re=0;
 		try {
@@ -302,25 +302,25 @@ public class ProductDAO {
 			pstmt.setString(6, productMap.get("maxNum").toString());
 			pstmt.setString(7, productMap.get("price").toString());
 			re = pstmt.executeUpdate();
-			if(re==1) System.out.println("sql 3¼º°ø re : "+re);
-			else System.out.println("µî·Ï ½ÇÆÐ");
+			if(re==1) System.out.println("sql 3 success : "+re);
+			else System.out.println("sql 3 fail");
 			
 		} catch (Exception e) {
-			System.out.println("insertProduct() ¿À·ù "+e);
+			System.out.println("insertProduct()  fail  "+e);
 		} finally { closeDB(); }
 		return re;
 	}//insertProduct2
 	
-	//»óÇ°¼öÁ¤
+	//ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½
 	public int updateProduct(Map<String, Object> productMap) {
-		System.out.println("updateProduct½ÃÀÛ");
+		System.out.println("updateProduct in ");
 		System.out.println("DAO productMap : "+productMap);
 		int re=0;
 		try {
-			System.out.println("updateProduct try-catch ³»ºÎ ÁøÀÔ");
+			System.out.println("updateProduct try-catch in");
 			
 			conn = getConnection();
-			conn.setAutoCommit(false); //Æ®·£Àè¼Ç Ã³¸® À§ÇØ auto commit off
+			conn.setAutoCommit(false); //Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ auto commit off
 			
 			sql ="update product set continent=?, period=?, course=?, comment=?"
 					+ " where code=?";
@@ -334,7 +334,7 @@ public class ProductDAO {
 				
 			re = pstmt.executeUpdate();
 			if(re==1)
-				System.out.println("sql 1 ¼º°ø re : "+re);
+				System.out.println("sql 1  success  : "+re);
 			else re=0;
 			
 			System.out.println("productMap.get(image) : "+productMap.get("image"));
@@ -353,7 +353,7 @@ public class ProductDAO {
 				System.out.println("productMap.get(period).toString() : "+productMap.get("period").toString());
 				
 				for(int j=0;j<Integer.parseInt(productMap.get("period").toString()); j++){
-					System.out.println("for¹® ³»ºÎ");
+					System.out.println("for in ");
 					System.out.println("productMap.get(day) : "+productMap.get("day"));
 					
 			    	String[] day = (String[]) productMap.get("day");
@@ -372,22 +372,22 @@ public class ProductDAO {
 		    		pstmt.setString(5, day_content[j]);
 		    		
 		    		if(productMap.get("old_image") == null && productMap.get("image") == null ){
-		    			//±âÁ¸ ÀÌ¹ÌÁö ¾ø°í »õ·Î ¿Ã¸° ÀÌ¹ÌÁö ¾øÀ»¶§
+		    			//ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			    		pstmt.setString(6, productMap.get("code").toString());
 			    		pstmt.setString(7, day[j]);
-//			    		System.out.println("±âÁ¸ ÀÌ¹ÌÁö ¾ø°í »õ·Î ¿Ã¸° ÀÌ¹ÌÁö ¾øÀ»¶§");
+//			    		System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 			    		
 		    		}else{
-		    			//±âÁ¸ ÀÌ¹ÌÁö ÀÖÀ»¶§ È¤Àº »õ·Î ¿Ã¸° ÀÌ¹ÌÁö ÀÖÀ»¶§
+		    			//ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ È¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		    			String[] img_content = (String[]) productMap.get("imgContent");
 		    			
 		    			if(productMap.get("image") != null){
-		    				//»õ·Î ¿Ã¸° ÀÌ¹ÌÁö ÀÖÀ»¶§
+		    				//ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			    			Map<String,String> imageMap = (HashMap<String,String>) productMap.get("image");
 							pstmt.setString(6, imageMap.get((j+1)+"_image").toString());
 		    			}
 		    			
-	    				//»õ·Î ¿Ã¸° ÀÌ¹Ì ¾øÀ»¶§ -> ±âÁ¸ ÀÌ¹ÌÁö¸¦ »õ ÀÌ¹ÌÁöÀÎÃ´
+	    				//ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¸ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½Ã´
 		    			System.out.println("productMap.get(old_image).getClass() : "+productMap.get("old_image").getClass());
 		    			
 		    			if(!productMap.get("old_image").getClass().toString().equals("class java.lang.String")){
@@ -410,18 +410,18 @@ public class ProductDAO {
 	    		pstmt.setString(5, productMap.get("dayContent").toString());
 	    		
 	    		if(productMap.get("old_image") == null && productMap.get("image") == null ){
-	    			//±âÁ¸ ÀÌ¹ÌÁö ¾ø°í »õ·Î ¿Ã¸° ÀÌ¹ÌÁö ¾øÀ»¶§
+	    			//ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		    		pstmt.setString(6, productMap.get("code").toString());
 		    		pstmt.setString(7, productMap.get("day").toString());
 	    		}else{
-	    			//±âÁ¸ ÀÌ¹ÌÁö ÀÖÀ»¶§ 
+	    			//ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 	    			if(productMap.get("image") != null){
-	    				//»õ·Î ¿Ã¸° ÀÌ¹ÌÁö ÀÖÀ»¶§
+	    				//ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¸ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		    			Map<String,String> imageMap = (HashMap<String,String>) productMap.get("image");
 						pstmt.setString(6, imageMap.get(1+"_image").toString());
 	    			}else {
-	    				//»õ·Î ¿Ã¸° ÀÌ¹Ì ¾øÀ»¶§ -> ±âÁ¸ ÀÌ¹ÌÁö¸¦ »õ ÀÌ¹ÌÁöÀÎÃ´
-		    			System.out.println("±â°£1ÀÏ, ÀÌ¹ÌÁö È®ÀÎ : "+productMap.get("old_image").toString());
+	    				//ï¿½ï¿½ï¿½ï¿½ ï¿½Ã¸ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ -> ï¿½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ï¿½ï¿½Ã´
+		    			System.out.println("old image: "+productMap.get("old_image").toString());
 		    			pstmt.setString(6, productMap.get("old_image").toString());
 	    			}
     				pstmt.setString(7, productMap.get("imgContent").toString());
@@ -431,7 +431,7 @@ public class ProductDAO {
 			}
 			re = pstmt.executeUpdate();
 			if(re==1)
-				System.out.println("sql 2¼º°ø re : "+re);
+				System.out.println("sql 2success re : "+re);
 			else re=0;
 				
 			sql = "update pro_write set title=?, start_date=?, end_date=?, max_num=?, price=?"
@@ -450,34 +450,34 @@ public class ProductDAO {
 			
 			re = pstmt.executeUpdate();
 			if(re==1)
-				System.out.println("sql 3¼º°ø re : "+re);
+				System.out.println("sql 3 success  : "+re);
 			else re=0;
-			conn.commit();    //Æ®·£Àè¼Ç Á¾·á, commitÇÏ±â
+			conn.commit();    //Æ®ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½, commitï¿½Ï±ï¿½
 			
 		} catch (Exception e) {
-			if(conn!=null) { //¿¹¿Ü ¹ß»ý½Ã ·Ñ¹é Ã³¸®
+			if(conn!=null) { //ï¿½ï¿½ï¿½ï¿½ ï¿½ß»ï¿½ï¿½ï¿½ ï¿½Ñ¹ï¿½ Ã³ï¿½ï¿½
 				try {
 					conn.rollback();
 				} catch (Exception e2) {
-					System.out.println("conn.rollback() ½ÇÆÐ"+e2);
+					System.out.println("conn.rollback()  fail "+e2);
 				}
 			}
-			System.out.println("updateProduct() ¿À·ù "+e);
-//			System.out.println("updateProduct() ¿À·ù ");
+			System.out.println("updateProduct()  fail "+e);
+//			System.out.println("updateProduct() ï¿½ï¿½ï¿½ï¿½ ");
 		} finally { 
 			try {
-				conn.setAutoCommit(true);	//´Ù½Ã auto Commit on
+				conn.setAutoCommit(true);	//ï¿½Ù½ï¿½ auto Commit on
 			} catch (SQLException e) {
-				System.out.println("conn.setAutoCommit(true) ½ÇÆÐ "+e);
+				System.out.println("conn.setAutoCommit(true) fail "+e);
 			}    
 			closeDB(); 
 		}
 		return re;
 	}//updateProduct
 	
-	//»óÇ° »èÁ¦ - µ¥ÀÌÅÍ »èÁ¦°¡ ¾Æ´Ï¶ó °ü¸®Â÷¿øÀ¸·Î ¸ñ·Ï¿¡¼­ ¼û±âµµ·Ï ÇÔ.
+	//ï¿½ï¿½Ç° ï¿½ï¿½ï¿½ï¿½ - ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Æ´Ï¶ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ï¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½âµµï¿½ï¿½ ï¿½ï¿½.
 	public int deleteProduct(String code, String sub_code) {
-		System.out.println("deleteProduct½ÃÀÛ");
+		System.out.println("deleteProduct in");
 		int re=0;
 		try {
 			conn = getConnection();
@@ -501,10 +501,10 @@ public class ProductDAO {
 				pstmt.setString(2, code);
 				pstmt.setString(3, sub_code);
 				re = pstmt.executeUpdate();
-				System.out.println("»óÇ° »èÁ¦ ¼º°ø : "+re);
+				System.out.println("success : "+re);
 			}
 		} catch (Exception e) {
-			System.out.println("updateProduct() ¿À·ù "+e);
+			System.out.println("updateProduct()  fail  "+e);
 		} finally { closeDB(); }
 		return re;
 	}//deleteProduct

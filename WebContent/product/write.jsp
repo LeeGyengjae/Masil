@@ -289,7 +289,6 @@
                                 <button type="submit" class="button button-contactForm boxed-btn" onclick='submit()'>상품등록</button>
                                 <input type="reset" value="다시쓰기" class="button button-contactForm boxed-btn">
                                 <input type="button" value="상품목록" class="button button-contactForm boxed-btn" onclick="location.href='${contextPath}/product1/product.do'">
-                                <button onclick="fileCheck();">test</button>
                             </div>
                         </form>
 					</div>
@@ -305,7 +304,7 @@
 
 	<!-- footer start -->
 	<footer class="footer">
-		<jsp:include page="../inc/footer2.jsp" />
+		<jsp:include page="../inc/footer3.jsp" />
 	</footer>
 	<!--/ footer end  -->
 

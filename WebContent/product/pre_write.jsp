@@ -138,7 +138,7 @@
 
 
 	<!-- footer start -->
-	<jsp:include page="../inc/footer2.jsp"></jsp:include>
+	<jsp:include page="../inc/footer3.jsp"></jsp:include>
 	<!--/ footer end  -->
 
 	<!-- Modal -->

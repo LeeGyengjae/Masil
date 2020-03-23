@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     isELIgnored="false" %>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
     
 <html class="no-js" lang="zxx">
@@ -36,38 +37,38 @@
 <body>
     <!-- header-start -->
     <header>
-    	<jsp:include page="/inc/header2.jsp"/>
+       <jsp:include page="/inc/header2.jsp"/>
     </header>
     <!-- header-end -->
     
-	
+   
      <section class="container  mt-3 mb-3" style="max-width: 560px;">
-     	<div class="row align-items-center">
+        <div class="row align-items-center">
           <div class="col-xl-12 col-md-12">
-          	<div class="slider_text text-center">
+             <div class="slider_text text-center">
                 <h3>${userVO.name}님!</h3>
-		     	<table align="center">
-		     		<tr class="mt-3 mb-3">
-		     			<form method="post"  class="mt-3 mb-3" action="${contextPath}/masil/user/updateUserPageAction.do">
-		     				<td class="mt-3 mb-3"><button class="mt-1 mb-1 btn btn-primary" type="submit">정보수정</button></td>
-		     			</form>
-		     		</tr>
-		     		<tr class="mt-3 mb-3">
-		     			<form method="post"  class="mt-3 mb-3" action="${contextPath}/masil/review1/reviewPageAction.do">
-		     				<td class="mt-3 mb-3"><button class="mt-1 mb-1 btn btn-primary" type="submit">리뷰관리</button></td>
-		     			</form>
-		     		</tr>
-		     		<tr>
-			     		<c:if test="${id == 'masiladmin' }">
-		 					<form method="post"  class="mt-3 mb-3" action="${contextPath }/masil/user/userList.do">
-		 						<td class="mt-3 mb-3"><button class="mt-1 mb-1 btn btn-primary" type="submit">회원관리</button></td>
-		 					</form>
-		 				</c:if>
-		     		</tr>
-		     	</table>
-		     </div>	
-     	  </div>	
-     	</div>
+              <table align="center">
+                 <tr class="mt-3 mb-3">
+                    <form method="post"  class="mt-3 mb-3" action="${contextPath}/masil/user/updateUserPageAction.do">
+                       <td class="mt-3 mb-3"><button class="mt-1 mb-1 btn btn-primary" type="submit">정보수정</button></td>
+                    </form>
+                 </tr>
+                 <tr class="mt-3 mb-3">
+                    <form method="post"  class="mt-3 mb-3" action="${contextPath}/masil/review1/reviewPageAction.do">
+                       <td class="mt-3 mb-3"><button class="mt-1 mb-1 btn btn-primary" type="submit">리뷰관리</button></td>
+                    </form>
+                 </tr>
+                 <tr>
+                    <c:if test="${id == 'master' }">
+                      <form method="post"  class="mt-3 mb-3" action="${contextPath }/masil/user/userList.do">
+                         <td class="mt-3 mb-3"><button class="mt-1 mb-1 btn btn-primary" type="submit">회원관리</button></td>
+                      </form>
+                   </c:if>
+                 </tr>
+              </table>
+           </div>   
+          </div>   
+        </div>
      </section>
     
 
