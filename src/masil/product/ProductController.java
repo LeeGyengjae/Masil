@@ -90,7 +90,7 @@ public class ProductController extends HttpServlet {
 				String id = (String) request.getSession().getAttribute("id");
 				
 				productDetail = productService.viewProduct(code, sub_code);
-				//»óÇ° »ó¼¼ ÆäÀÌÁö¿¡¼­ ¸®ºäµµ °°ÀÌ Ãâ·ÂÇØ¾ßÇÔ.
+				//ìƒí’ˆ ìƒì„¸ í˜ì´ì§€ì—ì„œ ë¦¬ë·°ë„ ê°™ì´ ì¶œë ¥í•´ì•¼í•¨.
 //				reviewList = reviewService.reviewList(code, pageNum);
 				reviewList = reviewService.reviewList(code, 0);
 				String reviewAuth = reviewService.insertReviewAuth(id, sub_code);
@@ -111,22 +111,22 @@ public class ProductController extends HttpServlet {
 				
 				productService.insertProduct(productMap);
 				
-				//»óÇ° ¾÷·Îµå ÈÄ ¾÷·ÎµåÇÑ »óÇ° ÆäÀÌÁö·Î ÀÌµ¿
+				//ìƒí’ˆ ì—…ë¡œë“œ í›„ ì—…ë¡œë“œí•œ ìƒí’ˆ í˜ì´ì§€ë¡œ ì´ë™
 				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code; 
 				
 			}
 			else if(action.equals("/pre_write.do")){
-				//°ü¸®ÀÚ¿ë-»óÇ° ¸®½ºÆ® °£´ÜÈ÷ º¸±â 
-				//-ÀÛµ¿Àº ÇÏ´Âµ¥ ¾µÁö¸»Áö ¹ÌÁö¼ö 
-				//-¾µ°Å¸é jspµğÀÚÀÎ ¼öÁ¤ ÇÊ¿ä
+				//ê´€ë¦¬ììš©-ìƒí’ˆ ë¦¬ìŠ¤íŠ¸ ê°„ë‹¨íˆ ë³´ê¸° 
+				//-ì‘ë™ì€ í•˜ëŠ”ë° ì“¸ì§€ë§ì§€ ë¯¸ì§€ìˆ˜ 
+				//-ì“¸ê±°ë©´ jspë””ìì¸ ìˆ˜ì • í•„ìš”
 //				int pageNum = Integer.parseInt(request.getParameter("pageNum"));
 				productList = productService.listProducts();
 				request.setAttribute("productList", productList);
 				nextPage = "/product/pre_write.jsp";
 			}
 			else if(action.equals("/updateProduct.do") || action.equals("/updateProduct2.do")){
-				//»óÇ° ¼öÁ¤ / ±âÁ¸ ³»¿ë °¡Á®¿Í¼­ »õ »óÇ°À¸·Î ¾÷·Îµå½Ã ±âÁ¸ ³»¿ë »Ñ·ÁÁÖµµ·Ï ¿äÃ»
-				//±âÁ¸ ³»¿ë °¡Á®¿Í¼­ Ãâ¹ß/µµÂø µî¸¸ ¹Ù²ã¼­ »õ »óÇ°À¸·Î ¾÷·Îµå ÇÒ ¶§ -> updateProduct2.do
+				//ìƒí’ˆ ìˆ˜ì • / ê¸°ì¡´ ë‚´ìš© ê°€ì ¸ì™€ì„œ ìƒˆ ìƒí’ˆìœ¼ë¡œ ì—…ë¡œë“œì‹œ ê¸°ì¡´ ë‚´ìš© ë¿Œë ¤ì£¼ë„ë¡ ìš”ì²­
+				//ê¸°ì¡´ ë‚´ìš© ê°€ì ¸ì™€ì„œ ì¶œë°œ/ë„ì°© ë“±ë§Œ ë°”ê¿”ì„œ ìƒˆ ìƒí’ˆìœ¼ë¡œ ì—…ë¡œë“œ í•  ë•Œ -> updateProduct2.do
 				String code = request.getParameter("code");
 				String sub_code = request.getParameter("sub_code");
 				productDetail = productService.viewProduct(code, sub_code);
@@ -139,8 +139,8 @@ public class ProductController extends HttpServlet {
 				
 			}
 			else if(action.equals("/update.do")){
-				//»óÇ° ¼öÁ¤
-				System.out.println("update.doÁøÀÔ");
+				//ìƒí’ˆ ìˆ˜ì •
+				System.out.println("update.doì§„ì…");
 				Map<String, Object> productMap = upload(request, response);
 				
 				String code = productMap.get("code").toString();
@@ -152,8 +152,8 @@ public class ProductController extends HttpServlet {
 				
 			}
 			else if(action.equals("/addProduct2.do")){
-				//±âÁ¸ »óÇ° ÀÛ¼º ³»¿ë ºÒ·¯¿Í¼­ »õ»óÇ°À¸·Î µî·ÏÇÒ¶§ »ç¿ë
-				System.out.println("controller if¾ÈÀ¸·Î ³Ñ¾î¿È");
+				//ê¸°ì¡´ ìƒí’ˆ ì‘ì„± ë‚´ìš© ë¶ˆëŸ¬ì™€ì„œ ìƒˆìƒí’ˆìœ¼ë¡œ ë“±ë¡í• ë•Œ ì‚¬ìš©
+				System.out.println("controller ifì•ˆìœ¼ë¡œ ë„˜ì–´ì˜´");
 				
 				Map<String, Object> productMap = upload(request, response);
 				
@@ -162,18 +162,18 @@ public class ProductController extends HttpServlet {
 				
 				productService.insertProduct2(productMap);
 				
-				System.out.println("Controller µÊ");
+				System.out.println("Controller ë¨");
 				
 				nextPage = "/product1/blog.do?code="+code+"&sub_code="+sub_code; 
 				
 			}
 			else if(action.equals("/deleteProduct.do")){
-				//»óÇ° »èÁ¦
+				//ìƒí’ˆ ì‚­ì œ
 				String code = request.getParameter("code");
 				String sub_code = request.getParameter("sub_code");
 				productService.deleteProduct(code, sub_code);
 				
-				System.out.println("Controller µÊ");
+				System.out.println("Controller ë¨");
 				nextPage="/product1/product.do";
 			}
 			
@@ -186,7 +186,7 @@ public class ProductController extends HttpServlet {
 		
 	}//doHandle()
 
-	//ÆÄÀÏ ¾÷·Îµå Ã³¸®¸¦ À§ÇÑ upload¸Ş¼Òµå
+	//íŒŒì¼ ì—…ë¡œë“œ ì²˜ë¦¬ë¥¼ ìœ„í•œ uploadë©”ì†Œë“œ
 	private Map<String, Object> upload(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException,IOException{
 		
@@ -199,37 +199,37 @@ public class ProductController extends HttpServlet {
 		//String realPath = request.getServletContext().getInitParameter("/product/upload");
 		String realPath = request.getServletContext().getRealPath("/product/upload");
 		System.out.println("realPath : "+realPath);
-		//¾÷·Îµå°¡ ÇĞ¿ø¿¡¼­´Â µÇ´Â°Ô Áı¿¡¼­´Â ¾ÈµÊ?¤Ì¤Ì
+		
 		String filename="";
-		int maxSize = 1024 * 1024 * 10;
+		int maxSize = 1024 * 1024 * 100;
 		
 		try {
 			MultipartRequest multi = new MultipartRequest(request, realPath, maxSize, "utf-8", new DefaultFileRenamePolicy());
 			
 			Enumeration paramNames = multi.getParameterNames();
 			
-			//request¿µ¿ª¿¡¼­ ³Ñ¾î¿Â °ªÀÌ ÀÖ´Â µ¿¾È ¹İº¹
+			//requestì˜ì—­ì—ì„œ ë„˜ì–´ì˜¨ ê°’ì´ ìˆëŠ” ë™ì•ˆ ë°˜ë³µ
 			while(paramNames.hasMoreElements()){
 				String keyname = (String) paramNames.nextElement();
 				String[] values = multi.getParameterValues(keyname);
 				
-				//°°Àº nameÀº ¹è¿­·Î ³Ñ¾î¿È-> ±× ¹è¿­ÀÇ ±æÀÌ°¡ 1º¸´Ù Å©¸é -> ÀÏÁ¤¿¡ µé¾î°¡´Â ³»¿ë
+				//ê°™ì€ nameì€ ë°°ì—´ë¡œ ë„˜ì–´ì˜´-> ê·¸ ë°°ì—´ì˜ ê¸¸ì´ê°€ 1ë³´ë‹¤ í¬ë©´ -> ì¼ì •ì— ë“¤ì–´ê°€ëŠ” ë‚´ìš©
 				if(values.length>1){
 					productMap.put(keyname, values);
-				}else {	//¾Æ´Ï¸é ¹è¿­¿¡ °ªÀº 1°³ÀÌ¹Ç·Î Ã¹¹øÂ°°ª¸¸ ÀúÀå
+				}else {	//ì•„ë‹ˆë©´ ë°°ì—´ì— ê°’ì€ 1ê°œì´ë¯€ë¡œ ì²«ë²ˆì§¸ê°’ë§Œ ì €ì¥
 					productMap.put(keyname, values[0]);
 				}//if(values.length>1)
 				
 			}//while
 			
-			//¾÷·ÎµåµÈ ÆÄÀÏ ÀÌ¸§
+			//ì—…ë¡œë“œëœ íŒŒì¼ ì´ë¦„
 			Enumeration imgfile=multi.getFileNames();
 			Map<String, String> fileList = new HashMap<String, String>();
 			
 //			System.out.println("imgfile.nextElement().getClass() : " + (imgfile.nextElement().getClass()));	//String
 //			System.out.println("imgfile.hasMoreElements() : "+imgfile.hasMoreElements());	//true
 			
-			//¾÷·ÎµåÇÑ ÆÄÀÏÀÌ ÀÖÀ»°æ¿ì
+			//ì—…ë¡œë“œí•œ íŒŒì¼ì´ ìˆì„ê²½ìš°
 			if(imgfile.hasMoreElements()){
 				while(imgfile.hasMoreElements()){
 					String file = (String) imgfile.nextElement();
@@ -238,29 +238,29 @@ public class ProductController extends HttpServlet {
 					filename=multi.getFilesystemName(file);
 					System.out.println("file : "+file+"\t\tfilename : "+filename);
 					
-					//name : 1_image_0 °ú °°Àº Çü½ÄÀ¸·Î ³Ñ¾î¿È. ¾ÕÂÊ day µÚÂÊ ÀÌ¹ÌÁönumber
+					//name : 1_image_0 ê³¼ ê°™ì€ í˜•ì‹ìœ¼ë¡œ ë„˜ì–´ì˜´. ì•ìª½ day ë’¤ìª½ ì´ë¯¸ì§€number
 					int idx1 = file.indexOf("_");
 					int idx2 = file.lastIndexOf("_");
 					int daynum = 0;
 					String tmp="";
 					if(file.contains("_")){
-						daynum = Integer.parseInt(file.substring(0,idx1)); //list index number·Î »ç¿ëÇÏ±â À§ÇÔ
+						daynum = Integer.parseInt(file.substring(0,idx1)); //list index numberë¡œ ì‚¬ìš©í•˜ê¸° ìœ„í•¨
 						tmp = file.substring(0,idx2);
 					}
-				    //tmp¸¦ key·ÎÇÏ´Â °ªÀÌ ÀÖ´Ù¸é
+				    //tmpë¥¼ keyë¡œí•˜ëŠ” ê°’ì´ ìˆë‹¤ë©´
 				    if(fileList.get(tmp)!=null){
 				    	String tempValue = filename+","+fileList.get(tmp);
 				    	fileList.put(tmp,tempValue);
-				    } else {	//tmp¸¦ key·ÎÇÏ´Â °ªÀÌ ¾ø´Ù¸é
+				    } else {	//tmpë¥¼ keyë¡œí•˜ëŠ” ê°’ì´ ì—†ë‹¤ë©´
 				    	fileList.put(tmp,filename);
 				    }//else
 				    
 				}//while(imgfile.hasMoreElements())
 				productMap.put("image", fileList);
 			}
-//			//¾÷·ÎµåÇÑ ÆÄÀÏ(»çÁø)ÀÌ ¾øÀ»°æ¿ì
+//			//ì—…ë¡œë“œí•œ íŒŒì¼(ì‚¬ì§„)ì´ ì—†ì„ê²½ìš°
 //			else if(!imgfile.hasMoreElements()){
-//				//±âÁ¸»óÇ°¼öÁ¤/ºÒ·¯¿Í¼­ ¾²±âÀÏ °æ¿ì hiddenÀ¸·Î ³Ñ¾î¿Â ¾÷·ÎµåµÇ¾î ÀÖ´ø ÀÌ¹ÌÁö¸¦ µî·Ï
+//				//ê¸°ì¡´ìƒí’ˆìˆ˜ì •/ë¶ˆëŸ¬ì™€ì„œ ì“°ê¸°ì¼ ê²½ìš° hiddenìœ¼ë¡œ ë„˜ì–´ì˜¨ ì—…ë¡œë“œë˜ì–´ ìˆë˜ ì´ë¯¸ì§€ë¥¼ ë“±ë¡
 //				while(paramNames.hasMoreElements()){
 //					String keyname = (String) paramNames.nextElement();
 //					String[] values = multi.getParameterValues(keyname);
@@ -272,7 +272,7 @@ public class ProductController extends HttpServlet {
 //						}
 //					}
 //				}//while
-//				//»õ »óÇ° ¾²±âÀÎµ¥ »çÁøÀÌ ¾øÀ» °æ¿ì
+//				//ìƒˆ ìƒí’ˆ ì“°ê¸°ì¸ë° ì‚¬ì§„ì´ ì—†ì„ ê²½ìš°
 //				//->?
 //			}//else if
 			System.out.println("TEST *** productMap : "+productMap);
@@ -280,7 +280,7 @@ public class ProductController extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return productMap; //HashMap¸®ÅÏ
+		return productMap; //HashMapë¦¬í„´
 	}//upload()
 	
 	
